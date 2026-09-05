@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { LanguageProvider, useLanguage } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { Toaster } from "@/components/ui/sonner";
+
 
 function NotFoundComponent() {
   const { t } = useLanguage();
@@ -134,8 +136,10 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <Toaster />
         <Scripts />
       </body>
+
     </html>
   );
 }

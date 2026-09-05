@@ -14,6 +14,7 @@ import {
   Stat,
   Textarea,
 } from "@/components/ui/primitives";
+import { MicTextarea } from "@/components/mic-textarea";
 import { portalDossier, saveProviderReview } from "@/lib/portal/portal.functions";
 import {
   REVIEW_STATUSES,
@@ -411,7 +412,7 @@ function ReviewPage() {
 
             <div className="mt-5">
               <Field label="Notes to the business" hint="Shared with the business exactly as written.">
-                <Textarea
+                <MicTextarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="What you have seen, what you still need, and what happens next."
@@ -504,7 +505,7 @@ function ReviewPage() {
                 </div>
               ))}
               <Field label="Private comment">
-                <Textarea
+                <MicTextarea
                   value={privateComment}
                   onChange={(e) => setPrivateComment(e.target.value)}
                   placeholder="Internal notes for your credit file."

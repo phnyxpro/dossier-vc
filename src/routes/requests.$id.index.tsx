@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Card, Field, Input, SectionTitle, Select, Textarea } from "@/components/ui/primitives";
+import { Card, Field, Input, SectionTitle, Select } from "@/components/ui/primitives";
+import { MicTextarea } from "@/components/mic-textarea";
 import { StepFooter } from "@/components/step-footer";
 import { COUNTRIES, CURRENCIES, INDUSTRIES, INDUSTRY_GROUPS } from "@/lib/dossier/constants";
 import { useRequest, useSaveCompany, useSaveRequest } from "@/lib/dossier/queries";
@@ -120,7 +121,7 @@ function ProfileStep() {
             label="Business overview"
             hint="Two or three sentences a lender can read first: what the business does, who it sells to, and what makes the revenue durable."
           >
-            <Textarea
+            <MicTextarea
               value={form.overview}
               onChange={set("overview")}
               placeholder="Caribbean Tropical Producers Ltd processes locally grown fruit into juices and preserves for regional supermarket chains…"
