@@ -96,6 +96,74 @@ function ReadinessStep() {
         </p>
       </Card>
 
+      <Card className="mb-8 p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h3 className="flex items-center gap-2 font-display text-base font-semibold">
+              <Sparkles className="size-4 text-accent" /> AI readiness assessment
+            </h3>
+            <p className="mt-1 text-xs text-muted-foreground">
+              AI reviews your confirmed figures and missing documents, then scores readiness and assigns a
+              risk level. Indicative only — not a credit approval, loan recommendation or investment
+              decision.
+            </p>
+          </div>
+          <Button variant="accent" onClick={handleAssess} disabled={assessing}>
+            <Sparkles className={`size-4 ${assessing ? "animate-pulse" : ""}`} />
+            {assessing ? "Assessing…" : assessment ? "Re-run assessment" : "Run AI assessment"}
+          </Button>
+        </div>
+
+        {assessError ? (
+          <p className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{assessError}</p>
+        ) : null}
+
+        {assessment ? (
+          <div className="mt-5 space-y-5">
+            <div className="flex flex-wrap items-center gap-6">
+              <div>
+                <p className="label-caps">AI readiness score</p>
+                <p className="font-display text-4xl font-semibold tabular-nums">
+                  {assessment.score}
+                  <span className="text-lg text-muted-foreground">/100</span>
+                </p>
+              </div>
+              <div>
+                <p className="label-caps">Risk level</p>
+                <Badge tone={RISK_TONE[assessment.risk_level]} className="mt-1">
+                  {assessment.risk_level} risk
+                </Badge>
+              </div>
+              <p className="min-w-56 flex-1 text-sm text-muted-foreground">{assessment.rationale}</p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <p className="label-caps">Strengths</p>
+                <ul className="mt-2 space-y-2 text-sm">
+                  {assessment.strengths.map((s, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" />
+                      <span className="text-muted-foreground">{s}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="label-caps">Concerns to resolve</p>
+                <ul className="mt-2 space-y-2 text-sm">
+                  {assessment.concerns.map((c, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <AlertTriangle className="mt-0.5 size-4 shrink-0 text-warning" />
+                      <span className="text-muted-foreground">{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </Card>
+
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Readiness score" value={`${score}%`} tone={score >= 85 ? "success" : "primary"} sub="Evidence, confirmed data and narrative" />
         <Stat label="Documents on file" value={`${docs.satisfied}/${docs.total}`} sub={`${docs.needsReview} flagged for review`} />
