@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check } from "@/lib/icons";
 import { Button, Spinner } from "@/components/ui/primitives";
 
 export function StepFooter({

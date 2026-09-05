@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, CheckCircle2, HelpCircle, ListChecks, ShieldCheck, Sparkles } from "lucide-react";
+import { AlertTriangle, CheckCircle2, HelpCircle, ListChecks, ShieldCheck, Sparkles } from "@/lib/icons";
 import { Badge, Button, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
 import { InfoLink } from "@/components/info-link";

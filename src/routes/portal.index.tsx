@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRight, Clock, FileCheck2, FolderOpen, History, KeyRound, Mail } from "lucide-react";
+import { ArrowRight, Clock, FileCheck2, FolderOpen, History, KeyRound, Mail } from "@/lib/icons";
 import { PortalShell } from "@/components/portal-shell";
 import {
   Badge,

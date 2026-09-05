@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, Copy, Inbox, Link2, Mail, Send, Trash2 } from "lucide-react";
+import { Check, Copy, Inbox, Link2, Mail, Send, Trash2 } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Badge, Button, Card, Field, Input, SectionTitle, Spinner } from "@/components/ui/primitives";
