@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { AlertTriangle, CheckCircle2, Circle, ClipboardList, Eye, Sparkles, Trash2, Upload } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Circle, ClipboardList, Eye, Package, Sparkles, Trash2, Upload } from "lucide-react";
 import { Badge, Button, Card, Progress, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { LenderRequestsCard } from "@/components/share-panel";
 import { DocumentReviewQueue, ManualFigureForm, reviewReason } from "@/components/document-review";
@@ -248,6 +248,9 @@ function DocumentsStep() {
           />
           <Button variant="outline" size="sm" onClick={() => extraInput.current?.click()}>
             <Upload className="size-3.5" /> Upload another file
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate({ to: "/requests/$id/pack", params: { id } })}>
+            <Package className="size-3.5" /> Lender pack
           </Button>
           <Button variant="outline" size="sm" onClick={() => setShowManual((v) => !v)}>
             <ClipboardList className="size-3.5" /> {showManual ? "Hide manual entry" : "Enter figures by hand"}
