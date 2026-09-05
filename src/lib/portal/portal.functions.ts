@@ -89,7 +89,7 @@ export const providerQueue = createServerFn({ method: "POST" })
 
     const { data: reviews } = await db
       .from("provider_reviews")
-      .select("id, share_id, status, notes, requested_docs, submitted_at, updated_at")
+      .select("id, share_id, status, notes, requested_docs, submitted_at, updated_at, closed, closed_at")
       .eq("provider_id", context.userId);
 
     const reviewIds = (reviews ?? []).map((r) => r.id);
@@ -127,6 +127,7 @@ export const providerQueue = createServerFn({ method: "POST" })
           requestedDocs: review?.requested_docs ?? [],
           updatedAt: review?.updated_at ?? null,
           submittedAt: review?.submitted_at ?? null,
+          closed: review?.closed ?? false,
           scores: score
             ? {
                 financials: score.financials,
@@ -372,18 +373,23 @@ export const setReviewClosed = createServerFn({ method: "POST" })
     const providerOrg =
       (account.user?.user_metadata?.["full_name"] as string | undefined) ?? account.user?.email ?? null;
 
-    const { error } = await context.supabase.from("provider_reviews").upsert(
-      {
-        share_id: share.id,
-        request_id: share.request_id,
-        provider_id: context.userId,
-        owner_id: share.owner_id,
-        provider_org: providerOrg,
-        closed: data.closed,
-        closed_at: data.closed ? new Date().toISOString() : null,
-      },
-      { onConflict: "share_id" },
-    );
+    const patch = { closed: data.closed, closed_at: data.closed ? new Date().toISOString() : null };
+    const { data: existing } = await context.supabase
+      .from("provider_reviews")
+      .select("id")
+      .eq("share_id", share.id)
+      .maybeSingle();
+
+    const { error } = existing
+      ? await context.supabase.from("provider_reviews").update(patch).eq("id", existing.id)
+      : await context.supabase.from("provider_reviews").insert({
+          share_id: share.id,
+          request_id: share.request_id,
+          provider_id: context.userId,
+          owner_id: share.owner_id,
+          provider_org: providerOrg,
+          ...patch,
+        });
     if (error) throw new Error(error.message);
     return { ok: true, closed: data.closed };
   });
