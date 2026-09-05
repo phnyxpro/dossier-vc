@@ -5,6 +5,8 @@ import { lovable } from "@/integrations/lovable/index";
 import { BrandMark } from "@/components/brand";
 import { Button, Card, Field, Input, Spinner } from "@/components/ui/primitives";
 import { useAuth } from "@/lib/auth";
+import { useLanguage } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -30,6 +32,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const { t } = useLanguage();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -58,7 +61,7 @@ function AuthPage() {
           },
         });
         if (signUpError) throw signUpError;
-        setNotice("Account created. If confirmation is required, check your inbox, then sign in.");
+        setNotice(t("auth.created"));
         setMode("signin");
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
@@ -66,7 +69,7 @@ function AuthPage() {
         navigate({ to: "/" });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : t("auth.generalError"));
     } finally {
       setBusy(false);
     }
@@ -79,7 +82,7 @@ function AuthPage() {
       redirect_uri: window.location.origin,
     });
     if (result.error) {
-      setError(result.error.message ?? "Google sign-in is unavailable.");
+      setError(result.error.message ?? t("auth.googleUnavailable"));
       setBusy(false);
       return;
     }
@@ -93,18 +96,13 @@ function AuthPage() {
         <BrandMark />
         <div className="max-w-md">
           <h1 className="font-display text-3xl font-semibold leading-tight">
-            Capital readiness for Caribbean businesses.
+            {t("auth.heroTitle")}
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Bring scattered financials, documents and repayment plans into one structured financing
-            dossier that banks, credit unions and development finance institutions can actually read.
+{t("auth.heroBody")}
           </p>
           <ul className="mt-8 space-y-3 text-sm text-muted-foreground">
-            {[
-              "AI reads your uploaded documents and shows where every figure came from",
-              "You confirm or correct each value before it is used",
-              "A lender-ready pack with risks, gaps and likely questions",
-            ].map((item) => (
+            {[t("auth.point1"), t("auth.point2"), t("auth.point3")].map((item) => (
               <li key={item} className="flex gap-3">
                 <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent" />
                 {item}
@@ -113,37 +111,40 @@ function AuthPage() {
           </ul>
         </div>
         <p className="text-xs text-muted-foreground">
-          Dossier does not provide credit approvals, loan recommendations or investment decisions.
+          {t("auth.heroFoot")}
         </p>
       </div>
 
       <div className="flex items-center justify-center p-6">
         <Card className="w-full max-w-md p-8">
-          <div className="lg:hidden">
-            <BrandMark />
+          <div className="flex items-center justify-between gap-2">
+            <div className="lg:hidden">
+              <BrandMark />
+            </div>
+            <LanguageSwitcher className="ml-auto" />
           </div>
           <h2 className="mt-6 font-display text-xl font-semibold lg:mt-0">
-            {mode === "signin" ? "Sign in" : "Create your account"}
+            {mode === "signin" ? t("auth.signIn") : t("auth.createAccountTitle")}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signin"
-              ? "Continue to your capital-readiness workspace."
-              : "Start preparing your first financing dossier."}
+              ? t("auth.signInSub")
+              : t("auth.signUpSub")}
           </p>
 
           <Button variant="outline" className="mt-6 w-full" onClick={handleGoogle} disabled={busy}>
-            Continue with Google
+            {t("auth.google")}
           </Button>
 
           <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
             <span className="h-px flex-1 bg-border" />
-            or use email
+            {t("auth.orEmail")}
             <span className="h-px flex-1 bg-border" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" ? (
-              <Field label="Full name" htmlFor="fullName">
+              <Field label={t("auth.fullName")} htmlFor="fullName">
                 <Input
                   id="fullName"
                   value={fullName}
@@ -153,7 +154,7 @@ function AuthPage() {
                 />
               </Field>
             ) : null}
-            <Field label="Email" htmlFor="email">
+            <Field label={t("auth.email")} htmlFor="email">
               <Input
                 id="email"
                 type="email"
@@ -164,7 +165,7 @@ function AuthPage() {
                 required
               />
             </Field>
-            <Field label="Password" htmlFor="password">
+            <Field label={t("auth.password")} htmlFor="password">
               <Input
                 id="password"
                 type="password"
@@ -184,12 +185,12 @@ function AuthPage() {
             ) : null}
 
             <Button type="submit" className="w-full" disabled={busy}>
-              {busy ? <Spinner /> : mode === "signin" ? "Sign in" : "Create account"}
+              {busy ? <Spinner /> : mode === "signin" ? t("auth.signIn") : t("auth.createAccount")}
             </Button>
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            {mode === "signin" ? "No account yet?" : "Already registered?"}{" "}
+            {mode === "signin" ? t("auth.noAccount") : t("auth.haveAccount")}{" "}
             <button
               className="font-medium text-primary hover:underline"
               onClick={() => {
@@ -197,7 +198,7 @@ function AuthPage() {
                 setError(null);
               }}
             >
-              {mode === "signin" ? "Create one" : "Sign in"}
+              {mode === "signin" ? t("auth.createOne") : t("auth.signIn")}
             </button>
           </p>
         </Card>
