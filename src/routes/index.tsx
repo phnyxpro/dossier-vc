@@ -5,6 +5,7 @@ import { ArrowRight, Plus, Sparkles, Trash2 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Button, Card, EmptyState, Progress, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { useAuth } from "@/lib/auth";
+import { useLanguage } from "@/lib/i18n";
 import { useRequests } from "@/lib/dossier/queries";
 import { loadDemoData, removeDemoData } from "@/lib/dossier/demo";
 import { formatDate, formatMoney } from "@/lib/dossier/format";
@@ -46,6 +47,7 @@ const READINESS_TONE: Record<string, "muted" | "warning" | "success"> = {
 
 function Dashboard() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const qc = useQueryClient();
   const { data: requests, isLoading } = useRequests(user?.id);
@@ -69,7 +71,7 @@ function Dashboard() {
       }
       await qc.invalidateQueries({ queryKey: ["requests"] });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not update the sample data.");
+      setError(err instanceof Error ? err.message : t("dash.sampleError"));
     } finally {
       setBusy(false);
     }
@@ -79,21 +81,20 @@ function Dashboard() {
     <AppShell>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="label-caps">Capital readiness workspace</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold">Financing requests</h1>
+          <p className="label-caps">{t("dash.eyebrow")}</p>
+          <h1 className="mt-1 font-display text-3xl font-semibold">{t("dash.title")}</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Every request you are preparing, with the amount sought, purpose and how close the
-            evidence pack is to being lender-ready.
+{t("dash.subtitle")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" onClick={handleDemo} disabled={busy}>
             {busy ? <Spinner /> : hasDemo ? <Trash2 className="size-4" /> : <Sparkles className="size-4" />}
-            {hasDemo ? "Remove sample data" : "Load sample data"}
+            {hasDemo ? t("dash.removeSample") : t("dash.loadSample")}
           </Button>
           <Button onClick={() => navigate({ to: "/requests/new" })}>
             <Plus className="size-4" />
-            New financing request
+            {t("dash.newRequest")}
           </Button>
         </div>
       </div>
@@ -103,18 +104,18 @@ function Dashboard() {
       ) : null}
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Open requests" value={active} sub="Not yet submitted to a provider" />
+        <Stat label={t("dash.openRequests")} value={active} sub={t("dash.openRequestsSub")} />
         <Stat
-          label="Total capital sought"
+          label={t("dash.totalSought")}
           value={formatMoney(totalSought, requests?.[0]?.currency ?? "TTD")}
           tone="accent"
-          sub="Across all live requests"
+          sub={t("dash.totalSoughtSub")}
         />
-        <Stat label="Lender-ready packs" value={readyCount} tone="success" sub="Readiness marked ready" />
-        <Stat label="Requests on file" value={requests?.length ?? 0} sub="Including sample data" />
+        <Stat label={t("dash.readyPacks")} value={readyCount} tone="success" sub={t("dash.readyPacksSub")} />
+        <Stat label={t("dash.onFile")} value={requests?.length ?? 0} sub={t("dash.onFileSub")} />
       </div>
 
-      <SectionTitle>All requests</SectionTitle>
+      <SectionTitle>{t("dash.allRequests")}</SectionTitle>
 
       {isLoading ? (
         <div className="flex justify-center py-16 text-muted-foreground">
@@ -122,15 +123,15 @@ function Dashboard() {
         </div>
       ) : !requests?.length ? (
         <EmptyState
-          title="No financing requests yet"
-          description="Start a new request, or load the Caribbean Tropical Producers sample to explore the full workflow with realistic TTD data."
+          title={t("dash.emptyTitle")}
+          description={t("dash.emptyBody")}
           action={
             <div className="flex flex-wrap justify-center gap-2">
               <Button onClick={() => navigate({ to: "/requests/new" })}>
-                <Plus className="size-4" /> New financing request
+                <Plus className="size-4" /> {t("dash.newRequest")}
               </Button>
               <Button variant="outline" onClick={handleDemo} disabled={busy}>
-                <Sparkles className="size-4" /> Load sample data
+                <Sparkles className="size-4" /> {t("dash.loadSample")}
               </Button>
             </div>
           }
@@ -141,8 +142,8 @@ function Dashboard() {
             <table className="w-full min-w-[900px] text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  {["Business", "Purpose", "Amount sought", "Status", "Readiness", "Updated", ""].map((h) => (
-                    <th key={h} className="label-caps px-4 py-3">
+                  {[t("dash.colBusiness"), t("dash.colPurpose"), t("dash.colAmount"), t("dash.colStatus"), t("dash.colReadiness"), t("dash.colUpdated"), ""].map((h, i) => (
+                    <th key={i} className="label-caps px-4 py-3">
                       {h}
                     </th>
                   ))}
@@ -152,16 +153,16 @@ function Dashboard() {
                 {requests.map((r) => (
                   <tr key={r.id} className="border-b border-border/60 last:border-0 hover:bg-secondary/40">
                     <td className="px-4 py-4">
-                      <div className="font-medium">{r.companies?.name ?? "Unnamed business"}</div>
+                      <div className="font-medium">{r.companies?.name ?? t("dash.unnamed")}</div>
                       <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
                         <span className="font-mono">{r.reference ?? "—"}</span>
                         <span>·</span>
                         <span>{REQUEST_TYPE_LABEL[r.request_type] ?? r.request_type}</span>
-                        {r.is_demo ? <Badge tone="accent">Sample</Badge> : null}
+                        {r.is_demo ? <Badge tone="accent">{t("dash.sample")}</Badge> : null}
                       </div>
                     </td>
                     <td className="max-w-xs px-4 py-4 text-muted-foreground">
-                      <span className="line-clamp-2">{r.purpose || "Purpose not yet described"}</span>
+                      <span className="line-clamp-2">{r.purpose || t("dash.noPurpose")}</span>
                     </td>
                     <td className="px-4 py-4 font-medium tabular-nums">
                       {formatMoney(Number(r.amount_sought ?? 0), r.currency)}
@@ -189,7 +190,7 @@ function Dashboard() {
                         params={{ id: r.id }}
                         className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
                       >
-                        Open <ArrowRight className="size-3.5" />
+                        {t("dash.open")} <ArrowRight className="size-3.5" />
                       </Link>
                     </td>
                   </tr>

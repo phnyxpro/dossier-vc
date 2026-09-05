@@ -15,17 +15,20 @@ import { BrandMark } from "@/components/brand";
 import { Button, Spinner } from "@/components/ui/primitives";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
+import { useLanguage } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/requests/new", label: "New Financing Request", icon: Plus, exact: false },
+  { to: "/", labelKey: "nav.dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/requests/new", labelKey: "nav.newRequest", icon: Plus, exact: false },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const { theme, toggle } = useTheme();
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -53,7 +56,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <button
               className="text-muted-foreground lg:hidden"
               onClick={() => setOpen((v) => !v)}
-              aria-label="Toggle navigation"
+              aria-label={t("nav.toggle")}
             >
               {open ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
@@ -74,7 +77,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   )}
                 >
                   <item.icon className="size-4" />
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               );
             })}
@@ -83,7 +86,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground sm:block">
               {user.email}
             </span>
-            <Button variant="ghost" size="sm" onClick={toggle} aria-label="Toggle theme">
+            <LanguageSwitcher className="hidden sm:flex" />
+            <Button variant="ghost" size="sm" onClick={toggle} aria-label={t("nav.toggleTheme")}>
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
             </Button>
             <Button
@@ -95,7 +99,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               }}
             >
               <LogOut className="size-3.5" />
-              <span className="hidden sm:inline">Sign out</span>
+              <span className="hidden sm:inline">{t("nav.signOut")}</span>
             </Button>
           </div>
         </div>
@@ -108,9 +112,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                 className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
               >
                 <item.icon className="size-4" />
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
+            <LanguageSwitcher className="mt-2 self-start sm:hidden" />
           </nav>
         ) : null}
       </header>
@@ -119,11 +124,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-surface px-4 py-3 text-xs text-muted-foreground">
           <ShieldCheck className="size-4 text-primary" />
           <span>
-            Dossier organises and presents your own information. It does not provide a credit
-            approval, loan recommendation or investment decision.
+{t("footer.disclaimer")}
           </span>
           <span className="ml-auto inline-flex items-center gap-1">
-            <FileText className="size-3.5" /> Prototype — sample data shown for demonstration
+            <FileText className="size-3.5" /> {t("footer.prototype")}
           </span>
         </div>
       </footer>
