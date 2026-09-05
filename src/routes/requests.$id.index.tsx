@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Card, Field, Input, SectionTitle, Select, Textarea } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
-import { COUNTRIES, CURRENCIES } from "@/lib/dossier/constants";
+import { COUNTRIES, CURRENCIES, INDUSTRIES, INDUSTRY_GROUPS } from "@/lib/dossier/constants";
 import { useRequest, useSaveCompany, useSaveRequest } from "@/lib/dossier/queries";
 
 export const Route = createFileRoute("/requests/$id/")({
@@ -87,7 +87,19 @@ function ProfileStep() {
             </Select>
           </Field>
           <Field label="Industry">
-            <Input value={form.industry} onChange={set("industry")} placeholder="Agro-processing & food manufacturing" />
+            <Select value={form.industry} onChange={set("industry")}>
+              <option value="">Select an industry</option>
+              {form.industry && !INDUSTRIES.includes(form.industry) ? (
+                <option value={form.industry}>{form.industry}</option>
+              ) : null}
+              {INDUSTRY_GROUPS.map((g) => (
+                <optgroup key={g.group} label={g.group}>
+                  {g.items.map((i) => (
+                    <option key={i}>{i}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </Select>
           </Field>
           <Field label="Years in operation">
             <Input type="number" min="0" value={form.years} onChange={set("years")} />
