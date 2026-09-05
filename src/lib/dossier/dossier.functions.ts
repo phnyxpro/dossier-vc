@@ -319,14 +319,14 @@ export const exportDossierDocx = createServerFn({ method: "POST" })
                   borders: cellBorders,
                   width: { size: 6240, type: WidthType.DXA },
                   margins: { top: 60, bottom: 60, left: 120, right: 120 },
-                  shading: i % 2 ? { fill: "F4F6F8", type: ShadingType.CLEAR } : undefined,
+                  ...(i % 2 ? { shading: { fill: "F4F6F8", type: ShadingType.CLEAR as const } } : {}),
                   children: [new Paragraph({ children: [new TextRun(label)] })],
                 }),
                 new TableCell({
                   borders: cellBorders,
                   width: { size: 3120, type: WidthType.DXA },
                   margins: { top: 60, bottom: 60, left: 120, right: 120 },
-                  shading: i % 2 ? { fill: "F4F6F8", type: ShadingType.CLEAR } : undefined,
+                  ...(i % 2 ? { shading: { fill: "F4F6F8", type: ShadingType.CLEAR as const } } : {}),
                   children: [
                     new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: value, bold: true })] }),
                   ],
