@@ -10,7 +10,7 @@ import { formatDate } from "@/lib/dossier/format";
 import type { Database } from "@/integrations/supabase/types";
 
 type ShareRow = Database["public"]["Tables"]["dossier_shares"]["Row"] & {
-  provider_reviews: Database["public"]["Tables"]["provider_reviews"]["Row"][];
+  provider_reviews: Database["public"]["Tables"]["provider_reviews"]["Row"] | null;
 };
 
 export function useShares(requestId: string) {
@@ -124,7 +124,7 @@ export function SharePanel({ requestId }: { requestId: string }) {
       ) : (
         <ul className="mt-5 space-y-3">
           {active.map((share) => {
-            const review = share.provider_reviews?.[0];
+            const review = share.provider_reviews;
             return (
               <li key={share.id} className="rounded-lg border border-border p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
