@@ -1,8 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AlertTriangle, HelpCircle, ListChecks, ShieldCheck } from "lucide-react";
-import { Badge, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { AlertTriangle, CheckCircle2, HelpCircle, ListChecks, ShieldCheck, Sparkles } from "lucide-react";
+import { Badge, Button, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
 import { useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
+import { assessReadiness, type AiAssessment } from "@/lib/dossier/assess.functions";
 import {
   buildSnapshot,
   cashflowIndicators,
@@ -35,6 +38,7 @@ export const Route = createFileRoute("/requests/$id/readiness")({
 });
 
 const SEVERITY_TONE = { high: "danger", medium: "warning", low: "primary", info: "success" } as const;
+const RISK_TONE = { low: "success", moderate: "warning", high: "danger" } as const;
 
 function ReadinessStep() {
   const { id } = Route.useParams();
@@ -42,6 +46,22 @@ function ReadinessStep() {
   const { data: request } = useRequest(id);
   const { data: documents } = useDocuments(id);
   const { data: fields } = useFields(id);
+  const runAssessment = useServerFn(assessReadiness);
+  const [assessment, setAssessment] = useState<AiAssessment | null>(null);
+  const [assessing, setAssessing] = useState(false);
+  const [assessError, setAssessError] = useState<string | null>(null);
+
+  async function handleAssess() {
+    setAssessError(null);
+    setAssessing(true);
+    try {
+      setAssessment(await runAssessment({ data: { requestId: id } }));
+    } catch (e) {
+      setAssessError(e instanceof Error ? e.message : "Assessment failed.");
+    } finally {
+      setAssessing(false);
+    }
+  }
 
   if (!request || !documents || !fields) {
     return (
