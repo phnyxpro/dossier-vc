@@ -1,24 +1,204 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { ArrowRight, Plus, Sparkles, Trash2 } from "lucide-react";
+import { AppShell } from "@/components/app-shell";
+import { Badge, Button, Card, EmptyState, Progress, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
+import { useAuth } from "@/lib/auth";
+import { useRequests } from "@/lib/dossier/queries";
+import { loadDemoData, removeDemoData } from "@/lib/dossier/demo";
+import { formatDate, formatMoney } from "@/lib/dossier/format";
+import { REQUEST_TYPE_LABEL } from "@/lib/dossier/constants";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Capital Dashboard — Dossier by Ventureble" },
+      {
+        name: "description",
+        content:
+          "Track every financing request, readiness status and amount sought in one capital-readiness dashboard built for Caribbean MSMEs.",
+      },
+      { property: "og:title", content: "Capital Dashboard — Dossier by Ventureble" },
+      {
+        property: "og:description",
+        content: "Financing requests, readiness status and lender-ready dossiers in one place.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Dashboard,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const STATUS_TONE: Record<string, "muted" | "primary" | "accent" | "success"> = {
+  draft: "muted",
+  in_review: "primary",
+  ready: "success",
+  submitted: "accent",
+};
+
+const READINESS_TONE: Record<string, "muted" | "warning" | "success"> = {
+  not_started: "muted",
+  in_progress: "warning",
+  ready: "success",
+};
+
+function Dashboard() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const qc = useQueryClient();
+  const { data: requests, isLoading } = useRequests(user?.id);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const hasDemo = (requests ?? []).some((r) => r.is_demo);
+  const totalSought = (requests ?? []).reduce((sum, r) => sum + Number(r.amount_sought ?? 0), 0);
+  const active = (requests ?? []).filter((r) => r.status !== "submitted").length;
+  const readyCount = (requests ?? []).filter((r) => r.readiness_status === "ready").length;
+
+  async function handleDemo() {
+    if (!user) return;
+    setBusy(true);
+    setError(null);
+    try {
+      if (hasDemo) {
+        await removeDemoData(user.id);
+      } else {
+        await loadDemoData(user.id);
+      }
+      await qc.invalidateQueries({ queryKey: ["requests"] });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not update the sample data.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <AppShell>
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="label-caps">Capital readiness workspace</p>
+          <h1 className="mt-1 font-display text-3xl font-semibold">Financing requests</h1>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Every request you are preparing, with the amount sought, purpose and how close the
+            evidence pack is to being lender-ready.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" onClick={handleDemo} disabled={busy}>
+            {busy ? <Spinner /> : hasDemo ? <Trash2 className="size-4" /> : <Sparkles className="size-4" />}
+            {hasDemo ? "Remove sample data" : "Load sample data"}
+          </Button>
+          <Button onClick={() => navigate({ to: "/requests/new" })}>
+            <Plus className="size-4" />
+            New financing request
+          </Button>
+        </div>
+      </div>
+
+      {error ? (
+        <p className="mb-6 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
+      ) : null}
+
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Open requests" value={active} sub="Not yet submitted to a provider" />
+        <Stat
+          label="Total capital sought"
+          value={formatMoney(totalSought, requests?.[0]?.currency ?? "TTD")}
+          tone="accent"
+          sub="Across all live requests"
+        />
+        <Stat label="Lender-ready packs" value={readyCount} tone="success" sub="Readiness marked ready" />
+        <Stat label="Requests on file" value={requests?.length ?? 0} sub="Including sample data" />
+      </div>
+
+      <SectionTitle>All requests</SectionTitle>
+
+      {isLoading ? (
+        <div className="flex justify-center py-16 text-muted-foreground">
+          <Spinner />
+        </div>
+      ) : !requests?.length ? (
+        <EmptyState
+          title="No financing requests yet"
+          description="Start a new request, or load the Caribbean Tropical Producers sample to explore the full workflow with realistic TTD data."
+          action={
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button onClick={() => navigate({ to: "/requests/new" })}>
+                <Plus className="size-4" /> New financing request
+              </Button>
+              <Button variant="outline" onClick={handleDemo} disabled={busy}>
+                <Sparkles className="size-4" /> Load sample data
+              </Button>
+            </div>
+          }
+        />
+      ) : (
+        <Card className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[900px] text-sm">
+              <thead>
+                <tr className="border-b border-border text-left">
+                  {["Business", "Purpose", "Amount sought", "Status", "Readiness", "Updated", ""].map((h) => (
+                    <th key={h} className="label-caps px-4 py-3">
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {requests.map((r) => (
+                  <tr key={r.id} className="border-b border-border/60 last:border-0 hover:bg-secondary/40">
+                    <td className="px-4 py-4">
+                      <div className="font-medium">{r.companies?.name ?? "Unnamed business"}</div>
+                      <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="font-mono">{r.reference ?? "—"}</span>
+                        <span>·</span>
+                        <span>{REQUEST_TYPE_LABEL[r.request_type] ?? r.request_type}</span>
+                        {r.is_demo ? <Badge tone="accent">Sample</Badge> : null}
+                      </div>
+                    </td>
+                    <td className="max-w-xs px-4 py-4 text-muted-foreground">
+                      <span className="line-clamp-2">{r.purpose || "Purpose not yet described"}</span>
+                    </td>
+                    <td className="px-4 py-4 font-medium tabular-nums">
+                      {formatMoney(Number(r.amount_sought ?? 0), r.currency)}
+                    </td>
+                    <td className="px-4 py-4">
+                      <Badge tone={STATUS_TONE[r.status] ?? "muted"}>{r.status.replace("_", " ")}</Badge>
+                    </td>
+                    <td className="w-40 px-4 py-4">
+                      <Badge tone={READINESS_TONE[r.readiness_status] ?? "muted"}>
+                        {r.readiness_status.replace("_", " ")}
+                      </Badge>
+                      <div className="mt-2">
+                        <Progress
+                          value={
+                            r.readiness_status === "ready" ? 100 : r.readiness_status === "in_progress" ? 55 : 8
+                          }
+                          tone={r.readiness_status === "ready" ? "success" : "primary"}
+                        />
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 text-muted-foreground">{formatDate(r.updated_at)}</td>
+                    <td className="px-4 py-4 text-right">
+                      <Link
+                        to="/requests/$id"
+                        params={{ id: r.id }}
+                        className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                      >
+                        Open <ArrowRight className="size-3.5" />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
+    </AppShell>
   );
 }
