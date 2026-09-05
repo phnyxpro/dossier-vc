@@ -251,6 +251,56 @@ export type Database = {
           },
         ]
       }
+      dossier_shares: {
+        Row: {
+          claimed_at: string | null
+          created_at: string
+          id: string
+          invited_email: string | null
+          owner_id: string
+          provider_id: string | null
+          provider_org: string | null
+          request_id: string
+          revoked_at: string | null
+          share_code: string
+          status: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          invited_email?: string | null
+          owner_id: string
+          provider_id?: string | null
+          provider_org?: string | null
+          request_id: string
+          revoked_at?: string | null
+          share_code: string
+          status?: string
+        }
+        Update: {
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          invited_email?: string | null
+          owner_id?: string
+          provider_id?: string | null
+          provider_org?: string | null
+          request_id?: string
+          revoked_at?: string | null
+          share_code?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dossier_shares_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "capital_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       extracted_fields: {
         Row: {
           confidence: number | null
@@ -347,6 +397,113 @@ export type Database = {
         }
         Relationships: []
       }
+      provider_review_scores: {
+        Row: {
+          created_at: string
+          documentation: number | null
+          financials: number | null
+          id: string
+          management: number | null
+          private_comment: string
+          provider_id: string
+          review_id: string
+          security: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          documentation?: number | null
+          financials?: number | null
+          id?: string
+          management?: number | null
+          private_comment?: string
+          provider_id: string
+          review_id: string
+          security?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          documentation?: number | null
+          financials?: number | null
+          id?: string
+          management?: number | null
+          private_comment?: string
+          provider_id?: string
+          review_id?: string
+          security?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_review_scores_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: true
+            referencedRelation: "provider_reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provider_reviews: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string
+          owner_id: string
+          provider_id: string
+          provider_org: string | null
+          request_id: string
+          requested_docs: string[]
+          share_id: string
+          status: string
+          submitted_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string
+          owner_id: string
+          provider_id: string
+          provider_org?: string | null
+          request_id: string
+          requested_docs?: string[]
+          share_id: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string
+          owner_id?: string
+          provider_id?: string
+          provider_org?: string | null
+          request_id?: string
+          requested_docs?: string[]
+          share_id?: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_reviews_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "capital_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_reviews_share_id_fkey"
+            columns: ["share_id"]
+            isOneToOne: true
+            referencedRelation: "dossier_shares"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       readiness_notes: {
         Row: {
           category: string
@@ -388,15 +545,42 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "business" | "provider"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -523,6 +707,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["business", "provider"],
+    },
   },
 } as const
