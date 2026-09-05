@@ -1,10 +1,37 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import type { DocumentRow, FieldRow, RequestWithCompany } from "./types";
+import type { DocumentRow, DossierSectionRow, FieldRow, RequestWithCompany } from "./types";
 
 type RequestUpdate = Database["public"]["Tables"]["capital_requests"]["Update"];
 type CompanyUpdate = Database["public"]["Tables"]["companies"]["Update"];
+type SectionUpdate = Database["public"]["Tables"]["dossier_sections"]["Update"];
+
+export function useDossierSections(requestId: string) {
+  return useQuery({
+    queryKey: ["dossier-sections", requestId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("dossier_sections")
+        .select("*")
+        .eq("request_id", requestId)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as DossierSectionRow[];
+    },
+  });
+}
+
+export function useSaveDossierSection(requestId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, patch }: { id: string; patch: SectionUpdate }) => {
+      const { error } = await supabase.from("dossier_sections").update(patch).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["dossier-sections", requestId] }),
+  });
+}
 
 export function useRequests(userId: string | undefined) {
   return useQuery({
@@ -99,5 +126,6 @@ export function invalidateRequest(qc: ReturnType<typeof useQueryClient>, request
   qc.invalidateQueries({ queryKey: ["request", requestId] });
   qc.invalidateQueries({ queryKey: ["documents", requestId] });
   qc.invalidateQueries({ queryKey: ["fields", requestId] });
+  qc.invalidateQueries({ queryKey: ["dossier-sections", requestId] });
   qc.invalidateQueries({ queryKey: ["requests"] });
 }

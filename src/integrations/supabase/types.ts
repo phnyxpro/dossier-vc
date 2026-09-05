@@ -204,6 +204,53 @@ export type Database = {
           },
         ]
       }
+      dossier_sections: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          request_id: string
+          section_key: string
+          sort_order: number
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          request_id: string
+          section_key: string
+          sort_order?: number
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          request_id?: string
+          section_key?: string
+          sort_order?: number
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dossier_sections_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "capital_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       extracted_fields: {
         Row: {
           confidence: number | null

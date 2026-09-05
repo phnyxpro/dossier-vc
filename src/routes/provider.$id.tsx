@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, AlertTriangle, FileWarning, HelpCircle } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
-import { useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
+import { useDocuments, useDossierSections, useFields, useRequest } from "@/lib/dossier/queries";
 import {
   buildSnapshot,
   cashflowIndicators,
@@ -13,6 +13,7 @@ import {
 } from "@/lib/dossier/readiness";
 import { formatMoney } from "@/lib/dossier/format";
 import { REQUEST_TYPE_LABEL } from "@/lib/dossier/constants";
+import { INDICATIVE_NOTE } from "@/lib/dossier/sections";
 
 export const Route = createFileRoute("/provider/$id")({
   head: () => ({
@@ -39,8 +40,9 @@ function ProviderView() {
   const { data: request } = useRequest(id);
   const { data: documents } = useDocuments(id);
   const { data: fields } = useFields(id);
+  const { data: sections } = useDossierSections(id);
 
-  if (!request || !documents || !fields) {
+  if (!request || !documents || !fields || !sections) {
     return (
       <AppShell>
         <div className="flex justify-center py-24 text-muted-foreground">
@@ -49,6 +51,10 @@ function ProviderView() {
       </AppShell>
     );
   }
+
+  const summary = sections.find((s) => s.section_key === "executive_summary");
+  const thesis = sections.find((s) => s.section_key === "funding_thesis");
+  const risksSection = sections.find((s) => s.section_key === "risks_mitigants");
 
   const currency = request.currency;
   const snap = buildSnapshot(fields, request);
@@ -79,6 +85,64 @@ function ProviderView() {
         </div>
         <Badge tone="primary">Read-only lender summary</Badge>
       </div>
+
+      {summary ? (
+        <Card className="mb-6">
+          <h3 className="mb-2 font-display text-lg font-semibold">Executive summary</h3>
+          <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+            {summary.body.split(/\n+/).filter((l) => l.trim() && !l.startsWith("- ")).map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+            {summary.body.split(/\n+/).some((l) => l.startsWith("- ")) ? (
+              <ul className="list-disc space-y-1 pl-5">
+                {summary.body.split(/\n+/).filter((l) => l.startsWith("- ")).map((b, i) => (
+                  <li key={i}>{b.slice(2)}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </Card>
+      ) : null}
+
+      {thesis ? (
+        <Card className="mb-6">
+          <div className="mb-2 flex items-center gap-2">
+            <h3 className="font-display text-lg font-semibold">Funding thesis</h3>
+            <Badge tone="accent">Indicative</Badge>
+          </div>
+          <p className="mb-2 text-xs italic text-muted-foreground">{INDICATIVE_NOTE}</p>
+          <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+            {thesis.body.split(/\n+/).filter((l) => l.trim() && !l.startsWith("- ")).map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+            {thesis.body.split(/\n+/).some((l) => l.startsWith("- ")) ? (
+              <ul className="list-disc space-y-1 pl-5">
+                {thesis.body.split(/\n+/).filter((l) => l.startsWith("- ")).map((b, i) => (
+                  <li key={i}>{b.slice(2)}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </Card>
+      ) : null}
+
+      {risksSection ? (
+        <Card className="mb-6">
+          <h3 className="mb-2 font-display text-lg font-semibold">Risks and mitigants</h3>
+          <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+            {risksSection.body.split(/\n+/).filter((l) => l.trim() && !l.startsWith("- ")).map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+            {risksSection.body.split(/\n+/).some((l) => l.startsWith("- ")) ? (
+              <ul className="list-disc space-y-1 pl-5">
+                {risksSection.body.split(/\n+/).filter((l) => l.startsWith("- ")).map((b, i) => (
+                  <li key={i}>{b.slice(2)}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </Card>
+      ) : null}
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat
