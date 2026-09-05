@@ -113,5 +113,6 @@
   "docs.upload": "Subir archivos",
   "docs.view": "Ver",
   "docs.manage": "Gestionar esta carpeta",
-  "docs.untitled": "Documento sin título"
+  "docs.untitled": "Documento sin título",
+  "nf.signin": "Ir al inicio de sesión de empresas"
 }

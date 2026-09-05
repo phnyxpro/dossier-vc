@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { flushAcceptances } from "@/lib/legal/acceptance";
 
 type AuthState = {
   session: Session | null;
@@ -24,6 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
       setSession(next);
       setLoading(false);
+      if (next?.user) void flushAcceptances(next.user.id);
     });
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);

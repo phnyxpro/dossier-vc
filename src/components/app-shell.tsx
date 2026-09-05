@@ -38,7 +38,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/auth" });
+    if (!loading && !user)
+      navigate({ to: "/auth", search: { redirect: window.location.pathname + window.location.search } });
   }, [loading, user, navigate]);
 
   useEffect(() => {

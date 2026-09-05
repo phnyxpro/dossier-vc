@@ -113,5 +113,6 @@
   "docs.upload": "Upload files",
   "docs.view": "View",
   "docs.manage": "Manage this folder",
-  "docs.untitled": "Untitled document"
+  "docs.untitled": "Untitled document",
+  "nf.signin": "Go to business sign-in"
 }

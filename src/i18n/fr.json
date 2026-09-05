@@ -113,5 +113,6 @@
   "docs.upload": "Téléverser des fichiers",
   "docs.view": "Voir",
   "docs.manage": "Gérer ce dossier",
-  "docs.untitled": "Document sans titre"
+  "docs.untitled": "Document sans titre",
+  "nf.signin": "Aller à la connexion entreprise"
 }

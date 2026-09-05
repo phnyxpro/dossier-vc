@@ -10,16 +10,27 @@ import { useTheme } from "@/lib/theme";
 import { useLanguage } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { registerProvider } from "@/lib/portal/portal.functions";
+import { PasswordMeter } from "@/components/password-meter";
+import { TrustFooter } from "@/components/trust-footer";
+import { checkPassword, MIN_PASSWORD_LENGTH } from "@/lib/password";
+import { queueAcceptance } from "@/lib/legal/acceptance";
 
 function PortalSignIn() {
   const { t } = useLanguage();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [org, setOrg] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
+
+  function switchMode(next: "signin" | "signup" | "forgot") {
+    setMode(next);
+    setError(null);
+    setNotice(null);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -27,7 +38,24 @@ function PortalSignIn() {
     setError(null);
     setNotice(null);
     try {
-      if (mode === "signup") {
+      if (mode === "forgot") {
+        await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        setNotice(
+          "If an account exists for that address, a single-use reset link is on its way. It expires shortly.",
+        );
+      } else if (mode === "signup") {
+        const strength = checkPassword(password);
+        if (!strength.ok) {
+          setError(strength.problems[0] ?? `Use at least ${MIN_PASSWORD_LENGTH} characters.`);
+          return;
+        }
+        if (!consent) {
+          setError("Please confirm you accept the terms before creating an account.");
+          return;
+        }
+        queueAcceptance();
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
@@ -98,23 +126,39 @@ function PortalSignIn() {
           </div>
           <p className="label-caps mt-6 text-accent lg:mt-0">{t("portal.badge")}</p>
           <h2 className="mt-2 font-display text-xl font-semibold">
-            {mode === "signin" ? t("portal.signIn") : t("portal.createTitle")}
+            {mode === "signin"
+              ? t("portal.signIn")
+              : mode === "signup"
+                ? t("portal.createTitle")
+                : "Reset your password"}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signin"
               ? t("portal.signInSub")
-              : t("portal.signUpSub")}
+              : mode === "signup"
+                ? t("portal.signUpSub")
+                : "Enter the email address on your account and we will send a single-use link to set a new password."}
           </p>
 
-          <Button variant="outline" className="mt-6 w-full" onClick={handleGoogle} disabled={busy}>
-            {t("auth.google")}
-          </Button>
+          {mode !== "forgot" ? (
+            <>
+              <Button
+                type="button"
+                variant="outline"
+                className="mt-6 w-full"
+                onClick={handleGoogle}
+                disabled={busy}
+              >
+                {t("auth.google")}
+              </Button>
 
-          <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="h-px flex-1 bg-border" />
-            {t("auth.orEmail")}
-            <span className="h-px flex-1 bg-border" />
-          </div>
+              <div className="my-6 flex items-center gap-3 text-sm text-muted-foreground">
+                <span className="h-px flex-1 bg-border" />
+                {t("auth.orEmail")}
+                <span className="h-px flex-1 bg-border" />
+              </div>
+            </>
+          ) : null}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" ? (
@@ -139,49 +183,105 @@ function PortalSignIn() {
                 required
               />
             </Field>
-            <Field label={t("auth.password")} htmlFor="portal-password">
-              <Input
-                id="portal-password"
-                type="password"
-                autoComplete={mode === "signin" ? "current-password" : "new-password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                minLength={6}
-                required
-              />
-            </Field>
+            {mode !== "forgot" ? (
+              <Field label={t("auth.password")} htmlFor="portal-password">
+                <Input
+                  id="portal-password"
+                  type="password"
+                  autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  minLength={mode === "signup" ? MIN_PASSWORD_LENGTH : undefined}
+                  required
+                />
+              </Field>
+            ) : null}
+
+            {mode === "signup" ? <PasswordMeter password={password} /> : null}
+
+            {mode === "signin" ? (
+              <button
+                type="button"
+                className="text-sm font-medium text-primary hover:underline"
+                onClick={() => switchMode("forgot")}
+              >
+                Forgot password?
+              </button>
+            ) : null}
+
+            {mode === "signup" ? (
+              <label className="flex gap-3 text-sm leading-relaxed text-foreground/85">
+                <input
+                  type="checkbox"
+                  className="mt-1 size-4 shrink-0 accent-[var(--color-primary)]"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  required
+                />
+                <span>
+                  I accept the <Link to="/terms" className="text-primary hover:underline">Terms of Use</Link>,{" "}
+                  <Link to="/privacy" className="text-primary hover:underline">Privacy Notice</Link> and{" "}
+                  <Link to="/ai-notice" className="text-primary hover:underline">AI &amp; Data Processing Notice</Link>.
+                </span>
+              </label>
+            ) : null}
 
             {error ? (
-              <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
+              <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
             ) : null}
             {notice ? (
-              <p className="rounded-md bg-success/10 px-3 py-2 text-sm text-success">{notice}</p>
+              <p role="status" className="rounded-md bg-success/10 px-3 py-2 text-sm text-success">
+                {notice}
+              </p>
             ) : null}
 
             <Button type="submit" className="w-full" disabled={busy}>
-              {busy ? <Spinner /> : mode === "signin" ? t("auth.signIn") : t("auth.createAccount")}
+              {busy ? (
+                <Spinner />
+              ) : mode === "signin" ? (
+                t("auth.signIn")
+              ) : mode === "signup" ? (
+                t("auth.createAccount")
+              ) : (
+                "Send reset link"
+              )}
             </Button>
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            {mode === "signin" ? t("portal.newHere") : t("auth.haveAccount")}{" "}
-            <button
-              className="font-medium text-primary hover:underline"
-              onClick={() => {
-                setMode(mode === "signin" ? "signup" : "signin");
-                setError(null);
-              }}
-            >
-              {mode === "signin" ? t("portal.createTitle") : t("auth.signIn")}
-            </button>
+            {mode === "forgot" ? (
+              <button
+                type="button"
+                className="font-medium text-primary hover:underline"
+                onClick={() => switchMode("signin")}
+              >
+                Back to sign in
+              </button>
+            ) : (
+              <>
+                {mode === "signin" ? t("portal.newHere") : t("auth.haveAccount")}{" "}
+                <button
+                  type="button"
+                  className="font-medium text-primary hover:underline"
+                  onClick={() => switchMode(mode === "signin" ? "signup" : "signin")}
+                >
+                  {mode === "signin" ? t("portal.createTitle") : t("auth.signIn")}
+                </button>
+              </>
+            )}
           </p>
-          <p className="mt-4 text-center text-xs text-muted-foreground">
+          <p className="mt-4 text-center text-sm text-muted-foreground">
             {t("portal.businessQuestion")}{" "}
             <Link to="/auth" className="text-primary hover:underline">
               {t("portal.businessLink")}
             </Link>
           </p>
         </Card>
+      </div>
+      <div className="lg:col-span-2">
+        <TrustFooter />
       </div>
     </div>
   );
