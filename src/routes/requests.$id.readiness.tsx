@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, CheckCircle2, HelpCircle, ListChecks, ShieldCheck, Sparkles } from "lucide-react";
 import { Badge, Button, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
+import { InfoLink } from "@/components/info-link";
 import { useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
 import { assessReadiness, type AiAssessment } from "@/lib/dossier/assess.functions";
 import {

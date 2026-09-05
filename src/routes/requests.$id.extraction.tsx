@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, FileText, Pencil, Plus, X } from "lucide-react";
 import { Badge, Button, Card, EmptyState, Field, Input, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
+import { InfoLink } from "@/components/info-link";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { EXTRACTION_FIELDS, EXTRACTION_FIELD_LABEL } from "@/lib/dossier/constants";

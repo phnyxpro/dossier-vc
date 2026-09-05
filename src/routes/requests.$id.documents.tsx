@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { extractDocument } from "@/lib/dossier/extract.functions";
 import { useAuth } from "@/lib/auth";
 import { DOC_TYPES } from "@/lib/dossier/constants";
+import { InfoLink } from "@/components/info-link";
 import { useDocuments, useFields, useRequest, invalidateRequest } from "@/lib/dossier/queries";
 import { documentReadiness } from "@/lib/dossier/readiness";
 import { formatBytes, formatDate } from "@/lib/dossier/format";
@@ -193,6 +194,10 @@ function DocumentsStep() {
       >
         Documents
       </SectionTitle>
+
+      <div className="mb-4">
+        <InfoLink slug="documents-providers-expect" label="What capital providers expect in each document" />
+      </div>
 
       <LenderRequestsCard requestId={id} />
 
