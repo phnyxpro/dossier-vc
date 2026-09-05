@@ -5,11 +5,9 @@
   "nav.toggleTheme": "Toggle theme",
   "nav.signOut": "Sign out",
   "nav.language": "Language",
-
   "footer.disclaimer": "Dossier organises and presents your own information. It does not provide a credit approval, loan recommendation or investment decision.",
   "footer.prototype": "Prototype — sample data shown for demonstration",
   "footer.providerDisclaimer": "Information in each dossier is supplied by the business. Dossier does not verify, underwrite or recommend any transaction.",
-
   "dash.eyebrow": "Capital readiness workspace",
   "dash.title": "Financing requests",
   "dash.subtitle": "Every request you are preparing, with the amount sought, purpose and how close the evidence pack is to being lender-ready.",
@@ -38,7 +36,6 @@
   "dash.noPurpose": "Purpose not yet described",
   "dash.sample": "Sample",
   "dash.open": "Open",
-
   "auth.heroTitle": "Capital readiness for Caribbean businesses.",
   "auth.heroBody": "Bring scattered financials, documents and repayment plans into one structured financing dossier that banks, credit unions and development finance institutions can actually read.",
   "auth.point1": "AI reads your uploaded documents and shows where every figure came from",
@@ -61,7 +58,6 @@
   "auth.created": "Account created. If confirmation is required, check your inbox, then sign in.",
   "auth.generalError": "Something went wrong.",
   "auth.googleUnavailable": "Google sign-in is unavailable.",
-
   "portal.badge": "Capital provider portal",
   "portal.heroTitle": "Read a complete financing file before you spend an hour on it.",
   "portal.heroBody": "Banks, credit unions, development finance institutions and private capital providers use this portal to open the dossiers Caribbean businesses have shared with them, and to send back a status, questions and document requests in one place.",
@@ -79,9 +75,9 @@
   "portal.businessQuestion": "Preparing a request as a business?",
   "portal.businessLink": "Use the business workspace",
   "portal.headerBadge": "Provider portal",
-
   "nf.title": "Page not found",
   "nf.body": "The page you're looking for doesn't exist or has been moved.",
   "nf.dashboard": "Go to dashboard",
-  "nf.portal": "Capital provider portal"
+  "nf.portal": "Capital provider portal",
+  "nav.learn": "Learn"
 }

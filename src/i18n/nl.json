@@ -5,11 +5,9 @@
   "nav.toggleTheme": "Thema wisselen",
   "nav.signOut": "Uitloggen",
   "nav.language": "Taal",
-
   "footer.disclaimer": "Dossier ordent en presenteert uw eigen informatie. Het geeft geen kredietgoedkeuring, leningadvies of investeringsbeslissing.",
   "footer.prototype": "Prototype — voorbeeldgegevens ter demonstratie",
   "footer.providerDisclaimer": "De informatie in elk dossier wordt door de onderneming aangeleverd. Dossier verifieert, beoordeelt of adviseert geen enkele transactie.",
-
   "dash.eyebrow": "Werkruimte kapitaalgereedheid",
   "dash.title": "Financieringsaanvragen",
   "dash.subtitle": "Alle aanvragen die u voorbereidt, met het gevraagde bedrag, het doel en hoe dicht het dossier bij verstrekkersklaar is.",
@@ -38,7 +36,6 @@
   "dash.noPurpose": "Doel nog niet omschreven",
   "dash.sample": "Voorbeeld",
   "dash.open": "Openen",
-
   "auth.heroTitle": "Kapitaalgereedheid voor Caribische ondernemingen.",
   "auth.heroBody": "Breng verspreide cijfers, documenten en aflossingsplannen samen in één gestructureerd financieringsdossier dat banken, kredietunies en ontwikkelingsbanken echt kunnen lezen.",
   "auth.point1": "AI leest uw documenten en laat zien waar elk cijfer vandaan komt",
@@ -61,7 +58,6 @@
   "auth.created": "Account aangemaakt. Als bevestiging nodig is, controleer uw inbox en log daarna in.",
   "auth.generalError": "Er is iets misgegaan.",
   "auth.googleUnavailable": "Inloggen met Google is niet beschikbaar.",
-
   "portal.badge": "Portaal voor kapitaalverstrekkers",
   "portal.heroTitle": "Lees een volledig financieringsdossier voordat u er een uur aan besteedt.",
   "portal.heroBody": "Banken, kredietunies, ontwikkelingsbanken en private kapitaalverstrekkers gebruiken dit portaal om de dossiers te openen die Caribische ondernemingen met hen delen, en om een status, vragen en documentverzoeken op één plek terug te sturen.",
@@ -79,9 +75,9 @@
   "portal.businessQuestion": "Bereidt u een aanvraag voor als onderneming?",
   "portal.businessLink": "Gebruik de werkruimte voor ondernemingen",
   "portal.headerBadge": "Verstrekkersportaal",
-
   "nf.title": "Pagina niet gevonden",
   "nf.body": "De pagina die u zoekt bestaat niet of is verplaatst.",
   "nf.dashboard": "Naar dashboard",
-  "nf.portal": "Portaal voor kapitaalverstrekkers"
+  "nf.portal": "Portaal voor kapitaalverstrekkers",
+  "nav.learn": "Kennisbank"
 }

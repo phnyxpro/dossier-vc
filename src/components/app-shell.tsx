@@ -7,6 +7,7 @@ import {
   Menu,
   Moon,
   Plus,
+  BookOpen,
   ShieldCheck,
   Sun,
   X,
@@ -22,6 +23,7 @@ import { cn } from "@/lib/utils";
 const NAV = [
   { to: "/", labelKey: "nav.dashboard", icon: LayoutDashboard, exact: true },
   { to: "/requests/new", labelKey: "nav.newRequest", icon: Plus, exact: false },
+  { to: "/learn", labelKey: "nav.learn", icon: BookOpen, exact: false },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {

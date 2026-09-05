@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, Field, Input, SectionTitle, Select, Textarea } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
 import { CURRENCIES, DEBT_SUBTYPES, REQUEST_TYPES } from "@/lib/dossier/constants";
+import { InfoLink } from "@/components/info-link";
 import { useRequest, useSaveRequest } from "@/lib/dossier/queries";
 
 export const Route = createFileRoute("/requests/$id/details")({
@@ -87,6 +88,7 @@ function DetailsStep() {
                 </option>
               ))}
             </Select>
+            <InfoLink slug="types-of-capital" label="Which type fits my business?" className="mt-1.5" />
           </Field>
           <Field label="Facility type" hint="How the capital would be structured">
             <Select value={form.financing_subtype} onChange={set("financing_subtype")}>
@@ -95,6 +97,7 @@ function DetailsStep() {
                 <option key={s}>{s}</option>
               ))}
             </Select>
+            <InfoLink slug="debt-facility-types" label="Compare facility structures" className="mt-1.5" />
           </Field>
           <Field label="Financing amount sought">
             <Input type="number" min="0" value={form.amount_sought} onChange={set("amount_sought")} />
