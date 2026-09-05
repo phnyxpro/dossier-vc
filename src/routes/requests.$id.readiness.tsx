@@ -1,8 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AlertTriangle, HelpCircle, ListChecks, ShieldCheck } from "lucide-react";
-import { Badge, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { AlertTriangle, CheckCircle2, HelpCircle, ListChecks, ShieldCheck, Sparkles } from "lucide-react";
+import { Badge, Button, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
 import { useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
+import { assessReadiness, type AiAssessment } from "@/lib/dossier/assess.functions";
 import {
   buildSnapshot,
   cashflowIndicators,
@@ -35,6 +38,7 @@ export const Route = createFileRoute("/requests/$id/readiness")({
 });
 
 const SEVERITY_TONE = { high: "danger", medium: "warning", low: "primary", info: "success" } as const;
+const RISK_TONE = { low: "success", moderate: "warning", high: "danger" } as const;
 
 function ReadinessStep() {
   const { id } = Route.useParams();
@@ -42,6 +46,22 @@ function ReadinessStep() {
   const { data: request } = useRequest(id);
   const { data: documents } = useDocuments(id);
   const { data: fields } = useFields(id);
+  const runAssessment = useServerFn(assessReadiness);
+  const [assessment, setAssessment] = useState<AiAssessment | null>(null);
+  const [assessing, setAssessing] = useState(false);
+  const [assessError, setAssessError] = useState<string | null>(null);
+
+  async function handleAssess() {
+    setAssessError(null);
+    setAssessing(true);
+    try {
+      setAssessment(await runAssessment({ data: { requestId: id } }));
+    } catch (e) {
+      setAssessError(e instanceof Error ? e.message : "Assessment failed.");
+    } finally {
+      setAssessing(false);
+    }
+  }
 
   if (!request || !documents || !fields) {
     return (
@@ -74,6 +94,74 @@ function ReadinessStep() {
           recommend a loan or make an investment decision — it shows what a capital provider will
           look for and what is still outstanding.
         </p>
+      </Card>
+
+      <Card className="mb-8 p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h3 className="flex items-center gap-2 font-display text-base font-semibold">
+              <Sparkles className="size-4 text-accent" /> AI readiness assessment
+            </h3>
+            <p className="mt-1 text-xs text-muted-foreground">
+              AI reviews your confirmed figures and missing documents, then scores readiness and assigns a
+              risk level. Indicative only — not a credit approval, loan recommendation or investment
+              decision.
+            </p>
+          </div>
+          <Button variant="accent" onClick={handleAssess} disabled={assessing}>
+            <Sparkles className={`size-4 ${assessing ? "animate-pulse" : ""}`} />
+            {assessing ? "Assessing…" : assessment ? "Re-run assessment" : "Run AI assessment"}
+          </Button>
+        </div>
+
+        {assessError ? (
+          <p className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{assessError}</p>
+        ) : null}
+
+        {assessment ? (
+          <div className="mt-5 space-y-5">
+            <div className="flex flex-wrap items-center gap-6">
+              <div>
+                <p className="label-caps">AI readiness score</p>
+                <p className="font-display text-4xl font-semibold tabular-nums">
+                  {assessment.score}
+                  <span className="text-lg text-muted-foreground">/100</span>
+                </p>
+              </div>
+              <div>
+                <p className="label-caps">Risk level</p>
+                <Badge tone={RISK_TONE[assessment.risk_level]} className="mt-1">
+                  {assessment.risk_level} risk
+                </Badge>
+              </div>
+              <p className="min-w-56 flex-1 text-sm text-muted-foreground">{assessment.rationale}</p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <p className="label-caps">Strengths</p>
+                <ul className="mt-2 space-y-2 text-sm">
+                  {assessment.strengths.map((s, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" />
+                      <span className="text-muted-foreground">{s}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="label-caps">Concerns to resolve</p>
+                <ul className="mt-2 space-y-2 text-sm">
+                  {assessment.concerns.map((c, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <AlertTriangle className="mt-0.5 size-4 shrink-0 text-warning" />
+                      <span className="text-muted-foreground">{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </Card>
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
