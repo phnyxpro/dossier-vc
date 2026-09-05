@@ -92,5 +92,12 @@
   "learn.notFoundTitle": "Guía no disponible",
   "learn.notFoundBody": "Este artículo no existe o ha sido renombrado.",
   "learn.backLink": "Volver a la base de conocimiento",
-  "learn.more": "Más información"
+  "learn.more": "Más información",
+  "push.toggle": "Notificaciones",
+  "push.on": "Notificaciones activadas",
+  "push.off": "Notificaciones desactivadas",
+  "push.denied": "Notificaciones bloqueadas en el navegador",
+  "push.error": "No se pudieron actualizar las notificaciones",
+  "push.welcomeTitle": "Notificaciones activadas",
+  "push.welcomeBody": "Ahora recibirás novedades de tu dossier en este dispositivo."
 }

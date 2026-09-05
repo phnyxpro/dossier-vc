@@ -92,5 +92,12 @@
   "learn.notFoundTitle": "Gids niet beschikbaar",
   "learn.notFoundBody": "Dit artikel bestaat niet of is hernoemd.",
   "learn.backLink": "Terug naar de kennisbank",
-  "learn.more": "Meer informatie"
+  "learn.more": "Meer informatie",
+  "push.toggle": "Meldingen",
+  "push.on": "Meldingen aan",
+  "push.off": "Meldingen uit",
+  "push.denied": "Meldingen geblokkeerd in browserinstellingen",
+  "push.error": "Kon meldingen niet bijwerken",
+  "push.welcomeTitle": "Meldingen ingeschakeld",
+  "push.welcomeBody": "Je ontvangt nu dossierupdates op dit apparaat."
 }
