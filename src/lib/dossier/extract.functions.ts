@@ -137,11 +137,15 @@ export const extractDocument = createServerFn({ method: "POST" })
         /spreadsheetml|ms-excel|officedocument\.spreadsheet/.test(mime) ||
         /\.(xlsx|xlsm|xls)$/i.test(doc.name);
 
+      const isImage = mime.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp|heic|heif)$/i.test(doc.name);
+      const isPdf = mime === "application/pdf" || /\.pdf$/i.test(doc.name);
+
       let contentBlock: Record<string, unknown>;
-      if (mime.startsWith("image/")) {
+      if (isImage) {
         const base64 = Buffer.from(buffer).toString("base64");
-        contentBlock = { type: "image_url", image_url: { url: `data:${mime};base64,${base64}` } };
-      } else if (mime === "application/pdf" || /\.pdf$/i.test(doc.name)) {
+        const imageMime = mime.startsWith("image/") ? mime : "image/jpeg";
+        contentBlock = { type: "image_url", image_url: { url: `data:${imageMime};base64,${base64}` } };
+      } else if (isPdf) {
         const base64 = Buffer.from(buffer).toString("base64");
         contentBlock = {
           type: "file",
@@ -178,48 +182,73 @@ export const extractDocument = createServerFn({ method: "POST" })
         );
       }
 
-      const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Lovable-API-Key": apiKey,
-          "X-Lovable-AIG-SDK": "fetch",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-3.7-flash",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            {
-              role: "user",
-              content: [
-                {
-                  type: "text",
-                  text: `This document was uploaded as: ${doc.name} (category: ${doc.doc_type}). Extract the financial facts it states, as JSON.`,
-                },
-                contentBlock,
-              ],
-            },
-          ],
-        }),
-      });
+      // Scans, photos and PDFs (which may be image-only) get a dedicated high-quality
+      // vision transcription pass first, so the figure extraction reads clean text.
+      let readingBlocks: Record<string, unknown>[] = [contentBlock];
+      let transcript = "";
+      if (isImage || isPdf) {
+        transcript = (
+          await callGateway(apiKey, {
+            model: "google/gemini-3.1-pro-preview",
+            messages: [
+              { role: "system", content: OCR_PROMPT },
+              {
+                role: "user",
+                content: [
+                  {
+                    type: "text",
+                    text: `Transcribe this ${isImage ? "scanned page or photograph" : "PDF"} in full: ${doc.name} (category: ${doc.doc_type}).`,
+                  },
+                  contentBlock,
+                ],
+              },
+            ],
+          })
+        ).trim();
 
-      if (!response.ok) {
-        const body = await response.text();
-        if (response.status === 429) throw new Error("The AI service is busy. Try again shortly.");
-        if (response.status === 402) throw new Error("AI credits are exhausted for this workspace.");
-        throw new Error(`AI request failed (${response.status}): ${body.slice(0, 300)}`);
+        if (transcript.replace(/\[\?\]/g, "").trim().length < 40) {
+          throw new Error(
+            "No readable text was found in this scan. Re-scan the page straight, in good light, at a higher resolution.",
+          );
+        }
+
+        readingBlocks = [
+          {
+            type: "text",
+            text: `Verified transcription of the scanned document:\n\n${transcript.slice(0, 120_000)}`,
+          },
+          contentBlock,
+        ];
       }
 
-      const payload = (await response.json()) as {
-        choices?: { message?: { content?: string } }[];
-      };
-      const raw = payload.choices?.[0]?.message?.content ?? "";
+      const raw = await callGateway(apiKey, {
+        model: isImage || isPdf ? "google/gemini-3.1-pro-preview" : "google/gemini-3.7-flash",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: `This document was uploaded as: ${doc.name} (category: ${doc.doc_type}). Extract the financial facts it states, as JSON.${
+                  transcript
+                    ? " A transcription of the scan is provided; cross-check every figure against the original image before reporting it."
+                    : ""
+                }`,
+              },
+              ...readingBlocks,
+            ],
+          },
+        ],
+      });
+
       let fields: AiField[] = [];
       try {
         fields = parseJson(raw).fields;
       } catch {
         throw new Error("The AI response could not be read. Try again.");
       }
+
 
       const rows = fields
         .filter((f) => f && ALLOWED_KEYS.has(f.field_key))
