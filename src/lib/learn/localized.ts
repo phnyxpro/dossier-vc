@@ -42,11 +42,13 @@ function localizeArticle(a: Article, pack?: Pack): Article {
     sections: a.sections.map((s, i) => {
       const ts = t.sections?.[i];
       if (!ts) return s;
+      const bullets = s.bullets ? (ts.bullets?.length ? ts.bullets : s.bullets) : undefined;
       return {
         heading: ts.heading ?? s.heading,
         paragraphs: ts.paragraphs?.length ? ts.paragraphs : s.paragraphs,
-        bullets: s.bullets ? (ts.bullets?.length ? ts.bullets : s.bullets) : undefined,
+        ...(bullets ? { bullets } : {}),
       };
+
     }),
   };
 }
