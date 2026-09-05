@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as DocumentsIndexRouteImport } from './routes/documents.index'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
@@ -36,6 +37,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentsIndexRoute = DocumentsIndexRouteImport.update({
@@ -122,6 +128,7 @@ const RequestsIdRepaymentRoute = RequestsIdRepaymentRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/sitemap.xml'
     | '/learn/$slug'
     | '/portal/$shareId'
     | '/provider/$id'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/sitemap.xml'
     | '/learn/$slug'
     | '/portal/$shareId'
     | '/provider/$id'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/sitemap.xml'
     | '/learn/$slug'
     | '/portal/$shareId'
     | '/provider/$id'
@@ -244,6 +256,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   LearnSlugRoute: typeof LearnSlugRoute
   PortalShareIdRoute: typeof PortalShareIdRoute
   ProviderIdRoute: typeof ProviderIdRoute
@@ -268,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documents/': {
@@ -414,6 +434,7 @@ const RequestsIdRouteWithChildren = RequestsIdRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   LearnSlugRoute: LearnSlugRoute,
   PortalShareIdRoute: PortalShareIdRoute,
   ProviderIdRoute: ProviderIdRoute,
