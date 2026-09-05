@@ -193,11 +193,21 @@ function DocumentsStep() {
         Documents
       </SectionTitle>
 
-      <p className="mb-6 max-w-3xl text-sm text-muted-foreground">
-        Upload each evidence type below. PDFs, images, CSV and text files are read automatically and
-        the figures are sent to the extraction review for your confirmation. Nothing is used in the
-        dossier until you confirm it.
-      </p>
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+        <p className="max-w-3xl text-sm text-muted-foreground">
+          Upload each evidence type below. PDFs, scans and photos, Excel spreadsheets, CSV and text
+          files are read by AI as soon as they land — revenue, EBITDA, cash, debt, receivables and
+          payables are pulled out with the line they came from. Nothing reaches the dossier until you
+          confirm it in the extraction review.
+        </p>
+        {uploaded.length ? (
+          <Button variant="outline" size="sm" onClick={handleReadAll} disabled={readingAll}>
+            {readingAll ? <Spinner /> : <Sparkles className="size-3.5" />}
+            {readingAll ? "Reading…" : `Read all ${uploaded.length} files`}
+          </Button>
+        ) : null}
+      </div>
+
 
       {error ? (
         <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
