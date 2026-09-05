@@ -4,7 +4,7 @@ import { AppShell } from "@/components/app-shell";
 import { Button, Card, Field, Input, Select, Spinner } from "@/components/ui/primitives";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { COUNTRIES, CURRENCIES, DOC_TYPES, REQUEST_TYPES } from "@/lib/dossier/constants";
+import { COUNTRIES, CURRENCIES, DOC_TYPES, INDUSTRY_GROUPS, REQUEST_TYPES } from "@/lib/dossier/constants";
 import { InfoLink } from "@/components/info-link";
 
 export const Route = createFileRoute("/requests/new")({
@@ -127,7 +127,16 @@ function NewRequest() {
                 </Select>
               </Field>
               <Field label="Industry" htmlFor="industry">
-                <Input id="industry" value={form.industry} onChange={set("industry")} placeholder="Agro-processing" />
+                <Select id="industry" value={form.industry} onChange={set("industry")}>
+                  <option value="">Select an industry</option>
+                  {INDUSTRY_GROUPS.map((g) => (
+                    <optgroup key={g.group} label={g.group}>
+                      {g.items.map((i) => (
+                        <option key={i}>{i}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </Select>
               </Field>
               <Field label="Years in operation" htmlFor="years">
                 <Input id="years" type="number" min="0" value={form.years} onChange={set("years")} placeholder="11" />

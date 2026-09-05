@@ -90,3 +90,153 @@ export const WIZARD_STEPS = [
   { slug: "readiness", label: "Readiness Review" },
   { slug: "dossier", label: "Dossier Output" },
 ] as const;
+
+/** Full industry list (grouped) used on the company profile step. */
+export const INDUSTRY_GROUPS: { group: string; items: string[] }[] = [
+  {
+    group: "Agriculture, Fishing & Forestry",
+    items: [
+      "Crop farming",
+      "Livestock & poultry",
+      "Fishing & aquaculture",
+      "Forestry & logging",
+      "Agricultural support services",
+    ],
+  },
+  {
+    group: "Food, Beverage & Agro-processing",
+    items: [
+      "Agro-processing",
+      "Food manufacturing",
+      "Beverage & distilling",
+      "Bakery & confectionery",
+      "Seafood processing",
+    ],
+  },
+  {
+    group: "Manufacturing & Industrial",
+    items: [
+      "Light manufacturing",
+      "Chemicals & plastics",
+      "Metal fabrication",
+      "Building materials",
+      "Furniture & wood products",
+      "Textiles, apparel & footwear",
+      "Printing & packaging",
+      "Pharmaceuticals & medical devices",
+      "Electronics & electrical equipment",
+    ],
+  },
+  {
+    group: "Energy, Mining & Utilities",
+    items: [
+      "Oil & gas",
+      "Petrochemicals",
+      "Renewable energy",
+      "Electricity generation & distribution",
+      "Water & waste management",
+      "Mining & quarrying",
+    ],
+  },
+  {
+    group: "Construction & Real Estate",
+    items: [
+      "Building construction",
+      "Civil & infrastructure works",
+      "Specialised trade contracting",
+      "Architecture & engineering services",
+      "Real estate development",
+      "Property management & rental",
+    ],
+  },
+  {
+    group: "Wholesale, Retail & Distribution",
+    items: [
+      "Wholesale & distribution",
+      "Supermarkets & grocery",
+      "General retail",
+      "Hardware & building supplies",
+      "Automotive sales & parts",
+      "E-commerce",
+      "Import & export trading",
+    ],
+  },
+  {
+    group: "Transport & Logistics",
+    items: [
+      "Freight & trucking",
+      "Shipping & maritime services",
+      "Air transport & handling",
+      "Warehousing & cold storage",
+      "Courier & last-mile delivery",
+      "Passenger transport",
+    ],
+  },
+  {
+    group: "Tourism & Hospitality",
+    items: [
+      "Hotels & guest houses",
+      "Villas & short-term rentals",
+      "Restaurants & catering",
+      "Bars & entertainment venues",
+      "Tour operators & attractions",
+      "Travel agencies",
+      "Events & conferences",
+    ],
+  },
+  {
+    group: "Financial & Professional Services",
+    items: [
+      "Banking & credit unions",
+      "Insurance & brokerage",
+      "Investment & asset management",
+      "Fintech & payments",
+      "Accounting & audit",
+      "Legal services",
+      "Consulting & advisory",
+      "Human resources & recruitment",
+      "Marketing, advertising & PR",
+    ],
+  },
+  {
+    group: "Technology, Media & Creative",
+    items: [
+      "Software & IT services",
+      "Telecommunications",
+      "Data centres & hosting",
+      "Business process outsourcing",
+      "Media & broadcasting",
+      "Music, film & creative production",
+      "Design & digital agencies",
+    ],
+  },
+  {
+    group: "Health, Education & Social",
+    items: [
+      "Medical & dental practices",
+      "Clinics & hospitals",
+      "Diagnostics & laboratories",
+      "Pharmacies",
+      "Elder & home care",
+      "Childcare",
+      "Schools & training institutions",
+      "Non-profit & community organisations",
+    ],
+  },
+  {
+    group: "Consumer & Other Services",
+    items: [
+      "Personal care & salons",
+      "Fitness & wellness",
+      "Security services",
+      "Cleaning & facilities management",
+      "Equipment rental & leasing",
+      "Repair & maintenance services",
+      "Laundry & dry cleaning",
+      "Sports & recreation",
+      "Other",
+    ],
+  },
+];
+
+export const INDUSTRIES: string[] = INDUSTRY_GROUPS.flatMap((g) => g.items);
