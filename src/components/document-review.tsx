@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AlertTriangle, ClipboardList, Plus, Sparkles } from "lucide-react";
 import { Badge, Button, Card, Input, Label, Select, Spinner, Textarea } from "@/components/ui/primitives";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import { useAuth } from "@/lib/auth";
 import { DOC_TYPES, DOC_TYPE_LABEL, EXTRACTION_FIELDS, EXTRACTION_FIELD_LABEL } from "@/lib/dossier/constants";
 import { invalidateRequest } from "@/lib/dossier/queries";
@@ -170,7 +171,7 @@ function ReviewItem({
   const [saving, setSaving] = useState(false);
   const manualCount = fields.filter((f) => f.document_id === doc.id && f.origin === "manual").length;
 
-  async function patch(update: Record<string, unknown>) {
+  async function patch(update: Database["public"]["Tables"]["documents"]["Update"]) {
     setSaving(true);
     await supabase.from("documents").update(update).eq("id", doc.id);
     setSaving(false);
