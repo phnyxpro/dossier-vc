@@ -102,7 +102,7 @@ function ArticlePage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {article.related
                 .map((r) => ARTICLE_BY_SLUG[r])
-                .filter(Boolean)
+                .filter((r): r is NonNullable<typeof r> => Boolean(r))
                 .map((r) => (
                   <Link key={r.slug} to="/learn/$slug" params={{ slug: r.slug }}>
                     <Card className="h-full p-4 transition-colors hover:border-primary/60">
