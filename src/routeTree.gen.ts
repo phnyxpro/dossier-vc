@@ -19,6 +19,7 @@ import { Route as PortalShareIdRouteImport } from './routes/portal.$shareId'
 import { Route as ProviderIdRouteImport } from './routes/provider.$id'
 import { Route as RequestsIdRouteImport } from './routes/requests.$id'
 import { Route as RequestsNewRouteImport } from './routes/requests.new'
+import { Route as SitemapXmlRouteImport } from './routes/sitemap.xml'
 import { Route as RequestsIdIndexRouteImport } from './routes/requests.$id.index'
 import { Route as RequestsIdDetailsRouteImport } from './routes/requests.$id.details'
 import { Route as RequestsIdDocumentsRouteImport } from './routes/requests.$id.documents'
@@ -78,6 +79,11 @@ const RequestsNewRoute = RequestsNewRouteImport.update({
   path: '/requests/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapXmlRoute = SitemapXmlRouteImport.update({
+  id: '/sitemap/xml',
+  path: '/sitemap/xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RequestsIdIndexRoute = RequestsIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/documents/': typeof DocumentsIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/portal/': typeof PortalIndexRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/new': typeof RequestsNewRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/documents': typeof DocumentsIndexRoute
   '/learn': typeof LearnIndexRoute
   '/portal': typeof PortalIndexRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/documents/': typeof DocumentsIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/portal/': typeof PortalIndexRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/sitemap/xml'
     | '/documents/'
     | '/learn/'
     | '/portal/'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/new'
+    | '/sitemap/xml'
     | '/documents'
     | '/learn'
     | '/portal'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/sitemap/xml'
     | '/documents/'
     | '/learn/'
     | '/portal/'
@@ -249,6 +261,7 @@ export interface RootRouteChildren {
   ProviderIdRoute: typeof ProviderIdRoute
   RequestsIdRoute: typeof RequestsIdRouteWithChildren
   RequestsNewRoute: typeof RequestsNewRoute
+  SitemapXmlRoute: typeof SitemapXmlRoute
   DocumentsIndexRoute: typeof DocumentsIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
   PortalIndexRoute: typeof PortalIndexRoute
@@ -324,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/requests/new'
       fullPath: '/requests/new'
       preLoaderRoute: typeof RequestsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap/xml': {
+      id: '/sitemap/xml'
+      path: '/sitemap/xml'
+      fullPath: '/sitemap/xml'
+      preLoaderRoute: typeof SitemapXmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/requests/$id/': {
@@ -419,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProviderIdRoute: ProviderIdRoute,
   RequestsIdRoute: RequestsIdRouteWithChildren,
   RequestsNewRoute: RequestsNewRoute,
+  SitemapXmlRoute: SitemapXmlRoute,
   DocumentsIndexRoute: DocumentsIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
   PortalIndexRoute: PortalIndexRoute,
