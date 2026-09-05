@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { extractDocument } from "@/lib/dossier/extract.functions";
 import { useAuth } from "@/lib/auth";
 import { DOC_TYPES } from "@/lib/dossier/constants";
-import { useDocuments, useRequest, invalidateRequest } from "@/lib/dossier/queries";
+import { useDocuments, useFields, useRequest, invalidateRequest } from "@/lib/dossier/queries";
 import { documentReadiness } from "@/lib/dossier/readiness";
 import { formatBytes, formatDate } from "@/lib/dossier/format";
 import type { DocumentRow } from "@/lib/dossier/types";
