@@ -79,5 +79,18 @@
   "nf.body": "The page you're looking for doesn't exist or has been moved.",
   "nf.dashboard": "Go to dashboard",
   "nf.portal": "Capital provider portal",
-  "nav.learn": "Learn"
+  "nav.learn": "Learn",
+  "learn.title": "Knowledge base",
+  "learn.intro": "Short, practical guides on how capital providers in the Caribbean assess a financing request — and a glossary of the terms you will meet along the way.",
+  "learn.search": "Search guides and terms",
+  "learn.glossary": "Glossary",
+  "learn.noGuides": "No guides match",
+  "learn.noTerms": "No terms match",
+  "learn.back": "Knowledge base",
+  "learn.related": "Related guides",
+  "learn.readMin": "min read",
+  "learn.notFoundTitle": "Guide not available",
+  "learn.notFoundBody": "This article does not exist or has been renamed.",
+  "learn.backLink": "Back to the knowledge base",
+  "learn.more": "Learn more"
 }
