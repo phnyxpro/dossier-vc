@@ -99,5 +99,19 @@
   "push.denied": "Notifications blocked in browser settings",
   "push.error": "Could not update notifications",
   "push.welcomeTitle": "Notifications enabled",
-  "push.welcomeBody": "You'll now get dossier updates on this device."
+  "push.welcomeBody": "You'll now get dossier updates on this device.",
+  "nav.documents": "Documents",
+  "docs.eyebrow": "Evidence library",
+  "docs.title": "Documents",
+  "docs.subtitle": "Every financing request as a folder, with the files you have uploaded inside.",
+  "docs.emptyTitle": "No documents yet",
+  "docs.emptyBody": "Start a financing request and upload statements, registrations and contracts — they will appear here organised by request.",
+  "docs.file": "file",
+  "docs.files": "files",
+  "docs.toReview": "to review",
+  "docs.noFiles": "No files uploaded yet.",
+  "docs.upload": "Upload files",
+  "docs.view": "View",
+  "docs.manage": "Manage this folder",
+  "docs.untitled": "Untitled document"
 }

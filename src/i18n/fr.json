@@ -99,5 +99,19 @@
   "push.denied": "Notifications bloquées dans le navigateur",
   "push.error": "Impossible de mettre à jour les notifications",
   "push.welcomeTitle": "Notifications activées",
-  "push.welcomeBody": "Vous recevrez désormais les mises à jour du dossier sur cet appareil."
+  "push.welcomeBody": "Vous recevrez désormais les mises à jour du dossier sur cet appareil.",
+  "nav.documents": "Documents",
+  "docs.eyebrow": "Bibliothèque de pièces",
+  "docs.title": "Documents",
+  "docs.subtitle": "Chaque demande de financement comme dossier, avec les fichiers que vous avez téléversés.",
+  "docs.emptyTitle": "Aucun document pour le moment",
+  "docs.emptyBody": "Créez une demande de financement et téléversez états financiers, enregistrements et contrats — ils apparaîtront ici, organisés par demande.",
+  "docs.file": "fichier",
+  "docs.files": "fichiers",
+  "docs.toReview": "à revoir",
+  "docs.noFiles": "Aucun fichier téléversé pour le moment.",
+  "docs.upload": "Téléverser des fichiers",
+  "docs.view": "Voir",
+  "docs.manage": "Gérer ce dossier",
+  "docs.untitled": "Document sans titre"
 }
