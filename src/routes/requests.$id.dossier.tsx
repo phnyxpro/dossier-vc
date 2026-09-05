@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Download, Pencil, Printer, RefreshCw, Share2, Sparkles } from "lucide-react";
 import { Badge, Button, Card, SectionTitle, Spinner } from "@/components/ui/primitives";
+import { SharePanel } from "@/components/share-panel";
 import {
   useDossierSections,
   useDocuments,
