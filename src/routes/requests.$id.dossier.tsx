@@ -287,6 +287,10 @@ function DossierStep() {
         Dossier output
       </SectionTitle>
 
+      <div className="mb-4 no-print">
+        <InfoLink slug="dossier-output" label="What a lender pack contains" />
+      </div>
+
       {error ? (
         <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive no-print">{error}</p>
       ) : null}

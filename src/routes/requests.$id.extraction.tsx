@@ -212,6 +212,10 @@ function ExtractionStep() {
         AI extraction review
       </SectionTitle>
 
+      <div className="mb-4">
+        <InfoLink slug="ai-extraction" label="How Dossier reads your documents" />
+      </div>
+
       <p className="mb-6 max-w-3xl text-sm text-muted-foreground">
         Each value below was read from one of your documents. The source document and the exact line
         it came from are shown. Only values you confirm are used in the readiness review and the

@@ -88,6 +88,10 @@ function ReadinessStep() {
         Capital readiness review
       </SectionTitle>
 
+      <div className="mb-4">
+        <InfoLink slug="capital-readiness" label="How the readiness score is calculated" />
+      </div>
+
       <Card className="mb-6 flex flex-wrap items-start gap-3 border-primary/30 bg-primary/5 p-4 text-sm">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" />
         <p className="text-muted-foreground">
