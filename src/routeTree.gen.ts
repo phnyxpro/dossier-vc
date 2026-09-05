@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as ProviderIdRouteImport } from './routes/provider.$id'
 import { Route as RequestsIdRouteImport } from './routes/requests.$id'
 import { Route as RequestsNewRouteImport } from './routes/requests.new'
@@ -30,6 +31,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/portal/',
+  path: '/portal/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProviderIdRoute = ProviderIdRouteImport.update({
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/portal/': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/new': typeof RequestsNewRoute
+  '/portal': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/portal/': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/portal/'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/provider/$id'
     | '/requests/new'
+    | '/portal'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/portal/'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -175,6 +187,7 @@ export interface RootRouteChildren {
   ProviderIdRoute: typeof ProviderIdRoute
   RequestsIdRoute: typeof RequestsIdRouteWithChildren
   RequestsNewRoute: typeof RequestsNewRoute
+  PortalIndexRoute: typeof PortalIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/': {
+      id: '/portal/'
+      path: '/portal'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/provider/$id': {
@@ -296,6 +316,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProviderIdRoute: ProviderIdRoute,
   RequestsIdRoute: RequestsIdRouteWithChildren,
   RequestsNewRoute: RequestsNewRoute,
+  PortalIndexRoute: PortalIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
