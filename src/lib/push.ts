@@ -53,8 +53,8 @@ export async function subscribeToPush(): Promise<void> {
     {
       user_id: user.id,
       endpoint: sub.endpoint,
-      p256dh: json.keys?.p256dh ?? "",
-      auth: json.keys?.auth ?? "",
+      p256dh: json.keys?.["p256dh"] ?? "",
+      auth: json.keys?.["auth"] ?? "",
       device_label: navigator.userAgent.slice(0, 120),
     },
     { onConflict: "user_id,endpoint" },
