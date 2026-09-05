@@ -115,6 +115,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 {t(item.labelKey)}
               </Link>
             ))}
+            <LanguageSwitcher className="mt-2 self-start sm:hidden" />
           </nav>
         ) : null}
       </header>
