@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { AlertTriangle, CheckCircle2, Circle, Sparkles, Trash2, Upload } from "lucide-react";
@@ -47,6 +48,7 @@ function DocumentsStep() {
   const [busyDoc, setBusyDoc] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const inputs = useRef<Record<string, HTMLInputElement | null>>({});
+  const runExtraction = useServerFn(extractDocument);
 
   const rows = DOC_TYPES.map((type) => ({
     type,
@@ -94,7 +96,7 @@ function DocumentsStep() {
       invalidateRequest(qc, id);
 
       // Read the document with AI straight away.
-      await extractDocument({ data: { documentId: row.id } });
+      await runExtraction({ data: { documentId: row.id } });
       invalidateRequest(qc, id);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed.");
@@ -108,7 +110,7 @@ function DocumentsStep() {
     setError(null);
     setBusyDoc(doc.doc_type);
     try {
-      await extractDocument({ data: { documentId: doc.id } });
+      await runExtraction({ data: { documentId: doc.id } });
     } catch (err) {
       setError(err instanceof Error ? err.message : "The document could not be read.");
     } finally {
