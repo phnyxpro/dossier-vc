@@ -467,6 +467,10 @@ function DossierStep() {
         </>
       )}
 
+      <div className="mx-auto mt-6 max-w-4xl">
+        <SharePanel requestId={id} />
+      </div>
+
       <Card className="mx-auto mt-6 max-w-4xl p-4 no-print">
         <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
           <span className="text-muted-foreground">
