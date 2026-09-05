@@ -104,7 +104,7 @@ export default function LenderPackPage() {
           `Generated ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`,
           ``,
           `Financing sought: ${REQUEST_TYPE_LABEL[request?.request_type ?? ""] ?? "—"}`,
-          `Amount: ${request?.currency ?? "TTD"} ${Number(request?.amount ?? 0).toLocaleString()}`,
+          `Amount: ${request?.currency ?? "TTD"} ${Number(request?.amount_sought ?? 0).toLocaleString()}`,
           ``,
           `DOCUMENT CHECKLIST`,
           checklist,
