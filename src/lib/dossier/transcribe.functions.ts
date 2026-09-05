@@ -8,7 +8,7 @@ const schema = z.object({
 
 function base64ToBytes(b64: string): Uint8Array {
   const bin = atob(b64);
-  const out = new Uint8Array(bin.length);
+  const out = new Uint8Array(new ArrayBuffer(bin.length));
   for (let i = 0; i < bin.length; i += 1) out[i] = bin.charCodeAt(i);
   return out;
 }
