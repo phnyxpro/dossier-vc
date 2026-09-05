@@ -239,7 +239,7 @@ export const generateDossier = createServerFn({ method: "POST" })
           request_id: data.requestId,
           section_key: s.section_key,
           title: def.title,
-          body: s.body!.trim(),
+          body: stripIndicativeNote(s.body!),
           status: "draft",
           sort_order: def.order,
         };
