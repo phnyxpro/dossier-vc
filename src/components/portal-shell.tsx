@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Building2, LogOut, Moon, ShieldCheck, Sun } from "lucide-react";
+import { Building2, LogOut, Moon, ShieldCheck, Sun } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { BrandMark } from "@/components/brand";

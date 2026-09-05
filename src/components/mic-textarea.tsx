@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type TextareaHTMLAttributes } from "react";
-import { Mic, Square, Loader2 } from "lucide-react";
+import { Mic, Square, Loader2 } from "@/lib/icons";
 import { toast } from "sonner";
 import { useServerFn } from "@tanstack/react-start";
 import { Textarea } from "@/components/ui/primitives";

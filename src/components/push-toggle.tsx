@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Bell, BellOff, BellRing } from "lucide-react";
+import { Bell, BellOff, BellRing } from "@/lib/icons";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/primitives";
 import { useLanguage } from "@/lib/i18n";

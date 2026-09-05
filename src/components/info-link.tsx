@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 /** Small contextual link into the knowledge base, e.g. next to a field label. */

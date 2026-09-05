@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Sun,
   X,
-} from "lucide-react";
+} from "@/lib/icons";
 import { BrandMark } from "@/components/brand";
 import { Button, Spinner } from "@/components/ui/primitives";
 import { useAuth } from "@/lib/auth";

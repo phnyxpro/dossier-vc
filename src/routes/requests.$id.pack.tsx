@@ -8,7 +8,7 @@ import {
   Eye,
   FileText,
   Package,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Badge, Button, Card, Progress, SectionTitle, Spinner } from "@/components/ui/primitives";
 import { DocumentViewer } from "@/components/document-viewer";
 import { StepFooter } from "@/components/step-footer";

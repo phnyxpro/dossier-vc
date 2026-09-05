@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { BookOpen, Clock, Search } from "lucide-react";
+import { BookOpen, Clock, Search } from "@/lib/icons";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Card, Input, SectionTitle } from "@/components/ui/primitives";
 import { useLearnContent } from "@/lib/learn/localized";

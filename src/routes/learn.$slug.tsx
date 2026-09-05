@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft, Clock } from "@/lib/icons";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Card, EmptyState, SectionTitle } from "@/components/ui/primitives";
 import { ARTICLE_BY_SLUG } from "@/lib/learn/content";

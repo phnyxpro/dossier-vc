@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, CheckCircle2, EyeOff, FolderOpen, Lock, Save, Send, XCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, EyeOff, FolderOpen, Lock, Save, Send, XCircle } from "@/lib/icons";
 import { PortalShell } from "@/components/portal-shell";
 import {
   Badge,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ExternalLink, X } from "lucide-react";
+import { ExternalLink, X } from "@/lib/icons";
 import { PdfView } from "@/components/pdf-view";
 import { Badge, Button, Spinner } from "@/components/ui/primitives";
 import { supabase } from "@/integrations/supabase/client";

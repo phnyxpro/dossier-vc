@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, ClipboardList, Flag, FlagOff } from "lucide-react";
+import { AlertTriangle, ClipboardList, Flag, FlagOff } from "@/lib/icons";
 import { Badge, Button, Card, Input, Label, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { MicTextarea } from "@/components/mic-textarea";
 import { providerAddFigure, providerFlagDocument } from "@/lib/portal/portal.functions";

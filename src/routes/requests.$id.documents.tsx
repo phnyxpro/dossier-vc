@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { AlertTriangle, CheckCircle2, Circle, ClipboardList, Eye, Package, Sparkles, Trash2, Upload } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Circle, ClipboardList, Eye, Package, Sparkles, Trash2, Upload } from "@/lib/icons";
 import { Badge, Button, Card, Progress, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { LenderRequestsCard } from "@/components/share-panel";
 import { DocumentReviewQueue, ManualFigureForm, reviewReason } from "@/components/document-review";

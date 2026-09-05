@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { AlertTriangle, ClipboardList, Eye, Plus, Sparkles } from "lucide-react";
+import { AlertTriangle, ClipboardList, Eye, Plus, Sparkles } from "@/lib/icons";
 import { Badge, Button, Card, Input, Label, Select, Spinner, Textarea } from "@/components/ui/primitives";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";

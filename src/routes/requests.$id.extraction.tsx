@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Check, FileText, Pencil, Plus, X } from "lucide-react";
+import { Check, FileText, Pencil, Plus, X } from "@/lib/icons";
 import { Badge, Button, Card, EmptyState, Field, Input, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
 import { DocumentViewer } from "@/components/document-viewer";
