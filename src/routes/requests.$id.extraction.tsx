@@ -12,7 +12,7 @@ import { EXTRACTION_FIELDS, EXTRACTION_FIELD_LABEL } from "@/lib/dossier/constan
 import { invalidateRequest, useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
 import { formatMoney } from "@/lib/dossier/format";
 import type { Database } from "@/integrations/supabase/types";
-import type { FieldRow } from "@/lib/dossier/types";
+import type { DocumentRow, FieldRow } from "@/lib/dossier/types";
 
 export const Route = createFileRoute("/requests/$id/extraction")({
   head: () => ({
