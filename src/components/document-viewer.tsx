@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ExternalLink, X } from "lucide-react";
+import { PdfView } from "@/components/pdf-view";
 import { Badge, Button, Spinner } from "@/components/ui/primitives";
 import { supabase } from "@/integrations/supabase/client";
 import { DOC_TYPE_LABEL } from "@/lib/dossier/constants";
@@ -114,7 +115,7 @@ export function DocumentViewer({ doc, onClose }: { doc: DocumentRow | null; onCl
           ) : isImage(doc) && url ? (
             <img src={url} alt={doc.name || "Document page"} className="mx-auto max-h-full rounded-md" />
           ) : isPdf(doc) && url ? (
-            <iframe src={url} title={doc.name || "Document"} className="h-full min-h-[70vh] w-full rounded-md bg-white" />
+            <PdfView url={url} name={doc.name || "Document"} />
           ) : text !== null ? (
             <pre className="whitespace-pre-wrap break-words rounded-md bg-card p-3 text-xs">{text}</pre>
           ) : (
