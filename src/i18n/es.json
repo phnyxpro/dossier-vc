@@ -99,5 +99,19 @@
   "push.denied": "Notificaciones bloqueadas en el navegador",
   "push.error": "No se pudieron actualizar las notificaciones",
   "push.welcomeTitle": "Notificaciones activadas",
-  "push.welcomeBody": "Ahora recibirás novedades de tu dossier en este dispositivo."
+  "push.welcomeBody": "Ahora recibirás novedades de tu dossier en este dispositivo.",
+  "nav.documents": "Documentos",
+  "docs.eyebrow": "Biblioteca de evidencia",
+  "docs.title": "Documentos",
+  "docs.subtitle": "Cada solicitud de financiamiento como carpeta, con los archivos que has subido dentro.",
+  "docs.emptyTitle": "Aún no hay documentos",
+  "docs.emptyBody": "Inicia una solicitud de financiamiento y sube estados financieros, registros y contratos — aparecerán aquí organizados por solicitud.",
+  "docs.file": "archivo",
+  "docs.files": "archivos",
+  "docs.toReview": "por revisar",
+  "docs.noFiles": "Aún no se han subido archivos.",
+  "docs.upload": "Subir archivos",
+  "docs.view": "Ver",
+  "docs.manage": "Gestionar esta carpeta",
+  "docs.untitled": "Documento sin título"
 }

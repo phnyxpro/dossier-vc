@@ -99,5 +99,19 @@
   "push.denied": "Meldingen geblokkeerd in browserinstellingen",
   "push.error": "Kon meldingen niet bijwerken",
   "push.welcomeTitle": "Meldingen ingeschakeld",
-  "push.welcomeBody": "Je ontvangt nu dossierupdates op dit apparaat."
+  "push.welcomeBody": "Je ontvangt nu dossierupdates op dit apparaat.",
+  "nav.documents": "Documenten",
+  "docs.eyebrow": "Documentbibliotheek",
+  "docs.title": "Documenten",
+  "docs.subtitle": "Elke financieringsaanvraag als map, met de bestanden die je hebt geüpload.",
+  "docs.emptyTitle": "Nog geen documenten",
+  "docs.emptyBody": "Start een financieringsaanvraag en upload jaarrekeningen, registraties en contracten — ze verschijnen hier, georganiseerd per aanvraag.",
+  "docs.file": "bestand",
+  "docs.files": "bestanden",
+  "docs.toReview": "te beoordelen",
+  "docs.noFiles": "Nog geen bestanden geüpload.",
+  "docs.upload": "Bestanden uploaden",
+  "docs.view": "Bekijken",
+  "docs.manage": "Deze map beheren",
+  "docs.untitled": "Document zonder titel"
 }
