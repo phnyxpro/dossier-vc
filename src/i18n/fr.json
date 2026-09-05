@@ -92,5 +92,12 @@
   "learn.notFoundTitle": "Guide indisponible",
   "learn.notFoundBody": "Cet article n'existe pas ou a été renommé.",
   "learn.backLink": "Retour à la base de connaissances",
-  "learn.more": "En savoir plus"
+  "learn.more": "En savoir plus",
+  "push.toggle": "Notifications",
+  "push.on": "Notifications activées",
+  "push.off": "Notifications désactivées",
+  "push.denied": "Notifications bloquées dans le navigateur",
+  "push.error": "Impossible de mettre à jour les notifications",
+  "push.welcomeTitle": "Notifications activées",
+  "push.welcomeBody": "Vous recevrez désormais les mises à jour du dossier sur cet appareil."
 }

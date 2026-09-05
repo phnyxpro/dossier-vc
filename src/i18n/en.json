@@ -92,5 +92,12 @@
   "learn.notFoundTitle": "Guide not available",
   "learn.notFoundBody": "This article does not exist or has been renamed.",
   "learn.backLink": "Back to the knowledge base",
-  "learn.more": "Learn more"
+  "learn.more": "Learn more",
+  "push.toggle": "Notifications",
+  "push.on": "Notifications on",
+  "push.off": "Notifications off",
+  "push.denied": "Notifications blocked in browser settings",
+  "push.error": "Could not update notifications",
+  "push.welcomeTitle": "Notifications enabled",
+  "push.welcomeBody": "You'll now get dossier updates on this device."
 }
