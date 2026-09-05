@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Card, Field, Input, SectionTitle, Select, Textarea } from "@/components/ui/primitives";
+import { Card, Field, Input, SectionTitle, Select } from "@/components/ui/primitives";
+import { MicTextarea } from "@/components/mic-textarea";
 import { StepFooter } from "@/components/step-footer";
 import { CURRENCIES, DEBT_SUBTYPES, REQUEST_TYPES } from "@/lib/dossier/constants";
 import { InfoLink } from "@/components/info-link";
@@ -121,13 +122,13 @@ function DetailsStep() {
         </div>
         <div className="mt-5 space-y-5">
           <Field label="Financing purpose" hint="What the capital is for, in one paragraph.">
-            <Textarea value={form.purpose} onChange={set("purpose")} />
+            <MicTextarea value={form.purpose} onChange={set("purpose")} />
           </Field>
           <Field
             label="Use of funds"
             hint="Break the amount down line by line — equipment, working capital, installation, contingency. Lenders look for this first."
           >
-            <Textarea
+            <MicTextarea
               className="min-h-32"
               value={form.use_of_funds}
               onChange={set("use_of_funds")}

@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Card, Field, Input, SectionTitle, Textarea } from "@/components/ui/primitives";
+import { Card, Field, Input, SectionTitle } from "@/components/ui/primitives";
+import { MicTextarea } from "@/components/mic-textarea";
 import { StepFooter } from "@/components/step-footer";
 import { useRequest, useSaveRequest } from "@/lib/dossier/queries";
 
@@ -91,13 +92,13 @@ function RepaymentStep() {
           label="How the financing will be repaid"
           hint="Describe it in cash terms — incremental revenue, margin, and the resulting cover against annual debt service."
         >
-          <Textarea className="min-h-36" value={form.repayment_explanation} onChange={set("repayment_explanation")} />
+          <MicTextarea className="min-h-36" value={form.repayment_explanation} onChange={set("repayment_explanation")} />
         </Field>
         <Field
           label="Proposed security or collateral"
           hint="Assets offered, charges, guarantees, and when each asset was last valued."
         >
-          <Textarea className="min-h-32" value={form.security_description} onChange={set("security_description")} />
+          <MicTextarea className="min-h-32" value={form.security_description} onChange={set("security_description")} />
         </Field>
       </Card>
       <StepFooter
