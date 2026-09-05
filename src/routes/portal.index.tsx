@@ -224,6 +224,9 @@ function DossierCard({ item, historical = false }: { item: QueueItem; historical
             {[item.industry, item.country].filter(Boolean).join(" · ") || "Caribbean business"}
           </p>
         </div>
+        {item.closed ? (
+          <Badge tone="muted">Closed</Badge>
+        ) : null}
         {item.reviewStatus ? (
           <Badge tone={REVIEW_STATUS_TONE[item.reviewStatus] ?? "muted"}>
             {REVIEW_STATUS_LABEL[item.reviewStatus] ?? item.reviewStatus}
