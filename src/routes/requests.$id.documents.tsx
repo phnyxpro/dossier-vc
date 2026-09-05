@@ -209,25 +209,64 @@ function DocumentsStep() {
 
       <LenderRequestsCard requestId={id} />
 
+      <DocumentReviewQueue
+        requestId={id}
+        items={reviewItems}
+        fields={fields ?? []}
+        onReread={handleExtract}
+        busyDocType={busyDoc}
+      />
+
       <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
         <p className="max-w-3xl text-sm text-muted-foreground">
           Upload each evidence type below. PDFs, scans and photos, Excel spreadsheets, CSV and text
           files are read by AI as soon as they land — revenue, EBITDA, cash, debt, receivables and
           payables are pulled out with the line they came from. Nothing reaches the dossier until you
-          confirm it in the extraction review.
+          confirm it in the extraction review. If a file cannot be read, it moves to the review list
+          at the top where you can classify it or type the figures in yourself.
         </p>
-        {uploaded.length ? (
-          <Button variant="outline" size="sm" onClick={handleReadAll} disabled={readingAll}>
-            {readingAll ? <Spinner /> : <Sparkles className="size-3.5" />}
-            {readingAll ? "Reading…" : `Read all ${uploaded.length} files`}
+        <div className="flex flex-wrap gap-2">
+          {uploaded.length ? (
+            <Button variant="outline" size="sm" onClick={handleReadAll} disabled={readingAll}>
+              {readingAll ? <Spinner /> : <Sparkles className="size-3.5" />}
+              {readingAll ? "Reading…" : `Read all ${uploaded.length} files`}
+            </Button>
+          ) : null}
+          <input
+            ref={extraInput}
+            type="file"
+            className="hidden"
+            accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleUpload("unclassified", null, file);
+              e.target.value = "";
+            }}
+          />
+          <Button variant="outline" size="sm" onClick={() => extraInput.current?.click()}>
+            <Upload className="size-3.5" /> Upload another file
           </Button>
-        ) : null}
+          <Button variant="outline" size="sm" onClick={() => setShowManual((v) => !v)}>
+            <ClipboardList className="size-3.5" /> {showManual ? "Hide manual entry" : "Enter figures by hand"}
+          </Button>
+        </div>
       </div>
 
+      {showManual ? (
+        <Card className="mb-6 p-4">
+          <h3 className="font-display text-sm font-semibold">Enter figures by hand</h3>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Use this when a document cannot be uploaded or read. Figures added here count as confirmed
+            and appear in the financial snapshot and the dossier.
+          </p>
+          <ManualFigureForm requestId={id} documentId={null} />
+        </Card>
+      ) : null}
 
       {error ? (
         <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
       ) : null}
+
 
       {isLoading ? (
         <div className="flex justify-center py-16 text-muted-foreground">
