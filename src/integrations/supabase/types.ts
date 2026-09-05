@@ -17,6 +17,7 @@ export type Database = {
       capital_requests: {
         Row: {
           amount_sought: number | null
+          business_overview: string | null
           company_id: string | null
           created_at: string
           currency: string
@@ -37,10 +38,12 @@ export type Database = {
           term_unit: string | null
           term_value: number | null
           updated_at: string
+          use_of_funds: string | null
           user_id: string
         }
         Insert: {
           amount_sought?: number | null
+          business_overview?: string | null
           company_id?: string | null
           created_at?: string
           currency?: string
@@ -61,10 +64,12 @@ export type Database = {
           term_unit?: string | null
           term_value?: number | null
           updated_at?: string
+          use_of_funds?: string | null
           user_id: string
         }
         Update: {
           amount_sought?: number | null
+          business_overview?: string | null
           company_id?: string | null
           created_at?: string
           currency?: string
@@ -85,6 +90,7 @@ export type Database = {
           term_unit?: string | null
           term_value?: number | null
           updated_at?: string
+          use_of_funds?: string | null
           user_id?: string
         }
         Relationships: [
