@@ -37,10 +37,29 @@ const SEVERITY_TONE = { high: "danger", medium: "warning", low: "primary", info:
 
 function ProviderView() {
   const { id } = Route.useParams();
-  const { data: request } = useRequest(id);
+  const { data: request, isLoading, isError } = useRequest(id);
   const { data: documents } = useDocuments(id);
   const { data: fields } = useFields(id);
   const { data: sections } = useDossierSections(id);
+
+  if (isError || (!isLoading && !request)) {
+    return (
+      <AppShell>
+        <EmptyState
+          title="This dossier isn't available"
+          description="The request may have been removed, or this account can't see it. Capital providers should open the dossier from their portal invitation or share code."
+          action={
+            <Link
+              to="/portal"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Go to the provider portal
+            </Link>
+          }
+        />
+      </AppShell>
+    );
+  }
 
   if (!request || !documents || !fields || !sections) {
     return (
