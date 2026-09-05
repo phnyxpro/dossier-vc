@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, AlertTriangle, FileWarning, HelpCircle } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { Badge, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
+import { Badge, Card, EmptyState, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { useDocuments, useDossierSections, useFields, useRequest } from "@/lib/dossier/queries";
 import {
   buildSnapshot,
