@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, CheckCircle2, EyeOff, Lock, Save, Send } from "lucide-react";
+import { ArrowLeft, CheckCircle2, EyeOff, FolderOpen, Lock, Save, Send, XCircle } from "lucide-react";
 import { PortalShell } from "@/components/portal-shell";
 import {
   Badge,
@@ -15,7 +15,8 @@ import {
   Textarea,
 } from "@/components/ui/primitives";
 import { MicTextarea } from "@/components/mic-textarea";
-import { portalDossier, saveProviderReview } from "@/lib/portal/portal.functions";
+import { portalDossier, saveProviderReview, setReviewClosed } from "@/lib/portal/portal.functions";
+import { PortalEvidence } from "@/components/portal-document-review";
 import {
   REVIEW_STATUSES,
   REVIEW_STATUS_LABEL,
@@ -90,6 +91,7 @@ function ReviewPage() {
   const qc = useQueryClient();
   const load = useServerFn(portalDossier);
   const save = useServerFn(saveProviderReview);
+  const setClosed = useServerFn(setReviewClosed);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["portal-dossier", shareId],
@@ -110,6 +112,7 @@ function ReviewPage() {
   const [busy, setBusy] = useState<"save" | "submit" | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
+  const [closing, setClosing] = useState(false);
 
   useEffect(() => {
     if (!data) return;
@@ -167,6 +170,7 @@ function ReviewPage() {
   }
 
   const { request, snap, indicators, flags, questions, missing, docs } = derived;
+  const isClosed = Boolean(data.review?.closed);
   const currency = request.currency;
   const company = request.companies;
   const summary = data.sections.find((s) => s.section_key === "executive_summary");
@@ -198,6 +202,22 @@ function ReviewPage() {
     }
   }
 
+  async function toggleClosed(next: boolean) {
+    setClosing(true);
+    setSaveError(null);
+    setSaved(null);
+    try {
+      await setClosed({ data: { shareId, closed: next } });
+      setSaved(next ? "File closed." : "File reopened.");
+      await qc.invalidateQueries({ queryKey: ["portal-dossier", shareId] });
+      await qc.invalidateQueries({ queryKey: ["provider-queue"] });
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : "That could not be saved.");
+    } finally {
+      setClosing(false);
+    }
+  }
+
   return (
     <>
       <Link
@@ -217,7 +237,9 @@ function ReviewPage() {
               .join(" · ")}
           </p>
         </div>
-        {data.review?.submitted_at ? (
+        {data.review?.closed ? (
+          <Badge tone="muted">Closed by your institution</Badge>
+        ) : data.review?.submitted_at ? (
           <Badge tone={REVIEW_STATUS_TONE[data.review.status] ?? "primary"}>
             {REVIEW_STATUS_LABEL[data.review.status] ?? data.review.status} · sent{" "}
             {formatDate(data.review.submitted_at)}
@@ -327,25 +349,8 @@ function ReviewPage() {
             </Card>
           ) : null}
 
-          <Card className="p-6">
-            <SectionTitle>Evidence supplied</SectionTitle>
-            <ul className="divide-y divide-border text-sm">
-              {data.documents.map((doc) => (
-                <li key={doc.id} className="flex items-center justify-between gap-3 py-2">
-                  <span>
-                    <span className="font-medium">{DOC_TYPE_LABEL[doc.doc_type] ?? doc.doc_type}</span>
-                    <span className="block text-xs text-muted-foreground">{doc.name}</span>
-                  </span>
-                  <Badge tone={doc.status === "received" ? "success" : doc.status === "needs_review" ? "warning" : "muted"}>
-                    {doc.status.replace("_", " ")}
-                  </Badge>
-                </li>
-              ))}
-              {data.documents.length === 0 ? (
-                <li className="py-3 text-muted-foreground">No documents supplied yet.</li>
-              ) : null}
-            </ul>
-          </Card>
+          <PortalEvidence shareId={shareId} documents={data.documents} />
+
         </div>
 
         <div className="space-y-6">
@@ -464,7 +469,20 @@ function ReviewPage() {
               <Button onClick={() => persist(true)} disabled={busy !== null}>
                 {busy === "submit" ? <Spinner /> : <Send className="size-4" />} Send review
               </Button>
+              <Button
+                variant="outline"
+                onClick={() => toggleClosed(!isClosed)}
+                disabled={closing || busy !== null}
+              >
+                {closing ? <Spinner /> : isClosed ? <FolderOpen className="size-4" /> : <XCircle className="size-4" />}
+                {isClosed ? "Reopen this request" : "Mark request closed"}
+              </Button>
             </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {isClosed
+                ? "This file is closed on your side. Reopen it to keep working the request."
+                : "Closing the file marks the request as finished for your institution — you can reopen it later."}
+            </p>
           </Card>
 
           <Card className="p-6">

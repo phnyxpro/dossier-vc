@@ -89,7 +89,7 @@ export const providerQueue = createServerFn({ method: "POST" })
 
     const { data: reviews } = await db
       .from("provider_reviews")
-      .select("id, share_id, status, notes, requested_docs, submitted_at, updated_at")
+      .select("id, share_id, status, notes, requested_docs, submitted_at, updated_at, closed, closed_at")
       .eq("provider_id", context.userId);
 
     const reviewIds = (reviews ?? []).map((r) => r.id);
@@ -127,6 +127,7 @@ export const providerQueue = createServerFn({ method: "POST" })
           requestedDocs: review?.requested_docs ?? [],
           updatedAt: review?.updated_at ?? null,
           submittedAt: review?.submitted_at ?? null,
+          closed: review?.closed ?? false,
           scores: score
             ? {
                 financials: score.financials,
@@ -276,4 +277,119 @@ export const saveProviderReview = createServerFn({ method: "POST" })
     }
 
     return { ok: true, submitted: data.submit };
+  });
+
+/** Lets a provider flag (or clear) a document that needs the business to look again. */
+export const providerFlagDocument = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        shareId: z.string().uuid(),
+        documentId: z.string().uuid(),
+        flag: z.boolean(),
+        note: z.string().max(2000).default(""),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const share = await authorizeShare(context.userId, data.shareId);
+    const db = await admin();
+
+    const { data: doc } = await db
+      .from("documents")
+      .select("id, request_id, status, notes")
+      .eq("id", data.documentId)
+      .eq("request_id", share.request_id)
+      .maybeSingle();
+    if (!doc) throw new Error("That document is not part of this dossier.");
+
+    const org = (await currentEmail(context.userId)) || "the capital provider";
+    const stamped = data.note.trim() ? `Capital provider (${org}): ${data.note.trim()}` : "";
+    const existing = (doc.notes ?? "").replace(/^Capital provider \(.*?\):.*$/gm, "").trim();
+    const notes = data.flag ? [existing, stamped].filter(Boolean).join("\n") : existing;
+
+    const { error } = await db
+      .from("documents")
+      .update({
+        status: data.flag ? "needs_review" : doc.status === "needs_review" ? "received" : doc.status,
+        notes: notes || null,
+      })
+      .eq("id", doc.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Lets a provider key in a figure they read off a document themselves. */
+export const providerAddFigure = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        shareId: z.string().uuid(),
+        documentId: z.string().uuid().nullable().default(null),
+        fieldKey: z.string().min(1).max(60),
+        fieldLabel: z.string().min(1).max(120),
+        valueNumber: z.number().finite().nullable().default(null),
+        valueText: z.string().max(500).nullable().default(null),
+        period: z.string().max(60).nullable().default(null),
+        note: z.string().max(500).default(""),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const share = await authorizeShare(context.userId, data.shareId);
+    const db = await admin();
+    const org = (await currentEmail(context.userId)) || "capital provider";
+
+    const { error } = await db.from("extracted_fields").insert({
+      user_id: share.owner_id,
+      request_id: share.request_id,
+      document_id: data.documentId,
+      field_key: data.fieldKey,
+      field_label: data.fieldLabel,
+      value_number: data.valueNumber,
+      value_text: data.valueText,
+      period: data.period,
+      confidence: null,
+      origin: "provider",
+      status: "confirmed",
+      source_excerpt: data.note.trim() || `Keyed in by ${org}`,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Closes or reopens the provider's file on this request. */
+export const setReviewClosed = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ shareId: z.string().uuid(), closed: z.boolean() }).parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const share = await authorizeShare(context.userId, data.shareId);
+    const db = await admin();
+    const { data: account } = await db.auth.admin.getUserById(context.userId);
+    const providerOrg =
+      (account.user?.user_metadata?.["full_name"] as string | undefined) ?? account.user?.email ?? null;
+
+    const patch = { closed: data.closed, closed_at: data.closed ? new Date().toISOString() : null };
+    const { data: existing } = await context.supabase
+      .from("provider_reviews")
+      .select("id")
+      .eq("share_id", share.id)
+      .maybeSingle();
+
+    const { error } = existing
+      ? await context.supabase.from("provider_reviews").update(patch).eq("id", existing.id)
+      : await context.supabase.from("provider_reviews").insert({
+          share_id: share.id,
+          request_id: share.request_id,
+          provider_id: context.userId,
+          owner_id: share.owner_id,
+          provider_org: providerOrg,
+          ...patch,
+        });
+    if (error) throw new Error(error.message);
+    return { ok: true, closed: data.closed };
   });
