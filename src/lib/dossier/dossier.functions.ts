@@ -144,6 +144,17 @@ function factPackText({ request, documents, confirmed }: FactPack): string {
   return lines.join("\n");
 }
 
+// The app prints the indicative note itself, so drop it from the drafted body.
+function stripIndicativeNote(body: string) {
+  const note = INDICATIVE_NOTE.trim().toLowerCase();
+  return body
+    .trim()
+    .split(/\n+/)
+    .filter((line) => line.replace(/\s+/g, " ").trim().toLowerCase() !== note)
+    .join("\n")
+    .trim();
+}
+
 const SYSTEM_PROMPT = `You are a senior Caribbean corporate finance advisor drafting a financing dossier for a small or medium business, to be shared with banks, credit unions and development finance institutions.
 You receive a fact pack and must write the narrative sections of the dossier.
 
