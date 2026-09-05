@@ -254,10 +254,18 @@ function ExtractionStep() {
       ) : (
         <div className="space-y-8">
           <section>
-            <h3 className="mb-3 font-display text-base font-semibold">
-              Awaiting your confirmation{" "}
-              <span className="text-muted-foreground">({pending.length})</span>
-            </h3>
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <h3 className="font-display text-base font-semibold">
+                Awaiting your confirmation{" "}
+                <span className="text-muted-foreground">({pending.length})</span>
+              </h3>
+              {pending.length > 1 ? (
+                <Button size="sm" variant="outline" onClick={confirmAll} disabled={confirmingAll}>
+                  {confirmingAll ? <Spinner /> : <Check className="size-3.5" />} Confirm all {pending.length}
+                </Button>
+              ) : null}
+            </div>
+
             {pending.length ? (
               <div className="grid gap-3">
                 {pending.map((f) => (
