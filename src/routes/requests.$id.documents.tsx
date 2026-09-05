@@ -240,7 +240,14 @@ function DocumentsStep() {
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="font-medium">{type.label}</p>
                         <Badge tone={meta.tone}>{meta.label}</Badge>
-                        {doc?.extraction_status === "done" ? <Badge tone="primary">AI read</Badge> : null}
+                        {doc?.extraction_status === "running" ? <Badge tone="muted">Reading…</Badge> : null}
+                        {doc?.extraction_status === "done" ? (
+                          <Badge tone="primary">
+                            {fieldCount(doc.id)
+                              ? `${fieldCount(doc.id)} figures found`
+                              : "AI read — nothing found"}
+                          </Badge>
+                        ) : null}
                         {doc?.extraction_status === "error" ? <Badge tone="danger">Read failed</Badge> : null}
                       </div>
                       <p className="mt-0.5 text-xs text-muted-foreground">{type.hint}</p>
