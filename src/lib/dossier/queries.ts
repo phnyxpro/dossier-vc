@@ -126,5 +126,6 @@ export function invalidateRequest(qc: ReturnType<typeof useQueryClient>, request
   qc.invalidateQueries({ queryKey: ["request", requestId] });
   qc.invalidateQueries({ queryKey: ["documents", requestId] });
   qc.invalidateQueries({ queryKey: ["fields", requestId] });
+  qc.invalidateQueries({ queryKey: ["dossier-sections", requestId] });
   qc.invalidateQueries({ queryKey: ["requests"] });
 }
