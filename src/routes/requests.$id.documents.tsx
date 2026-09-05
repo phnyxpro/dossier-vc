@@ -47,7 +47,9 @@ function DocumentsStep() {
   const qc = useQueryClient();
   const { data: request } = useRequest(id);
   const { data: documents, isLoading } = useDocuments(id);
+  const { data: fields } = useFields(id);
   const [busyDoc, setBusyDoc] = useState<string | null>(null);
+  const [readingAll, setReadingAll] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputs = useRef<Record<string, HTMLInputElement | null>>({});
   const runExtraction = useServerFn(extractDocument);
@@ -57,6 +59,29 @@ function DocumentsStep() {
     doc: (documents ?? []).find((d) => d.doc_type === type.key) ?? null,
   }));
   const readiness = documentReadiness(documents ?? []);
+  const uploaded = (documents ?? []).filter((d) => d.storage_path);
+
+  function fieldCount(docId: string) {
+    return (fields ?? []).filter((f) => f.document_id === docId).length;
+  }
+
+  async function handleReadAll() {
+    setError(null);
+    setReadingAll(true);
+    const failures: string[] = [];
+    for (const doc of uploaded) {
+      setBusyDoc(doc.doc_type);
+      try {
+        await runExtraction({ data: { documentId: doc.id } });
+      } catch (err) {
+        failures.push(err instanceof Error ? err.message : "A document could not be read.");
+      }
+    }
+    setBusyDoc(null);
+    setReadingAll(false);
+    invalidateRequest(qc, id);
+    if (failures.length) setError(failures[0] ?? null);
+  }
 
   async function ensureRow(docTypeKey: string, existing: DocumentRow | null) {
     if (existing) return existing;
