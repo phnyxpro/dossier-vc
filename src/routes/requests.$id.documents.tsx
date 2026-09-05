@@ -264,7 +264,7 @@ function DocumentsStep() {
                           }}
                           type="file"
                           className="hidden"
-                          accept=".pdf,.csv,.txt,.md,.json,image/*"
+                          accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) handleUpload(type.key, doc, file);
