@@ -42,6 +42,10 @@ export async function loadDemoData(userId: string) {
       repayment_secondary: "Receivables collections and the directors' personal guarantee",
       repayment_explanation:
         "The new line lifts bottling capacity from 4,000 to 11,000 units per day. Contracted volumes from the two regional supermarket groups add an estimated TTD 5.4M of annual revenue at a 31% gross margin, giving roughly TTD 1.67M of incremental gross profit against annual debt service of approximately TTD 1.02M on the new facility.",
+      use_of_funds:
+        "Bottling and pasteurisation line, installation and commissioning — TTD 3,100,000\nCold-store expansion and pallet racking at Chaguanas — TTD 520,000\nPackaging and label tooling for the two export SKUs — TTD 280,000\nWorking capital for raw fruit intake during first two harvest cycles — TTD 350,000",
+      business_overview:
+        "Caribbean Tropical Producers Ltd has processed and bottled tropical fruit juices, purees and pepper sauces in Chaguanas, Trinidad since 2015. The business supplies Massy Stores and independent groceries across Trinidad and Tobago, and has recently been awarded listings with two regional supermarket groups in Barbados and Grenada. It employs 46 people, 31 of them full time, and sources fruit from roughly 70 registered smallholder farmers.",
       status: "in_review",
       readiness_status: "in_progress",
       current_step: 5,
