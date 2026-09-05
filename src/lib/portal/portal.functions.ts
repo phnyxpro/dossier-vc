@@ -89,17 +89,27 @@ export const providerQueue = createServerFn({ method: "POST" })
 
     const { data: reviews } = await db
       .from("provider_reviews")
-      .select("share_id, status, submitted_at")
+      .select("id, share_id, status, notes, requested_docs, submitted_at, updated_at")
       .eq("provider_id", context.userId);
+
+    const reviewIds = (reviews ?? []).map((r) => r.id);
+    const { data: scores } = reviewIds.length
+      ? await db
+          .from("provider_review_scores")
+          .select("review_id, financials, security, management, documentation")
+          .in("review_id", reviewIds)
+      : { data: [] as never[] };
 
     const byRequest = new Map((requests ?? []).map((r) => [r.id, r]));
     const byShare = new Map((reviews ?? []).map((r) => [r.share_id, r]));
+    const scoreByReview = new Map((scores ?? []).map((s) => [s.review_id, s]));
 
     return {
       email,
       items: (shares ?? []).map((s) => {
         const r = byRequest.get(s.request_id);
         const review = byShare.get(s.id);
+        const score = review ? scoreByReview.get(review.id) : undefined;
         return {
           shareId: s.id,
           shareCode: s.share_code,
@@ -113,7 +123,18 @@ export const providerQueue = createServerFn({ method: "POST" })
           currency: r?.currency ?? "TTD",
           purpose: r?.purpose ?? null,
           reviewStatus: review?.status ?? null,
+          reviewNotes: review?.notes ?? "",
+          requestedDocs: review?.requested_docs ?? [],
+          updatedAt: review?.updated_at ?? null,
           submittedAt: review?.submitted_at ?? null,
+          scores: score
+            ? {
+                financials: score.financials,
+                security: score.security,
+                management: score.management,
+                documentation: score.documentation,
+              }
+            : null,
         };
       }),
     };
