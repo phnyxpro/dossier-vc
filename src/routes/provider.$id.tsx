@@ -40,8 +40,9 @@ function ProviderView() {
   const { data: request } = useRequest(id);
   const { data: documents } = useDocuments(id);
   const { data: fields } = useFields(id);
+  const { data: sections } = useDossierSections(id);
 
-  if (!request || !documents || !fields) {
+  if (!request || !documents || !fields || !sections) {
     return (
       <AppShell>
         <div className="flex justify-center py-24 text-muted-foreground">
@@ -50,6 +51,10 @@ function ProviderView() {
       </AppShell>
     );
   }
+
+  const summary = sections.find((s) => s.section_key === "executive_summary");
+  const thesis = sections.find((s) => s.section_key === "funding_thesis");
+  const risksSection = sections.find((s) => s.section_key === "risks_mitigants");
 
   const currency = request.currency;
   const snap = buildSnapshot(fields, request);
