@@ -85,11 +85,11 @@ function DocumentsPage() {
 
   return (
     <div className="space-y-6">
-      <SectionTitle
-        eyebrow={t("docs.eyebrow")}
-        title={t("docs.title")}
-        subtitle={t("docs.subtitle")}
-      />
+      <div>
+        <p className="label-caps text-primary">{t("docs.eyebrow")}</p>
+        <h1 className="mt-1 font-display text-2xl font-semibold">{t("docs.title")}</h1>
+        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{t("docs.subtitle")}</p>
+      </div>
 
       {loading ? (
         <div className="flex justify-center py-16 text-muted-foreground">
@@ -98,7 +98,7 @@ function DocumentsPage() {
       ) : folders.length === 0 ? (
         <EmptyState
           title={t("docs.emptyTitle")}
-          body={t("docs.emptyBody")}
+          description={t("docs.emptyBody")}
           action={
             <Link to="/requests/new">
               <Button>{t("dash.newRequest")}</Button>

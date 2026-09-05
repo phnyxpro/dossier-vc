@@ -2,6 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   FileText,
+  FolderOpen,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -24,6 +25,7 @@ import { cn } from "@/lib/utils";
 const NAV = [
   { to: "/", labelKey: "nav.dashboard", icon: LayoutDashboard, exact: true },
   { to: "/requests/new", labelKey: "nav.newRequest", icon: Plus, exact: false },
+  { to: "/documents", labelKey: "nav.documents", icon: FolderOpen, exact: false },
   { to: "/learn", labelKey: "nav.learn", icon: BookOpen, exact: false },
 ];
 
