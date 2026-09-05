@@ -1,0 +1,523 @@
+{
+  "articles": {
+    "types-of-capital": {
+      "title": "Tipos de capital explicados",
+      "summary": "Deuda, capital patrimonial (equity), financiamiento de proyectos, instrumentos híbridos y subvenciones: cuánto le cuesta cada opción, quién las ofrece en el Caribe y cuándo es conveniente utilizarlas.",
+      "category": "Levantamiento de capital",
+      "sections": [
+        {
+          "heading": "Por qué es importante el tipo de capital",
+          "paragraphs": [
+            "El tipo de capital que solicita define el tono completo de su expediente. Determina qué cifras analizará primero un proveedor de fondos, qué documentos exigirá y cómo valorará el riesgo de respaldarle.",
+            "Solicitar el tipo de financiamiento incorrecto es una de las razones más comunes por las que una buena empresa caribeña recibe un «no» dilatado. Un fabricante estacional que pide un préstamo a plazo de cinco años cuando en realidad necesita una línea de capital de trabajo parecerá sobreendeudado en el papel, incluso si el negocio es saludable."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financiamiento mediante deuda",
+          "paragraphs": [
+            "Usted toma prestada una suma fija y la devuelve con intereses durante un plazo acordado. La propiedad de la empresa sigue siendo enteramente suya. Entre los proveedores se incluyen bancos comerciales, cooperativas de crédito (credit unions), instituciones financieras de desarrollo como el Caribbean Development Bank y bancos nacionales de desarrollo, además de prestamistas privados.",
+            "A los prestamistas les preocupa, ante todo, la capacidad de pago: ingresos constantes, efectivo en banco, obligaciones vigentes y garantías. Espere que examinen detenidamente su ratio de cobertura del servicio de la deuda (DSCR) y sus estados de cuenta bancarios."
+          ],
+          "bullets": [
+            "Ideal para: flujo de caja predecible, compra de activos, cubrir un desfase financiero conocido",
+            "Evidencia típica: dos a tres años de estados financieros, doce meses de extractos bancarios, reportes de antigüedad de saldos, documentos de garantías",
+            "Costo principal: intereses y comisiones, más garantías reales sobre activos"
+          ]
+        },
+        {
+          "heading": "Financiamiento mediante capital propio (Equity)",
+          "paragraphs": [
+            "Usted vende una participación de la empresa a cambio de capital que no tiene que reembolsarse. Entre los proveedores figuran inversionistas ángeles, fondos regionales de capital de riesgo, oficinas familiares (family offices) e inversionistas corporativos estratégicos.",
+            "Los inversionistas de capital están comprando un futuro, por lo que las preguntas cambian: tamaño del mercado, tasa de crecimiento, solidez del equipo directivo y una salida estratégica creíble. Su expediente necesita una narrativa de negocio y proyecciones, no solo estados contables históricos."
+          ],
+          "bullets": [
+            "Ideal para: crecimiento previo a la rentabilidad, nuevos mercados, empresas sin garantías reales que ofrecer",
+            "Evidencia típica: tabla de capitalización (cap table), acuerdos de accionistas, proyecciones financieras, contratos con clientes",
+            "Costo principal: dilución de participación y control compartido"
+          ]
+        },
+        {
+          "heading": "Adquisiciones y transacciones estratégicas",
+          "paragraphs": [
+            "Capital recaudado para comprar otra empresa, adquirir la participación de un socio o financiar una fusión. El proveedor evalúa y respalda dos empresas al mismo tiempo: la suya y la empresa objetivo, además de su capacidad para integrarlas.",
+            "Anticipe una debida diligencia sobre la contabilidad de ambas empresas, el contrato de compraventa y una exposición clara de dónde provendrá el flujo de caja combinado."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financiamiento de proyectos (Project finance)",
+          "paragraphs": [
+            "Capital vinculado a un proyecto específico —como una instalación solar, una planta de procesamiento o un desarrollo turístico— donde el repago proviene de los propios ingresos del proyecto y no de la empresa en general.",
+            "Los proveedores evalúan el proyecto por sus propios méritos: costo de construcción, contratos de compraventa garantizada (offtake agreements), permisos y la aportación del promotor. Los contratos sólidos a largo plazo suelen tener más peso que el balance general del promotor."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Capital híbrido y estructurado",
+          "paragraphs": [
+            "Instrumentos situados entre la deuda y el capital propio: notas convertibles, deuda subordinada (mezzanine) y acciones preferentes. Por lo general, pagan un rendimiento similar al de la deuda, pero pueden convertirse en participación patrimonial o subordinarse a prestamistas sénior a cambio de una tasa más alta.",
+            "Son útiles cuando una empresa es demasiado joven para un banco comercial, pero demasiado madura para ceder una gran participación accionaria. El detalle de la estructura es crucial, por lo que conviene incluir los términos propuestos en su expediente en lugar de dejarlos a una negociación a ciegas."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Subvenciones y financiamiento combinado (Blended finance)",
+          "paragraphs": [
+            "Fondos no reembolsables o capital en condiciones concesionales, a menudo provenientes de agencias de desarrollo, programas regionales o fondos respaldados por donantes, frecuentemente combinados con capital comercial para reducir el costo total.",
+            "Los proveedores de subvenciones son estrictos con la elegibilidad, la rendición de cuentas y el uso de los fondos. Su debida diligencia es distinta a la de un prestamista: el cumplimiento normativo, el registro legal y la evidencia de impacto tienen tanto peso como la rentabilidad."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Cómo elegir entre ellos",
+          "paragraphs": [
+            "Una prueba rápida: si el dinero compra algo que generará efectivo en un calendario definido, la deuda suele ser la opción adecuada. Si compra tiempo para validar un mercado, el capital propio o el capital híbrido encajan mejor. Si financia algo que cuenta con su propio flujo de ingresos y contratos, considere el financiamiento de proyectos. Si financia el fortalecimiento de capacidades o un resultado de desarrollo, busque subvenciones e instrumentos de financiamiento combinado."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "debt-facility-types": {
+      "title": "Tipos de facilidades de deuda: qué estructura solicitar",
+      "summary": "Préstamos a plazo, líneas de capital de trabajo, descuento de facturas, financiamiento de comercio exterior, financiamiento de activos y sobregiros, y cómo se amortiza cada uno.",
+      "category": "Levantamiento de capital",
+      "sections": [
+        {
+          "heading": "Préstamo a plazo",
+          "paragraphs": [
+            "Un monto fijo que se amortiza en cuotas durante un período determinado, normalmente de tres a siete años. Adecuado para una inversión puntual con un retorno a largo plazo: un inmueble, una remodelación o una maquinaria importante."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Línea de capital de trabajo",
+          "paragraphs": [
+            "Un límite rotativo del que se dispone y se repaga según los ciclos comerciales. Financia la brecha entre el pago a suplidores y el cobro a clientes. Los prestamistas calculan su monto en función de sus cuentas por cobrar, inventario y estacionalidad, en lugar de sus activos fijos."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financiamiento de activos o equipos",
+          "paragraphs": [
+            "El activo en sí constituye la garantía, por lo que la aprobación depende del valor y la vida útil del equipo. Los pagos iniciales del diez al treinta por ciento son habituales, y el plazo generalmente coincide con el tiempo en que el activo generará ingresos."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Descuento de facturas y factoring",
+          "paragraphs": [
+            "Se adelanta efectivo contra facturas pendientes de pago. El proveedor evalúa principalmente el riesgo de sus clientes, por lo que una cartera concentrada de compradores regionales sólidos puede ser una ventaja. Mantenga la antigüedad de sus cuentas por cobrar limpia y al día."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financiamiento de comercio exterior",
+          "paragraphs": [
+            "Cartas de crédito, préstamos de importación e instrumentos similares que cubren el período entre la orden de mercancías y su venta. Muy utilizado por importadores y exportadores del Caribe, donde los tiempos de envío extienden el ciclo de efectivo."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Sobregiro",
+          "paragraphs": [
+            "Un respaldo a corto plazo en su cuenta operativa. Económico de mantener y costoso de utilizar de forma continua: los proveedores financieros interpretan un sobregiro utilizado permanentemente como una señal de que realmente se necesita una facilidad a plazo."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "capital-readiness": {
+      "title": "Qué mide realmente la preparación para el capital",
+      "summary": "Las cinco dimensiones detrás de su puntaje de preparación y los pasos prácticos para mejorar cada una.",
+      "category": "Preparación",
+      "sections": [
+        {
+          "heading": "La idea",
+          "paragraphs": [
+            "La preparación para el capital no es un puntaje de crédito. Mide si un proveedor de financiamiento puede tomar una decisión sobre su negocio sin tener que solicitarle constantemente la información faltante, la principal causa de retrasos para las MIPYMEs del Caribe."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Las cinco dimensiones",
+          "paragraphs": [
+            "Dossier evalúa cada una de estas dimensiones y las consolida en una sola cifra sobre cien."
+          ],
+          "bullets": [
+            "Integridad de la documentación: ¿los documentos esenciales están completos, vigentes y legibles?",
+            "Claridad financiera: ¿se concilian los ingresos, el EBITDA, el flujo de caja y la deuda en todos los documentos presentados?",
+            "Gobernanza y cumplimiento: registro mercantil, estatus fiscal, y registros de accionistas y de la junta directiva",
+            "Capacidad de pago o retorno: cobertura de la obligación o financiamiento que está solicitando",
+            "Calidad de la narrativa: una justificación clara del destino de los fondos y del impacto que generarán en el negocio"
+          ]
+        },
+        {
+          "heading": "Cómo mejorar el puntaje",
+          "paragraphs": [
+            "Los avances más rápidos provienen casi siempre de la documentación y la claridad: subir los doce meses de estados de cuenta bancarios que se omitieron, o corregir una cifra de ingresos que aparece de dos maneras distintas en dos archivos diferentes. La narrativa y la gobernanza toman más tiempo en mejorar, pero tienen un peso decisivo ante el comité de crédito."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "documents-providers-expect": {
+      "title": "Los documentos que esperan los proveedores de capital",
+      "summary": "La lista de diez documentos detrás de cada solicitud de Dossier, por qué se solicita cada uno y qué los hace aceptables.",
+      "category": "Documentos",
+      "sections": [
+        {
+          "heading": "Estados financieros principales",
+          "paragraphs": [
+            "Estados financieros de los últimos dos o tres años, auditados o revisados según lo requiera el tamaño de su empresa. Estados financieros de gestión correspondientes al período transcurrido desde su último cierre fiscal. En conjunto, muestran tanto el historial como la situación comercial actual."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Estados de cuenta bancarios",
+          "paragraphs": [
+            "De seis a doce meses de cada cuenta operativa. Los proveedores los utilizan para confirmar que los ingresos registrados en sus libros realmente ingresan al banco, observar el balance mínimo real e identificar partidas devueltas o pagos de préstamos no declarados."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Reportes de antigüedad de saldos",
+          "paragraphs": [
+            "La antigüedad de cuentas por cobrar muestra quién le debe y qué tan atrasado está; la antigüedad de cuentas por pagar muestra lo mismo respecto a sus suplidores. La concentración de clientes y los saldos con mora prolongada se interpretan como riesgo, por lo que es preferible colocar notas explicativas sobre cualquier partida inusual en lugar de dejarla a la especulación."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Contratos y facturas",
+          "paragraphs": [
+            "Los contratos firmados con clientes y proveedores respaldan la sostenibilidad de sus ingresos. Una muestra de facturas representativas y recientes permite al proveedor cotejar sus precios y volúmenes de venta con los estados financieros."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Cumplimiento y garantías",
+          "paragraphs": [
+            "El registro mercantil, los registros de VAT o BIR y las certificaciones de cumplimiento tributario demuestran que su empresa puede legalmente tomar financiamiento y que está al día. Los documentos de garantías —tasaciones, títulos de propiedad, listas de activos— respaldan cualquier colateral que pretenda comprometer."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Qué hace que un documento sea aceptable",
+          "paragraphs": [
+            "Páginas completas, digitalizaciones legibles, coincidencia exacta del nombre comercial o razón social y fechas dentro del rango solicitado. Un estado de cuenta al que le falte la última página o una tasación de hace tres años serán devueltos, y cada ciclo de corrección suele costar hasta dos semanas de retraso."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "ai-extraction": {
+      "title": "Cómo lee Dossier sus documentos",
+      "summary": "Qué información extrae la IA, de dónde proviene el nivel de confianza y por qué usted confirma cada cifra.",
+      "category": "Uso de Dossier",
+      "sections": [
+        {
+          "heading": "Qué sucede al subir documentos",
+          "paragraphs": [
+            "Se lee cada archivo cargado y se localizan las cifras financieras clave: ingresos, ganancia bruta, EBITDA, ganancia neta, saldo en caja, deuda existente, servicio mensual de la deuda, cuentas por cobrar, cuentas por pagar e inventario, además del contexto como los clientes principales y las obligaciones recurrentes.",
+            "Cada valor extraído mantiene una referencia a la línea de donde proviene, de modo que usted pueda ver la fuente original en lugar de confiar en una cifra que apareció de la nada."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Nivel de confianza y discrepancias",
+          "paragraphs": [
+            "Cuando dos documentos difieren (por ejemplo, una cifra de ingresos en los estados financieros internos frente a los estados auditados), se muestran ambos y el documento más reciente tiene prioridad en el resumen preliminar hasta que usted decida lo contrario."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Por qué debe confirmar",
+          "paragraphs": [
+            "Ningún dato se incluye en su puntaje de preparación ni en su dossier hasta que usted lo confirme. Usted es la fuente definitiva de la información; la extracción solo le ahorra el trabajo de digitación."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "dscr-explained": {
+      "title": "Cobertura del servicio de la deuda y los ratios que analizan los prestamistas",
+      "summary": "DSCR, gearing, razón corriente y cobertura de intereses: cómo se calcula cada uno y los niveles que suelen ser aprobados.",
+      "category": "Fundamentos de finanzas",
+      "sections": [
+        {
+          "heading": "Ratio de cobertura del servicio de la deuda (DSCR)",
+          "paragraphs": [
+            "EBITDA dividido entre el servicio total de la deuda para el mismo período, incluyendo la facilidad crediticia que está solicitando. Responde a una sola pregunta: ¿genera el negocio lo suficiente para cumplir con los pagos?",
+            "La mayoría de los prestamistas del Caribe buscan al menos 1.25x, y un nivel más alto para sectores cíclicos o estacionales. Por debajo de 1.0x, el negocio no puede cubrir la obligación con sus ganancias operativas."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Gearing (Apalancamiento)",
+          "paragraphs": [
+            "Deuda total en relación con el patrimonio neto o los activos totales. Un alto nivel de gearing significa poco margen de protección si la actividad comercial decae. Los préstamos existentes de accionistas suelen tomarse en cuenta, por lo que debe declararlos."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Razón corriente (Current ratio)",
+          "paragraphs": [
+            "Activos corrientes sobre pasivos corrientes, una evaluación de liquidez a corto plazo. Por debajo de 1.0x indica que las obligaciones a corto plazo superan los recursos disponibles en el período inmediato."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Cobertura de intereses",
+          "paragraphs": [
+            "EBITDA sobre el gasto por intereses. Aísla el costo del financiamiento de la amortización del capital y se utiliza a menudo junto con el DSCR para líneas de crédito rotativas."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "collateral-and-security": {
+      "title": "Garantías y colaterales en el Caribe",
+      "summary": "Qué aceptan los proveedores de financiamiento como garantía, cómo se valoran y cuáles son las alternativas cuando se tienen pocos activos para respaldar un crédito.",
+      "category": "Levantamiento de capital",
+      "sections": [
+        {
+          "heading": "Formas comunes de garantía",
+          "paragraphs": [
+            "Hipotecas sobre propiedades comerciales o residenciales, gravámenes sobre activos de la empresa, garantías prendarias sobre equipos y vehículos, cesión de cuentas por cobrar o flujos de contratos, depósitos en efectivo y garantías personales o corporativas."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Cómo se valoran",
+          "paragraphs": [
+            "Los proveedores aplican un descuento sobre el valor de mercado —el valor de venta forzosa o liquidación— porque deben contemplar una venta rápida. Los bienes inmuebles suelen tomarse entre un setenta y un ochenta por ciento del valor de tasación, mientras que para equipos especializados el porcentaje es mucho menor.",
+            "Las tasaciones suelen aceptarse por un período limitado, comúnmente de doce a veinticuatro meses, tras el cual se requiere una actualización."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Cuando las garantías son limitadas",
+          "paragraphs": [
+            "Considere los programas de garantía parcial ofrecidos por instituciones de desarrollo regional, facilidades de crédito basadas en facturas donde la cuenta por cobrar es la propia garantía, financiamiento de maquinaria donde el activo se garantiza a sí mismo, o estructuras combinadas de financiamiento donde un socio de desarrollo asume la primera pérdida."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "dossier-output": {
+      "title": "Qué contiene el paquete para prestamistas",
+      "summary": "La diferencia entre el paquete condensado y el paquete completo, y cómo una entidad financiera lee cada sección.",
+      "category": "Uso de Dossier",
+      "sections": [
+        {
+          "heading": "Dos formatos",
+          "paragraphs": [
+            "El paquete condensado para prestamistas es un documento breve para la toma de decisiones: resumen de la solicitud, descripción general del negocio, panorama financiero, cobertura, garantías y uso de los fondos. Es lo primero que revisa un oficial de relación.",
+            "El paquete completo añade la información de respaldo que necesita un comité de crédito: historial financiero completo, análisis de antigüedad de saldos, gobernanza, contexto de mercado, riesgos y mitigantes, y el índice de documentos."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Secciones indicativas",
+          "paragraphs": [
+            "Cuando una cifra es derivada en lugar de tomarse directamente de un documento confirmado, la sección se marca como indicativa. Esto es deliberado: las entidades financieras confían más en un paquete cuando es transparente sobre cuáles cifras son estimadas."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Cómo compartir",
+          "paragraphs": [
+            "Puede invitar a una entidad financiera por correo electrónico o generar un código para compartir. Podrá ver cuándo abren el paquete, y su estado, notas y cualquier documento que soliciten se reflejarán en su página de Documentos."
+          ],
+          "bullets": []
+        }
+      ]
+    }
+  },
+  "glossary": {
+    "Revenue": {
+      "group": "Finanzas",
+      "term": "Ingresos",
+      "definition": "Ingresos totales procedentes de la venta de bienes o servicios antes de deducir cualquier coste."
+    },
+    "Gross profit": {
+      "group": "Finanzas",
+      "term": "Beneficio bruto",
+      "definition": "Ingresos menos los costes directos de producir los bienes o servicios vendidos."
+    },
+    "EBITDA": {
+      "group": "Finanzas",
+      "term": "EBITDA",
+      "definition": "Beneficio antes de intereses, impuestos, depreciaciones y amortizaciones; una aproximación al flujo de caja que genera la actividad operativa del negocio."
+    },
+    "Net profit": {
+      "group": "Finanzas",
+      "term": "Beneficio neto",
+      "definition": "El remanente después de deducir todos los gastos, incluidos los intereses y los impuestos."
+    },
+    "Working capital": {
+      "group": "Finanzas",
+      "term": "Fondo de maniobra (capital de trabajo)",
+      "definition": "Activo corriente menos pasivo corriente; los fondos inmovilizados en la operativa comercial del día a día."
+    },
+    "Cash conversion cycle": {
+      "group": "Finanzas",
+      "term": "Ciclo de conversión de efectivo (CCC)",
+      "definition": "Número de días que transcurren entre el pago a los proveedores y el cobro a los clientes."
+    },
+    "Receivables ageing": {
+      "group": "Finanzas",
+      "term": "Antigüedad de saldos de clientes (cuentas por cobrar)",
+      "definition": "Desglose de las facturas impagadas de clientes en función del tiempo transcurrido desde su emisión o vencimiento."
+    },
+    "Payables ageing": {
+      "group": "Finanzas",
+      "term": "Antigüedad de saldos de proveedores (cuentas por pagar)",
+      "definition": "El mismo desglose aplicado a los importes adeudados a los proveedores."
+    },
+    "DSCR": {
+      "group": "Ratios financieros",
+      "term": "Ratio de cobertura del servicio de la deuda (DSCR)",
+      "definition": "EBITDA dividido entre el total de pagos del servicio de la deuda. La mayoría de los prestamistas exigen al menos 1,25x."
+    },
+    "Gearing": {
+      "group": "Ratios financieros",
+      "term": "Apalancamiento financiero (Gearing)",
+      "definition": "Proporción del negocio financiada mediante deuda en lugar de fondos propios."
+    },
+    "Current ratio": {
+      "group": "Ratios financieros",
+      "term": "Ratio de liquidez corriente",
+      "definition": "Activo corriente dividido entre el pasivo corriente; una prueba de solvencia y liquidez a corto plazo."
+    },
+    "Interest cover": {
+      "group": "Ratios financieros",
+      "term": "Cobertura de intereses (ICR)",
+      "definition": "EBITDA dividido entre los gastos financieros por intereses."
+    },
+    "Loan to value (LTV)": {
+      "group": "Ratios financieros",
+      "term": "Ratio préstamo-valor (LTV)",
+      "definition": "Importe del préstamo expresado como porcentaje del valor de tasación de la garantía."
+    },
+    "Debt financing": {
+      "group": "Capital",
+      "term": "Financiación mediante deuda",
+      "definition": "Capital prestado que se devuelve con intereses; no afecta a la titularidad ni al control de la empresa."
+    },
+    "Equity financing": {
+      "group": "Capital",
+      "term": "Financiación mediante fondos propios (Equity)",
+      "definition": "Capital captado mediante la venta de una participación en la empresa; no exige reembolso, pero implica dilución."
+    },
+    "Mezzanine": {
+      "group": "Capital",
+      "term": "Financiación mezzanine (deuda subordinada)",
+      "definition": "Deuda subordinada que se sitúa por detrás de los acreedores sénior y tiene un coste más alto, a menudo acompañada de una opción de participación en el capital (equity kicker)."
+    },
+    "Convertible note": {
+      "group": "Capital",
+      "term": "Nota convertible",
+      "definition": "Préstamo que puede convertirse en acciones bajo condiciones acordadas, generalmente en una ronda de financiación futura."
+    },
+    "Preference shares": {
+      "group": "Capital",
+      "term": "Acciones preferentes",
+      "definition": "Acciones con derecho prioritario de cobro sobre dividendos o activos en liquidación frente a las acciones ordinarias."
+    },
+    "Project finance": {
+      "group": "Capital",
+      "term": "Financiación de proyectos (Project finance)",
+      "definition": "Financiación respaldada y reembolsada exclusivamente a partir del flujo de caja de un proyecto específico, y no del balance del promotor."
+    },
+    "Blended finance": {
+      "group": "Capital",
+      "term": "Financiación combinada (Blended finance)",
+      "definition": "Combinación de capital concesional o de desarrollo con fondos comerciales para reducir el riesgo o el coste global."
+    },
+    "Term sheet": {
+      "group": "Capital",
+      "term": "Hoja de términos (Term sheet)",
+      "definition": "Resumen no vinculante de las principales condiciones comerciales y financieras de una línea de crédito o inversión propuesta."
+    },
+    "Tenor": {
+      "group": "Capital",
+      "term": "Plazo de vencimiento (Tenor)",
+      "definition": "Período de tiempo estipulado hasta que una facilidad crediticia debe amortizarse en su totalidad."
+    },
+    "Moratorium": {
+      "group": "Capital",
+      "term": "Moratoria (Periodo de carencia)",
+      "definition": "Período acordado al inicio de una financiación durante el cual se aplaza la amortización del principal."
+    },
+    "Collateral": {
+      "group": "Garantías",
+      "term": "Garantía real (Colateral)",
+      "definition": "Activos pignorados o hipotecados a favor de un financiador que pueden ejecutarse si no se reembolsa la deuda."
+    },
+    "Debenture": {
+      "group": "Garantías",
+      "term": "Gravamen sobre activos / Título de deuda garantizado (Debenture)",
+      "definition": "Carga o gravamen sobre los activos de una empresa, de carácter fijo sobre activos específicos o flotante sobre el conjunto de los demás."
+    },
+    "Chattel mortgage": {
+      "group": "Garantías",
+      "term": "Hipoteca mobiliaria (Chattel mortgage)",
+      "definition": "Garantía formalizada sobre bienes muebles, tales como vehículos, maquinaria o equipamiento."
+    },
+    "Personal guarantee": {
+      "group": "Garantías",
+      "term": "Garantía personal / Aval personal",
+      "definition": "Compromiso vinculante de un consejero o accionista para responder personalmente con su patrimonio si la empresa no hace frente a sus pagos."
+    },
+    "Forced-sale value": {
+      "group": "Garantías",
+      "term": "Valor de venta forzosa (liquidación rápida)",
+      "definition": "Importe con descuento que un financiador estima que se obtendría por un activo en caso de una liquidación o venta urgente."
+    },
+    "Due diligence": {
+      "group": "Proceso",
+      "term": "Diligencia debida (Due diligence)",
+      "definition": "Proceso de verificación integral que lleva a cabo el financiador sobre la empresa, sus estados financieros y su documentación antes de aprobar la operación."
+    },
+    "Credit committee": {
+      "group": "Proceso",
+      "term": "Comité de crédito / Comité de riesgos",
+      "definition": "Órgano interno del financiador encargado de aprobar o denegar formalmente una solicitud de financiación."
+    },
+    "Covenant": {
+      "group": "Proceso",
+      "term": "Pacto financiero / Compromiso contractual (Covenant)",
+      "definition": "Condición u obligación establecida en un contrato de financiación, como mantener un ratio DSCR mínimo."
+    },
+    "Drawdown": {
+      "group": "Proceso",
+      "term": "Disposición de fondos (Drawdown)",
+      "definition": "Acto de desembolsar o disponer del capital una vez cumplidas todas las condiciones precedentes."
+    },
+    "Capital readiness": {
+      "group": "Proceso",
+      "term": "Preparación para la captación de capital (Capital readiness)",
+      "definition": "Nivel de preparación y madurez documental de una empresa para que un financiador pueda emitir una decisión sin requerir aclaraciones adicionales."
+    },
+    "Lender pack": {
+      "group": "Proceso",
+      "term": "Dossier de financiación (Lender pack)",
+      "definition": "Conjunto estructurado y homogéneo de documentación que un financiador requiere para evaluar una solicitud de crédito."
+    }
+  },
+  "categories": {
+    "Raising capital": "Levantamiento de capital",
+    "Readiness": "Preparación",
+    "Documents": "Documentos",
+    "Using Dossier": "Uso de Dossier",
+    "Finance basics": "Fundamentos de finanzas"
+  },
+  "groups": {
+    "Financials": "Finanzas",
+    "Ratios": "Ratios financieros",
+    "Capital": "Capital",
+    "Security": "Garantías",
+    "Process": "Proceso"
+  }
+}
