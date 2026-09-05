@@ -327,25 +327,8 @@ function ReviewPage() {
             </Card>
           ) : null}
 
-          <Card className="p-6">
-            <SectionTitle>Evidence supplied</SectionTitle>
-            <ul className="divide-y divide-border text-sm">
-              {data.documents.map((doc) => (
-                <li key={doc.id} className="flex items-center justify-between gap-3 py-2">
-                  <span>
-                    <span className="font-medium">{DOC_TYPE_LABEL[doc.doc_type] ?? doc.doc_type}</span>
-                    <span className="block text-xs text-muted-foreground">{doc.name}</span>
-                  </span>
-                  <Badge tone={doc.status === "received" ? "success" : doc.status === "needs_review" ? "warning" : "muted"}>
-                    {doc.status.replace("_", " ")}
-                  </Badge>
-                </li>
-              ))}
-              {data.documents.length === 0 ? (
-                <li className="py-3 text-muted-foreground">No documents supplied yet.</li>
-              ) : null}
-            </ul>
-          </Card>
+          <PortalEvidence shareId={shareId} documents={data.documents} />
+
         </div>
 
         <div className="space-y-6">
