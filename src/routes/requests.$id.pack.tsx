@@ -175,7 +175,7 @@ export default function LenderPackPage() {
             const received = Boolean(doc?.storage_path) && doc?.status !== "missing";
             const needsReview = doc?.status === "needs_review";
             return (
-              <Card key={type.key} className="flex flex-wrap items-center justify-between gap-3 p-3">
+              <Card key={type.key} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-3">
                 <div className="flex min-w-0 items-center gap-3">
                   {received && !needsReview ? (
                     <CheckCircle2 className="size-5 shrink-0 text-success" />
