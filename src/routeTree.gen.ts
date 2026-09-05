@@ -15,6 +15,7 @@ import { Route as RequestsIdRouteImport } from './routes/requests.$id'
 import { Route as RequestsNewRouteImport } from './routes/requests.new'
 import { Route as RequestsIdIndexRouteImport } from './routes/requests.$id.index'
 import { Route as RequestsIdDetailsRouteImport } from './routes/requests.$id.details'
+import { Route as RequestsIdDocumentsRouteImport } from './routes/requests.$id.documents'
 import { Route as RequestsIdRepaymentRouteImport } from './routes/requests.$id.repayment'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const RequestsIdDetailsRoute = RequestsIdDetailsRouteImport.update({
   path: '/details',
   getParentRoute: () => RequestsIdRoute,
 } as any)
+const RequestsIdDocumentsRoute = RequestsIdDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => RequestsIdRoute,
+} as any)
 const RequestsIdRepaymentRoute = RequestsIdRepaymentRouteImport.update({
   id: '/repayment',
   path: '/repayment',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
+  '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/repayment': typeof RequestsIdRepaymentRoute
   '/requests/$id/': typeof RequestsIdIndexRoute
 }
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/requests/new': typeof RequestsNewRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
+  '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/repayment': typeof RequestsIdRepaymentRoute
   '/requests/$id': typeof RequestsIdIndexRoute
 }
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
+  '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/repayment': typeof RequestsIdRepaymentRoute
   '/requests/$id/': typeof RequestsIdIndexRoute
 }
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/requests/$id'
     | '/requests/new'
     | '/requests/$id/details'
+    | '/requests/$id/documents'
     | '/requests/$id/repayment'
     | '/requests/$id/'
   fileRoutesByTo: FileRoutesByTo
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/requests/new'
     | '/requests/$id/details'
+    | '/requests/$id/documents'
     | '/requests/$id/repayment'
     | '/requests/$id'
   id:
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/requests/$id'
     | '/requests/new'
     | '/requests/$id/details'
+    | '/requests/$id/documents'
     | '/requests/$id/repayment'
     | '/requests/$id/'
   fileRoutesById: FileRoutesById
@@ -160,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestsIdDetailsRouteImport
       parentRoute: typeof RequestsIdRoute
     }
+    '/requests/$id/documents': {
+      id: '/requests/$id/documents'
+      path: '/documents'
+      fullPath: '/requests/$id/documents'
+      preLoaderRoute: typeof RequestsIdDocumentsRouteImport
+      parentRoute: typeof RequestsIdRoute
+    }
     '/requests/$id/repayment': {
       id: '/requests/$id/repayment'
       path: '/repayment'
@@ -172,12 +191,14 @@ declare module '@tanstack/react-router' {
 
 interface RequestsIdRouteChildren {
   RequestsIdDetailsRoute: typeof RequestsIdDetailsRoute
+  RequestsIdDocumentsRoute: typeof RequestsIdDocumentsRoute
   RequestsIdRepaymentRoute: typeof RequestsIdRepaymentRoute
   RequestsIdIndexRoute: typeof RequestsIdIndexRoute
 }
 
 const RequestsIdRouteChildren: RequestsIdRouteChildren = {
   RequestsIdDetailsRoute: RequestsIdDetailsRoute,
+  RequestsIdDocumentsRoute: RequestsIdDocumentsRoute,
   RequestsIdRepaymentRoute: RequestsIdRepaymentRoute,
   RequestsIdIndexRoute: RequestsIdIndexRoute,
 }
