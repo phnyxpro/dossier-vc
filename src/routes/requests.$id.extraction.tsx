@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, FileText, Pencil, Plus, X } from "lucide-react";
 import { Badge, Button, Card, EmptyState, Field, Input, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
+import { DocumentViewer } from "@/components/document-viewer";
 import { InfoLink } from "@/components/info-link";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -11,7 +12,7 @@ import { EXTRACTION_FIELDS, EXTRACTION_FIELD_LABEL } from "@/lib/dossier/constan
 import { invalidateRequest, useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
 import { formatMoney } from "@/lib/dossier/format";
 import type { Database } from "@/integrations/supabase/types";
-import type { FieldRow } from "@/lib/dossier/types";
+import type { DocumentRow, FieldRow } from "@/lib/dossier/types";
 
 export const Route = createFileRoute("/requests/$id/extraction")({
   head: () => ({
@@ -49,6 +50,7 @@ function ExtractionStep() {
   const [editing, setEditing] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const [adding, setAdding] = useState(false);
+  const [viewDoc, setViewDoc] = useState<DocumentRow | null>(null);
   const [newField, setNewField] = useState({ field_key: "annual_revenue", value: "", period: "" });
 
   const currency = request?.currency ?? "TTD";
@@ -158,7 +160,20 @@ function ExtractionStep() {
             )}
             <p className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
               <FileText className="size-3.5" />
-              <span className="font-medium">{docName(field.document_id)}</span>
+              {field.document_id ? (
+                <button
+                  type="button"
+                  className="font-medium underline underline-offset-2 hover:text-foreground"
+                  onClick={() => {
+                    const d = documents?.find((x) => x.id === field.document_id);
+                    if (d) setViewDoc(d);
+                  }}
+                >
+                  {docName(field.document_id)}
+                </button>
+              ) : (
+                <span className="font-medium">{docName(field.document_id)}</span>
+              )}
               {field.source_excerpt ? <span className="italic">— “{field.source_excerpt}”</span> : null}
             </p>
           </div>
@@ -324,6 +339,8 @@ function ExtractionStep() {
           ) : null}
         </div>
       )}
+
+      <DocumentViewer doc={viewDoc} onClose={() => setViewDoc(null)} />
 
       <StepFooter
         backTo={`/requests/${id}/documents`}
