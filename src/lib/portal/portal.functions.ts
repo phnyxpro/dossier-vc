@@ -213,6 +213,10 @@ export const saveProviderReview = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => reviewInput.parse(data))
   .handler(async ({ data, context }) => {
     const share = await authorizeShare(context.userId, data.shareId);
+    const db = await admin();
+    const { data: account } = await db.auth.admin.getUserById(context.userId);
+    const providerOrg =
+      (account.user?.user_metadata?.["full_name"] as string | undefined) ?? account.user?.email ?? null;
 
     const { data: saved, error } = await context.supabase
       .from("provider_reviews")
@@ -222,6 +226,7 @@ export const saveProviderReview = createServerFn({ method: "POST" })
           request_id: share.request_id,
           provider_id: context.userId,
           owner_id: share.owner_id,
+          provider_org: providerOrg,
           status: data.status,
           notes: data.notes,
           requested_docs: data.requestedDocs,
