@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { AlertTriangle, ClipboardList, Plus, Sparkles } from "lucide-react";
+import { AlertTriangle, ClipboardList, Eye, Plus, Sparkles } from "lucide-react";
 import { Badge, Button, Card, Input, Label, Select, Spinner, Textarea } from "@/components/ui/primitives";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
@@ -156,6 +156,7 @@ function ReviewItem({
   reason,
   fields,
   onReread,
+  onView,
   busy,
 }: {
   requestId: string;
@@ -163,6 +164,7 @@ function ReviewItem({
   reason: ReviewReason;
   fields: FieldRow[];
   onReread: (doc: DocumentRow) => void;
+  onView: (doc: DocumentRow) => void;
   busy: boolean;
 }) {
   const qc = useQueryClient();
@@ -208,6 +210,11 @@ function ReviewItem({
             ))}
           </Select>
           {doc.storage_path ? (
+            <Button size="sm" variant="outline" onClick={() => onView(doc)}>
+              <Eye className="size-3.5" /> View
+            </Button>
+          ) : null}
+          {doc.storage_path ? (
             <Button size="sm" variant="outline" onClick={() => onReread(doc)} disabled={busy}>
               {busy ? <Spinner /> : <Sparkles className="size-3.5" />} Read again
             </Button>
@@ -249,12 +256,14 @@ export function DocumentReviewQueue({
   items,
   fields,
   onReread,
+  onView,
   busyDocType,
 }: {
   requestId: string;
   items: { doc: DocumentRow; reason: ReviewReason }[];
   fields: FieldRow[];
   onReread: (doc: DocumentRow) => void;
+  onView: (doc: DocumentRow) => void;
   busyDocType: string | null;
 }) {
   if (!items.length) return null;
@@ -280,6 +289,7 @@ export function DocumentReviewQueue({
             reason={reason}
             fields={fields}
             onReread={onReread}
+            onView={onView}
             busy={busyDocType === doc.doc_type}
           />
         ))}

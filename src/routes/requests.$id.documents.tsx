@@ -2,10 +2,11 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { AlertTriangle, CheckCircle2, Circle, ClipboardList, Sparkles, Trash2, Upload } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Circle, ClipboardList, Eye, Sparkles, Trash2, Upload } from "lucide-react";
 import { Badge, Button, Card, Progress, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { LenderRequestsCard } from "@/components/share-panel";
 import { DocumentReviewQueue, ManualFigureForm, reviewReason } from "@/components/document-review";
+import { DocumentViewer } from "@/components/document-viewer";
 import { StepFooter } from "@/components/step-footer";
 import { supabase } from "@/integrations/supabase/client";
 import { extractDocument } from "@/lib/dossier/extract.functions";
@@ -54,6 +55,7 @@ function DocumentsStep() {
   const [busyDoc, setBusyDoc] = useState<string | null>(null);
   const [readingAll, setReadingAll] = useState(false);
   const [showManual, setShowManual] = useState(false);
+  const [viewDoc, setViewDoc] = useState<DocumentRow | null>(null);
   const [error, setError] = useState<string | null>(null);
   const inputs = useRef<Record<string, HTMLInputElement | null>>({});
   const extraInput = useRef<HTMLInputElement | null>(null);
@@ -214,6 +216,7 @@ function DocumentsStep() {
         items={reviewItems}
         fields={fields ?? []}
         onReread={handleExtract}
+        onView={setViewDoc}
         busyDocType={busyDoc}
       />
 
@@ -335,6 +338,9 @@ function DocumentsStep() {
                           <option value="needs_review">Needs review</option>
                           <option value="missing">Missing</option>
                         </Select>
+                        <Button size="sm" variant="outline" onClick={() => setViewDoc(doc)}>
+                          <Eye className="size-3.5" /> View
+                        </Button>
                         <Button size="sm" variant="outline" onClick={() => handleExtract(doc)} disabled={busy}>
                           {busy ? <Spinner /> : <Sparkles className="size-3.5" />} Re-read
                         </Button>
@@ -381,6 +387,8 @@ function DocumentsStep() {
           })}
         </div>
       )}
+
+      <DocumentViewer doc={viewDoc} onClose={() => setViewDoc(null)} />
 
       <StepFooter
         backTo={`/requests/${id}/repayment`}
