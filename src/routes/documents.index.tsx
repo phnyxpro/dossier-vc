@@ -12,7 +12,7 @@ import {
   Folder,
   FolderOpen,
 } from "lucide-react";
-import { Badge, Button, Card, EmptyState, SectionTitle, Spinner } from "@/components/ui/primitives";
+import { Badge, Button, Card, EmptyState, Spinner } from "@/components/ui/primitives";
 import { DocumentViewer } from "@/components/document-viewer";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
