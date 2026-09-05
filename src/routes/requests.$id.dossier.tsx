@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Download, Pencil, Printer, RefreshCw, Share2, Sparkles } from "lucide-react";
 import { Badge, Button, Card, SectionTitle, Spinner } from "@/components/ui/primitives";
+import { SharePanel } from "@/components/share-panel";
 import {
   useDossierSections,
   useDocuments,
@@ -466,6 +467,10 @@ function DossierStep() {
           </div>
         </>
       )}
+
+      <div className="mx-auto mt-6 max-w-4xl">
+        <SharePanel requestId={id} />
+      </div>
 
       <Card className="mx-auto mt-6 max-w-4xl p-4 no-print">
         <div className="flex flex-wrap items-center justify-between gap-3 text-sm">

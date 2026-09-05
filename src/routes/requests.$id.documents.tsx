@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { AlertTriangle, CheckCircle2, Circle, Sparkles, Trash2, Upload } from "lucide-react";
 import { Badge, Button, Card, Progress, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
+import { LenderRequestsCard } from "@/components/share-panel";
 import { StepFooter } from "@/components/step-footer";
 import { supabase } from "@/integrations/supabase/client";
 import { extractDocument } from "@/lib/dossier/extract.functions";
@@ -192,6 +193,8 @@ function DocumentsStep() {
       >
         Documents
       </SectionTitle>
+
+      <LenderRequestsCard requestId={id} />
 
       <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
         <p className="max-w-3xl text-sm text-muted-foreground">

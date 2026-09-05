@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalShareIdRouteImport } from './routes/portal.$shareId'
 import { Route as ProviderIdRouteImport } from './routes/provider.$id'
 import { Route as RequestsIdRouteImport } from './routes/requests.$id'
 import { Route as RequestsNewRouteImport } from './routes/requests.new'
@@ -30,6 +32,16 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/portal/',
+  path: '/portal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalShareIdRoute = PortalShareIdRouteImport.update({
+  id: '/portal/$shareId',
+  path: '/portal/$shareId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProviderIdRoute = ProviderIdRouteImport.update({
@@ -86,9 +98,11 @@ const RequestsIdRepaymentRoute = RequestsIdRepaymentRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/portal/': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -100,8 +114,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/new': typeof RequestsNewRoute
+  '/portal': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -114,9 +130,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/portal/': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -130,9 +148,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/portal/'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -144,8 +164,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/new'
+    | '/portal'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -157,9 +179,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/portal/'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -172,9 +196,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  PortalShareIdRoute: typeof PortalShareIdRoute
   ProviderIdRoute: typeof ProviderIdRoute
   RequestsIdRoute: typeof RequestsIdRouteWithChildren
   RequestsNewRoute: typeof RequestsNewRoute
+  PortalIndexRoute: typeof PortalIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -191,6 +217,20 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/': {
+      id: '/portal/'
+      path: '/portal'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/$shareId': {
+      id: '/portal/$shareId'
+      path: '/portal/$shareId'
+      fullPath: '/portal/$shareId'
+      preLoaderRoute: typeof PortalShareIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/provider/$id': {
@@ -293,9 +333,11 @@ const RequestsIdRouteWithChildren = RequestsIdRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  PortalShareIdRoute: PortalShareIdRoute,
   ProviderIdRoute: ProviderIdRoute,
   RequestsIdRoute: RequestsIdRouteWithChildren,
   RequestsNewRoute: RequestsNewRoute,
+  PortalIndexRoute: PortalIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
