@@ -5,6 +5,7 @@ import { Button, Card, Field, Input, Select, Spinner } from "@/components/ui/pri
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { COUNTRIES, CURRENCIES, DOC_TYPES, REQUEST_TYPES } from "@/lib/dossier/constants";
+import { InfoLink } from "@/components/info-link";
 
 export const Route = createFileRoute("/requests/new")({
   head: () => ({
@@ -153,6 +154,7 @@ function NewRequest() {
                   </option>
                 ))}
               </Select>
+              <InfoLink slug="types-of-capital" label="Read: types of capital explained" className="mt-1.5" />
             </Field>
 
             {error ? (

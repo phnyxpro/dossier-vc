@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, FileText, Pencil, Plus, X } from "lucide-react";
 import { Badge, Button, Card, EmptyState, Field, Input, SectionTitle, Select, Spinner } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
+import { InfoLink } from "@/components/info-link";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { EXTRACTION_FIELDS, EXTRACTION_FIELD_LABEL } from "@/lib/dossier/constants";
@@ -210,6 +211,10 @@ function ExtractionStep() {
       >
         AI extraction review
       </SectionTitle>
+
+      <div className="mb-4">
+        <InfoLink slug="ai-extraction" label="How Dossier reads your documents" />
+      </div>
 
       <p className="mb-6 max-w-3xl text-sm text-muted-foreground">
         Each value below was read from one of your documents. The source document and the exact line

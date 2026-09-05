@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as LearnIndexRouteImport } from './routes/learn.index'
+import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalShareIdRouteImport } from './routes/portal.$shareId'
 import { Route as ProviderIdRouteImport } from './routes/provider.$id'
@@ -32,6 +34,16 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnIndexRoute = LearnIndexRouteImport.update({
+  id: '/learn/',
+  path: '/learn/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnSlugRoute = LearnSlugRouteImport.update({
+  id: '/learn/$slug',
+  path: '/learn/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortalIndexRoute = PortalIndexRouteImport.update({
@@ -98,10 +110,12 @@ const RequestsIdRepaymentRoute = RequestsIdRepaymentRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/learn/$slug': typeof LearnSlugRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/learn/': typeof LearnIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
@@ -114,9 +128,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/learn/$slug': typeof LearnSlugRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/new': typeof RequestsNewRoute
+  '/learn': typeof LearnIndexRoute
   '/portal': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
@@ -130,10 +146,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/learn/$slug': typeof LearnSlugRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
   '/requests/new': typeof RequestsNewRoute
+  '/learn/': typeof LearnIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
@@ -148,10 +166,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/learn/$slug'
     | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/learn/'
     | '/portal/'
     | '/requests/$id/details'
     | '/requests/$id/documents'
@@ -164,9 +184,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/learn/$slug'
     | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/new'
+    | '/learn'
     | '/portal'
     | '/requests/$id/details'
     | '/requests/$id/documents'
@@ -179,10 +201,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/learn/$slug'
     | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/$id'
     | '/requests/new'
+    | '/learn/'
     | '/portal/'
     | '/requests/$id/details'
     | '/requests/$id/documents'
@@ -196,10 +220,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  LearnSlugRoute: typeof LearnSlugRoute
   PortalShareIdRoute: typeof PortalShareIdRoute
   ProviderIdRoute: typeof ProviderIdRoute
   RequestsIdRoute: typeof RequestsIdRouteWithChildren
   RequestsNewRoute: typeof RequestsNewRoute
+  LearnIndexRoute: typeof LearnIndexRoute
   PortalIndexRoute: typeof PortalIndexRoute
 }
 
@@ -217,6 +243,20 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/': {
+      id: '/learn/'
+      path: '/learn'
+      fullPath: '/learn/'
+      preLoaderRoute: typeof LearnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/$slug': {
+      id: '/learn/$slug'
+      path: '/learn/$slug'
+      fullPath: '/learn/$slug'
+      preLoaderRoute: typeof LearnSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portal/': {
@@ -333,10 +373,12 @@ const RequestsIdRouteWithChildren = RequestsIdRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  LearnSlugRoute: LearnSlugRoute,
   PortalShareIdRoute: PortalShareIdRoute,
   ProviderIdRoute: ProviderIdRoute,
   RequestsIdRoute: RequestsIdRouteWithChildren,
   RequestsNewRoute: RequestsNewRoute,
+  LearnIndexRoute: LearnIndexRoute,
   PortalIndexRoute: PortalIndexRoute,
 }
 export const routeTree = rootRouteImport

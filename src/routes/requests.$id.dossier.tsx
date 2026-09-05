@@ -5,6 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Download, Pencil, Printer, RefreshCw, Share2, Sparkles } from "lucide-react";
 import { Badge, Button, Card, SectionTitle, Spinner } from "@/components/ui/primitives";
 import { SharePanel } from "@/components/share-panel";
+import { InfoLink } from "@/components/info-link";
 import {
   useDossierSections,
   useDocuments,
@@ -285,6 +286,10 @@ function DossierStep() {
       >
         Dossier output
       </SectionTitle>
+
+      <div className="mb-4 no-print">
+        <InfoLink slug="dossier-output" label="What a lender pack contains" />
+      </div>
 
       {error ? (
         <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive no-print">{error}</p>

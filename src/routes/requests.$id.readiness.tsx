@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, CheckCircle2, HelpCircle, ListChecks, ShieldCheck, Sparkles } from "lucide-react";
 import { Badge, Button, Card, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { StepFooter } from "@/components/step-footer";
+import { InfoLink } from "@/components/info-link";
 import { useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
 import { assessReadiness, type AiAssessment } from "@/lib/dossier/assess.functions";
 import {
@@ -86,6 +87,10 @@ function ReadinessStep() {
       <SectionTitle action={<Badge tone={label.tone}>{label.label}</Badge>}>
         Capital readiness review
       </SectionTitle>
+
+      <div className="mb-4">
+        <InfoLink slug="capital-readiness" label="How the readiness score is calculated" />
+      </div>
 
       <Card className="mb-6 flex flex-wrap items-start gap-3 border-primary/30 bg-primary/5 p-4 text-sm">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" />

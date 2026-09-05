@@ -5,11 +5,9 @@
   "nav.toggleTheme": "Cambiar tema",
   "nav.signOut": "Cerrar sesión",
   "nav.language": "Idioma",
-
   "footer.disclaimer": "Dossier organiza y presenta su propia información. No otorga aprobaciones de crédito, recomendaciones de préstamo ni decisiones de inversión.",
   "footer.prototype": "Prototipo — datos de muestra con fines demostrativos",
   "footer.providerDisclaimer": "La información de cada dossier es suministrada por la empresa. Dossier no verifica, evalúa ni recomienda ninguna transacción.",
-
   "dash.eyebrow": "Espacio de preparación de capital",
   "dash.title": "Solicitudes de financiamiento",
   "dash.subtitle": "Todas las solicitudes que está preparando, con el monto solicitado, el propósito y qué tan cerca está el expediente de estar listo para el prestamista.",
@@ -38,7 +36,6 @@
   "dash.noPurpose": "Propósito aún no descrito",
   "dash.sample": "Muestra",
   "dash.open": "Abrir",
-
   "auth.heroTitle": "Preparación de capital para empresas del Caribe.",
   "auth.heroBody": "Reúna estados financieros dispersos, documentos y planes de pago en un dossier de financiamiento estructurado que bancos, cooperativas de crédito e instituciones de financiamiento para el desarrollo puedan leer realmente.",
   "auth.point1": "La IA lee sus documentos y muestra de dónde proviene cada cifra",
@@ -61,7 +58,6 @@
   "auth.created": "Cuenta creada. Si se requiere confirmación, revise su correo y luego inicie sesión.",
   "auth.generalError": "Algo salió mal.",
   "auth.googleUnavailable": "El acceso con Google no está disponible.",
-
   "portal.badge": "Portal de proveedores de capital",
   "portal.heroTitle": "Lea un expediente de financiamiento completo antes de dedicarle una hora.",
   "portal.heroBody": "Bancos, cooperativas de crédito, instituciones de financiamiento para el desarrollo y proveedores privados de capital usan este portal para abrir los dossiers que las empresas del Caribe han compartido con ellos y responder con un estado, preguntas y solicitudes de documentos en un solo lugar.",
@@ -79,9 +75,9 @@
   "portal.businessQuestion": "¿Prepara una solicitud como empresa?",
   "portal.businessLink": "Use el espacio para empresas",
   "portal.headerBadge": "Portal de proveedores",
-
   "nf.title": "Página no encontrada",
   "nf.body": "La página que busca no existe o fue movida.",
   "nf.dashboard": "Ir al panel",
-  "nf.portal": "Portal de proveedores de capital"
+  "nf.portal": "Portal de proveedores de capital",
+  "nav.learn": "Aprender"
 }
