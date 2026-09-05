@@ -320,7 +320,7 @@ function ReviewPage() {
               <SectionTitle>Questions this file raises</SectionTitle>
               <ul className="list-disc space-y-1.5 pl-5 text-sm text-muted-foreground">
                 {questions.map((q, i) => (
-                  <li key={i}>{typeof q === "string" ? q : q.title}</li>
+                  <li key={i}>{q}</li>
                 ))}
               </ul>
             </Card>

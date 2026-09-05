@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, Copy, Link2, Mail, Send, Trash2 } from "lucide-react";
+import { Check, Copy, Inbox, Link2, Mail, Send, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Badge, Button, Card, Field, Input, SectionTitle, Spinner } from "@/components/ui/primitives";
@@ -196,6 +196,54 @@ export function SharePanel({ requestId }: { requestId: string }) {
           })}
         </ul>
       )}
+    </Card>
+  );
+}
+
+/** Documents lenders have asked for, shown on the business's document checklist. */
+export function LenderRequestsCard({ requestId }: { requestId: string }) {
+  const { data } = useQuery({
+    queryKey: ["lender-requests", requestId],
+    queryFn: async () => {
+      const { data: rows, error } = await supabase
+        .from("provider_reviews")
+        .select("id, status, notes, requested_docs, submitted_at, provider_org")
+        .eq("request_id", requestId)
+        .not("submitted_at", "is", null)
+        .order("submitted_at", { ascending: false });
+      if (error) throw error;
+      return rows ?? [];
+    },
+  });
+
+  const reviews = (data ?? []).filter((r) => (r.requested_docs?.length ?? 0) > 0);
+  if (!reviews.length) return null;
+
+  return (
+    <Card className="mb-6 border-warning/40 p-5">
+      <div className="mb-3 flex items-center gap-2">
+        <Inbox className="size-4 text-warning" />
+        <h3 className="font-display text-base font-semibold">Requested by a capital provider</h3>
+      </div>
+      <ul className="space-y-3">
+        {reviews.map((review) => (
+          <li key={review.id} className="text-sm">
+            <p className="text-xs text-muted-foreground">
+              {review.provider_org ? `${review.provider_org} · ` : ""}asked on {formatDate(review.submitted_at)}
+            </p>
+            <ul className="mt-1.5 flex flex-wrap gap-1.5">
+              {(review.requested_docs ?? []).map((key) => (
+                <li key={key}>
+                  <Badge tone="warning">{DOC_TYPE_LABEL[key] ?? key}</Badge>
+                </li>
+              ))}
+            </ul>
+            {review.notes ? (
+              <p className="mt-2 whitespace-pre-line text-muted-foreground">{review.notes}</p>
+            ) : null}
+          </li>
+        ))}
+      </ul>
     </Card>
   );
 }
