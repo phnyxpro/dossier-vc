@@ -58,10 +58,27 @@ function ExtractionStep() {
   const confirmed = (fields ?? []).filter((f) => f.status === "confirmed");
   const discarded = (fields ?? []).filter((f) => f.status === "discarded");
 
+  const [confirmingAll, setConfirmingAll] = useState(false);
+
   async function updateField(field: FieldRow, patch: Database["public"]["Tables"]["extracted_fields"]["Update"]) {
     await supabase.from("extracted_fields").update(patch).eq("id", field.id);
     invalidateRequest(qc, id);
   }
+
+  async function confirmAll() {
+    if (!pending.length) return;
+    setConfirmingAll(true);
+    try {
+      await supabase
+        .from("extracted_fields")
+        .update({ status: "confirmed" })
+        .in("id", pending.map((f) => f.id));
+      invalidateRequest(qc, id);
+    } finally {
+      setConfirmingAll(false);
+    }
+  }
+
 
   async function saveEdit(field: FieldRow) {
     const numeric = EXTRACTION_FIELDS.find((f) => f.key === field.field_key)?.numeric ?? true;
