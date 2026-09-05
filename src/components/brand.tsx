@@ -1,11 +1,16 @@
 import { cn } from "@/lib/utils";
+import vMark from "@/assets/ventureble-v.png.asset.json";
 
 export function BrandMark({ className, compact = false }: { className?: string; compact?: boolean }) {
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary font-display text-sm font-bold text-primary-foreground">
-        D
-      </span>
+      <img
+        src={vMark.url}
+        alt="Ventureble"
+        className="size-8 shrink-0 object-contain"
+        width={32}
+        height={32}
+      />
       {!compact && (
         <span className="leading-none">
           <span className="block font-display text-base font-bold tracking-tight">DOSSIER</span>
