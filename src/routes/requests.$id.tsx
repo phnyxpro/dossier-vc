@@ -15,16 +15,35 @@ export const Route = createFileRoute("/requests/$id")({
 function RequestLayout() {
   const { id } = Route.useParams();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { data: request, isLoading } = useRequest(id);
+  const { data: request, isLoading, isError } = useRequest(id);
   const { data: documents } = useDocuments(id);
   const { data: fields } = useFields(id);
 
-  if (isLoading || !request) {
+  if (isLoading) {
     return (
       <AppShell>
         <div className="flex justify-center py-24 text-muted-foreground">
           <Spinner />
         </div>
+      </AppShell>
+    );
+  }
+
+  if (isError || !request) {
+    return (
+      <AppShell>
+        <EmptyState
+          title="This financing request isn't available"
+          description="It may have been deleted, or it belongs to another account. Head back to your dashboard to pick up an existing request or start a new one."
+          action={
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Back to dashboard
+            </Link>
+          }
+        />
       </AppShell>
     );
   }
