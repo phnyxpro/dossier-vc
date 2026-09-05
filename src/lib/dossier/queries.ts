@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import type { DocumentRow, FieldRow, RequestWithCompany } from "./types";
+
+type RequestUpdate = Database["public"]["Tables"]["capital_requests"]["Update"];
+type CompanyUpdate = Database["public"]["Tables"]["companies"]["Update"];
 
 export function useRequests(userId: string | undefined) {
   return useQuery({
@@ -65,7 +69,7 @@ export function useFields(requestId: string) {
 export function useSaveRequest(id: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (patch: Record<string, unknown>) => {
+    mutationFn: async (patch: RequestUpdate) => {
       const { error } = await supabase.from("capital_requests").update(patch).eq("id", id);
       if (error) throw error;
     },
@@ -79,7 +83,7 @@ export function useSaveRequest(id: string) {
 export function useSaveCompany(companyId: string | null | undefined, requestId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (patch: Record<string, unknown>) => {
+    mutationFn: async (patch: CompanyUpdate) => {
       if (!companyId) throw new Error("No company on this request");
       const { error } = await supabase.from("companies").update(patch).eq("id", companyId);
       if (error) throw error;

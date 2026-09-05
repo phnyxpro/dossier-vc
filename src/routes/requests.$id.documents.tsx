@@ -32,11 +32,13 @@ export const Route = createFileRoute("/requests/$id/documents")({
   component: DocumentsStep,
 });
 
-const STATUS_META: Record<string, { tone: "success" | "warning" | "muted"; label: string; Icon: typeof Circle }> = {
-  received: { tone: "success", label: "Received", Icon: CheckCircle2 },
-  needs_review: { tone: "warning", label: "Needs review", Icon: AlertTriangle },
-  missing: { tone: "muted", label: "Missing", Icon: Circle },
-};
+type StatusMeta = { tone: "success" | "warning" | "muted"; label: string; Icon: typeof Circle };
+
+function statusMeta(status: string): StatusMeta {
+  if (status === "received") return { tone: "success", label: "Received", Icon: CheckCircle2 };
+  if (status === "needs_review") return { tone: "warning", label: "Needs review", Icon: AlertTriangle };
+  return { tone: "muted", label: "Missing", Icon: Circle };
+}
 
 function DocumentsStep() {
   const { id } = Route.useParams();
@@ -76,7 +78,7 @@ function DocumentsStep() {
       const path = `${user.id}/${id}/${row.id}-${file.name.replace(/[^\w.\-]/g, "_")}`;
       const { error: uploadError } = await supabase.storage
         .from("documents")
-        .upload(path, file, { upsert: true, contentType: file.type || undefined });
+        .upload(path, file, file.type ? { upsert: true, contentType: file.type } : { upsert: true });
       if (uploadError) throw uploadError;
 
       const { error: updateError } = await supabase
@@ -184,7 +186,7 @@ function DocumentsStep() {
         <div className="grid gap-3">
           {rows.map(({ type, doc }) => {
             const status = doc?.status ?? "missing";
-            const meta = STATUS_META[status] ?? STATUS_META.missing;
+            const meta = statusMeta(status);
             const busy = busyDoc === type.key;
             return (
               <Card key={type.key} className="p-4">

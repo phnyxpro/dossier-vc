@@ -144,7 +144,7 @@ export function EmptyState({ title, description, action }: { title: string; desc
 export function Field({ label, hint, children, htmlFor }: { label: string; hint?: string; children: ReactNode; htmlFor?: string }) {
   return (
     <div>
-      <Label htmlFor={htmlFor}>{label}</Label>
+      <Label {...(htmlFor ? { htmlFor } : {})}>{label}</Label>
       {children}
       {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
     </div>

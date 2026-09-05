@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { EXTRACTION_FIELDS, EXTRACTION_FIELD_LABEL } from "@/lib/dossier/constants";
 import { invalidateRequest, useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
 import { formatMoney } from "@/lib/dossier/format";
+import type { Database } from "@/integrations/supabase/types";
 import type { FieldRow } from "@/lib/dossier/types";
 
 export const Route = createFileRoute("/requests/$id/extraction")({
@@ -57,7 +58,7 @@ function ExtractionStep() {
   const confirmed = (fields ?? []).filter((f) => f.status === "confirmed");
   const discarded = (fields ?? []).filter((f) => f.status === "discarded");
 
-  async function updateField(field: FieldRow, patch: Record<string, unknown>) {
+  async function updateField(field: FieldRow, patch: Database["public"]["Tables"]["extracted_fields"]["Update"]) {
     await supabase.from("extracted_fields").update(patch).eq("id", field.id);
     invalidateRequest(qc, id);
   }
