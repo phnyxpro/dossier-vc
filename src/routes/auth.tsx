@@ -1,14 +1,25 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { BrandMark } from "@/components/brand";
 import { Button, Card, Field, Input, Spinner } from "@/components/ui/primitives";
+import { PasswordMeter } from "@/components/password-meter";
+import { TrustFooter } from "@/components/trust-footer";
 import { useAuth } from "@/lib/auth";
 import { useLanguage } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { checkPassword, MIN_PASSWORD_LENGTH } from "@/lib/password";
+import { queueAcceptance } from "@/lib/legal/acceptance";
+
+type Search = { redirect?: string };
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>): Search => {
+    const value = typeof search["redirect"] === "string" ? (search["redirect"] as string) : undefined;
+    // Only ever return to a same-origin path.
+    return value && value.startsWith("/") && !value.startsWith("//") ? { redirect: value } : {};
+  },
   head: () => ({
     meta: [
       { title: "Sign in — Dossier by Ventureble" },
@@ -31,19 +42,30 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const search = Route.useSearch();
   const { user, loading } = useAuth();
   const { t } = useLanguage();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
+  const destination = search.redirect ?? "/";
+  const strength = checkPassword(password);
+
   useEffect(() => {
-    if (!loading && user) navigate({ to: "/" });
-  }, [loading, user, navigate]);
+    if (!loading && user) navigate({ to: destination });
+  }, [loading, user, navigate, destination]);
+
+  function switchMode(next: "signin" | "signup" | "forgot") {
+    setMode(next);
+    setError(null);
+    setNotice(null);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -51,7 +73,24 @@ function AuthPage() {
     setError(null);
     setNotice(null);
     try {
-      if (mode === "signup") {
+      if (mode === "forgot") {
+        await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        // Always the same answer, so this never reveals whether an account exists.
+        setNotice(
+          "If an account exists for that address, a single-use reset link is on its way. It expires shortly.",
+        );
+      } else if (mode === "signup") {
+        if (!strength.ok) {
+          setError(strength.problems[0] ?? `Use at least ${MIN_PASSWORD_LENGTH} characters.`);
+          return;
+        }
+        if (!consent) {
+          setError("Please confirm you accept the terms and are authorised to upload this information.");
+          return;
+        }
+        queueAcceptance();
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
@@ -65,8 +104,15 @@ function AuthPage() {
         setMode("signin");
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) throw signInError;
-        navigate({ to: "/" });
+        if (signInError) {
+          setError(
+            signInError.message.toLowerCase().includes("invalid")
+              ? "That email and password combination did not match an account."
+              : signInError.message,
+          );
+          return;
+        }
+        navigate({ to: destination });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : t("auth.generalError"));
@@ -87,7 +133,7 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/" });
+    navigate({ to: destination });
   }
 
   return (
@@ -110,12 +156,13 @@ function AuthPage() {
             ))}
           </ul>
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-sm text-muted-foreground">
           {t("auth.heroFoot")}
         </p>
       </div>
 
-      <div className="flex items-center justify-center p-6">
+      <div className="flex flex-col">
+        <div className="flex flex-1 items-center justify-center p-6">
         <Card className="w-full max-w-md p-8">
           <div className="flex items-center justify-between gap-2">
             <div className="lg:hidden">
@@ -124,25 +171,41 @@ function AuthPage() {
             <LanguageSwitcher className="ml-auto" />
           </div>
           <h2 className="mt-6 font-display text-xl font-semibold lg:mt-0">
-            {mode === "signin" ? t("auth.signIn") : t("auth.createAccountTitle")}
+            {mode === "signin"
+              ? t("auth.signIn")
+              : mode === "signup"
+                ? t("auth.createAccountTitle")
+                : "Reset your password"}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signin"
               ? t("auth.signInSub")
-              : t("auth.signUpSub")}
+              : mode === "signup"
+                ? t("auth.signUpSub")
+                : "Enter the email address on your account and we will send a single-use link to set a new password."}
           </p>
 
-          <Button variant="outline" className="mt-6 w-full" onClick={handleGoogle} disabled={busy}>
-            {t("auth.google")}
-          </Button>
+          {mode !== "forgot" ? (
+            <>
+              <Button
+                type="button"
+                variant="outline"
+                className="mt-6 w-full"
+                onClick={handleGoogle}
+                disabled={busy}
+              >
+                {t("auth.google")}
+              </Button>
 
-          <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="h-px flex-1 bg-border" />
-            {t("auth.orEmail")}
-            <span className="h-px flex-1 bg-border" />
-          </div>
+              <div className="my-6 flex items-center gap-3 text-sm text-muted-foreground">
+                <span className="h-px flex-1 bg-border" />
+                {t("auth.orEmail")}
+                <span className="h-px flex-1 bg-border" />
+              </div>
+            </>
+          ) : null}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             {mode === "signup" ? (
               <Field label={t("auth.fullName")} htmlFor="fullName">
                 <Input
@@ -150,6 +213,7 @@ function AuthPage() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Anisa Mohammed"
+                  autoComplete="name"
                   required
                 />
               </Field>
@@ -165,43 +229,105 @@ function AuthPage() {
                 required
               />
             </Field>
-            <Field label={t("auth.password")} htmlFor="password">
-              <Input
-                id="password"
-                type="password"
-                autoComplete={mode === "signin" ? "current-password" : "new-password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                minLength={6}
-                required
-              />
-            </Field>
+            {mode !== "forgot" ? (
+              <Field label={t("auth.password")} htmlFor="password">
+                <Input
+                  id="password"
+                  type="password"
+                  autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  minLength={mode === "signup" ? MIN_PASSWORD_LENGTH : undefined}
+                  required
+                />
+              </Field>
+            ) : null}
+
+            {mode === "signup" ? <PasswordMeter password={password} /> : null}
+
+            {mode === "signin" ? (
+              <button
+                type="button"
+                className="text-sm font-medium text-primary hover:underline"
+                onClick={() => switchMode("forgot")}
+              >
+                Forgot password?
+              </button>
+            ) : null}
+
+            {mode === "signup" ? (
+              <label className="flex gap-3 text-sm leading-relaxed text-foreground/85">
+                <input
+                  type="checkbox"
+                  className="mt-1 size-4 shrink-0 accent-[var(--color-primary)]"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  required
+                />
+                <span>
+                  I accept the <Link to="/terms" className="text-primary hover:underline">Terms of Use</Link>,{" "}
+                  <Link to="/privacy" className="text-primary hover:underline">Privacy Notice</Link> and{" "}
+                  <Link to="/ai-notice" className="text-primary hover:underline">AI &amp; Data Processing Notice</Link>,
+                  and I am authorised to upload this company&apos;s information.
+                </span>
+              </label>
+            ) : null}
 
             {error ? (
-              <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
+              <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
             ) : null}
             {notice ? (
-              <p className="rounded-md bg-success/10 px-3 py-2 text-sm text-success">{notice}</p>
+              <p role="status" className="rounded-md bg-success/10 px-3 py-2 text-sm text-success">
+                {notice}
+              </p>
             ) : null}
 
             <Button type="submit" className="w-full" disabled={busy}>
-              {busy ? <Spinner /> : mode === "signin" ? t("auth.signIn") : t("auth.createAccount")}
+              {busy ? (
+                <Spinner />
+              ) : mode === "signin" ? (
+                t("auth.signIn")
+              ) : mode === "signup" ? (
+                t("auth.createAccount")
+              ) : (
+                "Send reset link"
+              )}
             </Button>
+
+            <noscript>
+              <p className="text-sm text-destructive">
+                Signing in needs JavaScript enabled in your browser.
+              </p>
+            </noscript>
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            {mode === "signin" ? t("auth.noAccount") : t("auth.haveAccount")}{" "}
-            <button
-              className="font-medium text-primary hover:underline"
-              onClick={() => {
-                setMode(mode === "signin" ? "signup" : "signin");
-                setError(null);
-              }}
-            >
-              {mode === "signin" ? t("auth.createOne") : t("auth.signIn")}
-            </button>
+            {mode === "forgot" ? (
+              <button
+                type="button"
+                className="font-medium text-primary hover:underline"
+                onClick={() => switchMode("signin")}
+              >
+                Back to sign in
+              </button>
+            ) : (
+              <>
+                {mode === "signin" ? t("auth.noAccount") : t("auth.haveAccount")}{" "}
+                <button
+                  type="button"
+                  className="font-medium text-primary hover:underline"
+                  onClick={() => switchMode(mode === "signin" ? "signup" : "signin")}
+                >
+                  {mode === "signin" ? t("auth.createOne") : t("auth.signIn")}
+                </button>
+              </>
+            )}
           </p>
         </Card>
+        </div>
+        <TrustFooter />
       </div>
     </div>
   );
