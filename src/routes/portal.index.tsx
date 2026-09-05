@@ -283,7 +283,7 @@ function DossierCard({ item, historical = false }: { item: QueueItem; historical
           <Mail className="size-3.5" /> Shared {formatDate(item.sharedAt)}
         </span>
         <Link to="/portal/$shareId" params={{ shareId: item.shareId }}>
-          <Button size="sm" variant={historical ? "outline" : "default"}>
+          <Button size="sm" variant={historical ? "outline" : "primary"}>
             {item.submittedAt ? "View review" : "Review dossier"} <ArrowRight className="size-3.5" />
           </Button>
         </Link>
