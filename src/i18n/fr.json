@@ -79,5 +79,18 @@
   "nf.body": "La page que vous cherchez n'existe pas ou a été déplacée.",
   "nf.dashboard": "Aller au tableau de bord",
   "nf.portal": "Portail des financeurs",
-  "nav.learn": "Ressources"
+  "nav.learn": "Ressources",
+  "learn.title": "Base de connaissances",
+  "learn.intro": "Des guides courts et pratiques sur la façon dont les bailleurs de fonds des Caraïbes évaluent une demande de financement, ainsi qu'un glossaire des termes que vous rencontrerez.",
+  "learn.search": "Rechercher guides et termes",
+  "learn.glossary": "Glossaire",
+  "learn.noGuides": "Aucun guide ne correspond à",
+  "learn.noTerms": "Aucun terme ne correspond à",
+  "learn.back": "Base de connaissances",
+  "learn.related": "Guides associés",
+  "learn.readMin": "min de lecture",
+  "learn.notFoundTitle": "Guide indisponible",
+  "learn.notFoundBody": "Cet article n'existe pas ou a été renommé.",
+  "learn.backLink": "Retour à la base de connaissances",
+  "learn.more": "En savoir plus"
 }

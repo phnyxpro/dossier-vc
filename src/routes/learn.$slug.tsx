@@ -3,6 +3,8 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Card, EmptyState, SectionTitle } from "@/components/ui/primitives";
 import { ARTICLE_BY_SLUG } from "@/lib/learn/content";
+import { useLearnContent } from "@/lib/learn/localized";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/learn/$slug")({
   head: ({ params }) => {
@@ -32,18 +34,20 @@ export const Route = createFileRoute("/learn/$slug")({
 
 function ArticlePage() {
   const { slug } = Route.useParams();
-  const article = ARTICLE_BY_SLUG[slug];
+  const { t } = useLanguage();
+  const { articleBySlug } = useLearnContent();
+  const article = articleBySlug[slug];
 
   if (!article) {
     return (
       <AppShell>
         <div className="mx-auto max-w-3xl">
           <EmptyState
-            title="Guide not available"
-            description="This article does not exist or has been renamed."
+            title={t("learn.notFoundTitle")}
+            description={t("learn.notFoundBody")}
             action={
               <Link to="/learn" className="text-sm font-medium text-primary hover:underline">
-                Back to the knowledge base
+                {t("learn.backLink")}
               </Link>
             }
           />
@@ -59,12 +63,12 @@ function ArticlePage() {
           to="/learn"
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
-          <ArrowLeft className="size-4" /> Knowledge base
+          <ArrowLeft className="size-4" /> {t("learn.back")}
         </Link>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <Badge tone="default">{article.category}</Badge>
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-            <Clock className="size-3.5" /> {article.readMinutes} min read
+            <Clock className="size-3.5" /> {article.readMinutes} {t("learn.readMin")}
           </span>
         </div>
         <SectionTitle>{article.title}</SectionTitle>
@@ -97,11 +101,11 @@ function ArticlePage() {
         {article.related?.length ? (
           <div className="mt-8">
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Related guides
+              {t("learn.related")}
             </h2>
             <div className="grid gap-3 sm:grid-cols-2">
               {article.related
-                .map((r) => ARTICLE_BY_SLUG[r])
+                .map((r) => articleBySlug[r])
                 .filter((r): r is NonNullable<typeof r> => Boolean(r))
                 .map((r) => (
                   <Link key={r.slug} to="/learn/$slug" params={{ slug: r.slug }}>

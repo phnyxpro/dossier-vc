@@ -3,12 +3,8 @@ import { useMemo, useState } from "react";
 import { BookOpen, Clock, Search } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Card, Input, SectionTitle } from "@/components/ui/primitives";
-import {
-  ARTICLES,
-  ARTICLE_CATEGORIES,
-  GLOSSARY,
-  GLOSSARY_GROUPS,
-} from "@/lib/learn/content";
+import { useLearnContent } from "@/lib/learn/localized";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/learn/")({
   head: () => ({
@@ -32,44 +28,50 @@ export const Route = createFileRoute("/learn/")({
 });
 
 function LearnIndex() {
+  const { t } = useLanguage();
+  const {
+    articles: ALL_ARTICLES,
+    categories: ARTICLE_CATEGORIES,
+    glossary: ALL_TERMS,
+    glossaryGroups: GLOSSARY_GROUPS,
+  } = useLearnContent();
   const [q, setQ] = useState("");
   const query = q.trim().toLowerCase();
 
   const articles = useMemo(
     () =>
       !query
-        ? ARTICLES
-        : ARTICLES.filter((a) =>
+        ? ALL_ARTICLES
+        : ALL_ARTICLES.filter((a) =>
             [a.title, a.summary, a.category].join(" ").toLowerCase().includes(query),
           ),
-    [query],
+    [query, ALL_ARTICLES],
   );
 
   const terms = useMemo(
     () =>
       !query
-        ? GLOSSARY
-        : GLOSSARY.filter((g) => `${g.term} ${g.definition}`.toLowerCase().includes(query)),
+        ? ALL_TERMS
+        : ALL_TERMS.filter((g) => `${g.term} ${g.definition}`.toLowerCase().includes(query)),
     [query],
   );
 
   return (
     <AppShell>
       <div className="mx-auto max-w-5xl">
-        <SectionTitle>Knowledge base</SectionTitle>
+        <SectionTitle>{t("learn.title")}</SectionTitle>
         <Card className="p-6">
           <p className="max-w-2xl text-sm text-muted-foreground">
-            Short, practical guides on how capital providers in the Caribbean assess a financing
-            request — and a glossary of the terms you will meet along the way.
+{t("learn.intro")}
           </p>
           <div className="relative mt-4 max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               className="pl-9"
-              placeholder="Search guides and terms"
+              placeholder={t("learn.search")}
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              aria-label="Search the knowledge base"
+              aria-label={t("learn.search")}
             />
           </div>
         </Card>
@@ -93,7 +95,7 @@ function LearnIndex() {
                             <h3 className="font-semibold text-foreground">{a.title}</h3>
                             <p className="mt-1 text-sm text-muted-foreground">{a.summary}</p>
                             <span className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground">
-                              <Clock className="size-3.5" /> {a.readMinutes} min read
+                              <Clock className="size-3.5" /> {a.readMinutes} {t("learn.readMin")}
                             </span>
                           </div>
                         </div>
@@ -105,12 +107,12 @@ function LearnIndex() {
             );
           })}
           {articles.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No guides match “{q}”.</p>
+            <p className="text-sm text-muted-foreground">{t("learn.noGuides")} “{q}”.</p>
           ) : null}
         </div>
 
         <div id="glossary" className="mt-12">
-          <SectionTitle>Glossary</SectionTitle>
+          <SectionTitle>{t("learn.glossary")}</SectionTitle>
           <div className="space-y-6">
             {GLOSSARY_GROUPS.map((group) => {
               const list = terms.filter((t) => t.group === group);
@@ -130,7 +132,7 @@ function LearnIndex() {
               );
             })}
             {terms.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No terms match “{q}”.</p>
+              <p className="text-sm text-muted-foreground">{t("learn.noTerms")} “{q}”.</p>
             ) : null}
           </div>
         </div>

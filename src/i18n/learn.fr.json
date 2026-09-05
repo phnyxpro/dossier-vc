@@ -1,0 +1,523 @@
+{
+  "articles": {
+    "types-of-capital": {
+      "title": "Comprendre les différents types de capitaux",
+      "summary": "Dette, fonds propres, financement de projet, instruments hybrides et subventions : ce que chacun vous coûte, qui les propose dans les Caraïbes et quand les utiliser.",
+      "category": "Levée de capitaux",
+      "sections": [
+        {
+          "heading": "Pourquoi le type de capital est essentiel",
+          "paragraphs": [
+            "Le type de capital que vous sollicitez donne le ton à l'ensemble de votre dossier. Il détermine les indicateurs financiers qu'un financeur examinera en priorité, les pièces justificatives qu'il exigera et la manière dont il évaluera le risque de vous soutenir.",
+            "Demander le mauvais type d'instrument est l'une des raisons les plus fréquentes pour lesquelles une entreprise caribéenne saine essuie un refus tardif. Une entreprise manufacturière à activité saisonnière qui sollicite un prêt à terme sur cinq ans alors qu'elle a réellement besoin d'une facilité de fonds de roulement paraîtra surendettée sur le papier, même si sa santé financière globale est bonne."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financement par la dette",
+          "paragraphs": [
+            "Vous empruntez un montant fixe et le remboursez avec intérêts selon un calendrier convenu. Vous conservez l'entière propriété de votre entreprise. Les bailleurs de fonds comprennent les banques commerciales, les coopératives financières (credit unions), les institutions de financement du développement comme la Banque de développement des Caraïbes (Caribbean Development Bank) et les banques nationales de développement, ainsi que les prêteurs privés.",
+            "Les prêteurs évaluent avant tout votre capacité de remboursement : des revenus réguliers, des liquidités bancaires, vos engagements en cours et les sûretés disponibles. Attendez-vous à ce qu'ils analysent rigoureusement votre DSCR et vos relevés bancaires."
+          ],
+          "bullets": [
+            "Idéal pour : flux de trésorerie prévisibles, acquisition d'actifs, couverture d'un besoin de trésorerie planifié",
+            "Justificatifs types : deux à trois exercices d'états financiers, douze mois de relevés bancaires, balances âgées, titres de garanties",
+            "Coût principal : intérêts et frais de dossier, assortis de garanties sur les actifs"
+          ]
+        },
+        {
+          "heading": "Financement par fonds propres (Equity)",
+          "paragraphs": [
+            "Vous cédez une fraction du capital de l'entreprise en échange de fonds qui n'ont pas à être remboursés. Les investisseurs comprennent les business angels, les fonds régionaux de capital-risque, les family offices et les entreprises partenaires stratégiques.",
+            "Les investisseurs en capital misent sur le potentiel futur : l'analyse porte alors sur la taille du marché, le rythme de croissance, la solidité de l'équipe de direction et un plan de sortie clair. Votre dossier doit présenter une vision stratégique et des prévisions financières robustes, au-delà des simples bilans historiques."
+          ],
+          "bullets": [
+            "Idéal pour : financer la croissance avant d'atteindre la rentabilité, pénétrer de nouveaux marchés, entreprises sans garanties réelles",
+            "Justificatifs types : table de capitalisation (cap table), pactes d'actionnaires, modèles prévisionnels, contrats commerciaux",
+            "Coût principal : dilution du capital et partage du contrôle stratégique"
+          ]
+        },
+        {
+          "heading": "Acquisitions et opérations stratégiques",
+          "paragraphs": [
+            "Capitaux mobilisés pour acquérir une entreprise cible, racheter les parts d'un associé ou financer une fusion. Le financeur audite simultanément deux entités : la vôtre et la structure ciblée, tout en évaluant votre capacité à mener l'intégration opérationnelle.",
+            "Une revue approfondie sera menée sur les deux comptabilités, le protocole d'acquisition et la justification détaillée des futurs flux de trésorerie combinés."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financement de projet",
+          "paragraphs": [
+            "Financement adossé à un projet précis — centrale solaire, usine de transformation, complexe touristique — dont le remboursement repose exclusivement sur les flux de trésorerie générés par le projet lui-même, et non sur le reste des activités du promoteur.",
+            "Les bailleurs de fonds analysent la viabilité intrinsèque du projet : coûts de construction, contrats d'enlèvement (offtake agreements), autorisations administratives et apport en fonds propres du promoteur. Des engagements contractuels fermes à long terme priment souvent sur le bilan général de la maison mère."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Capitaux hybrides et financements structurés",
+          "paragraphs": [
+            "Instruments financiers situés entre la dette et les fonds propres : obligations convertibles, dette mezzanine et actions de préférence. Ils procurent généralement un rendement régulier similaire à un emprunt, avec une option de conversion en capital ou un rang subordonné par rapport aux créanciers seniors en contrepartie d'un taux supérieur.",
+            "Particulièrement adaptés aux entreprises trop matures pour les financements d'amorçage mais pas encore assez installées pour emprunter auprès des banques classiques sans forte dilution. Les modalités de structuration étant déterminantes, formalisez les termes proposés dès la constitution de votre dossier."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Subventions et financements mixtes (Blended finance)",
+          "paragraphs": [
+            "Aides non remboursables ou capitaux à des conditions concessionnelles, octroyés par des agences de développement, des programmes régionaux ou des bailleurs internationaux, souvent associés à des financements commerciaux pour réduire le coût global de l'opération.",
+            "Les organismes accordant ces subventions appliquent des critères stricts quant à l'éligibilité, la traçabilité des dépenses et l'affectation des montants. L'évaluation diffère de celle d'une banque : la conformité administrative, les autorisations et l'impact socio-économique mesurable comptent autant que le rendement financier."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Faire le bon choix",
+          "paragraphs": [
+            "Pour trancher rapidement : si les capitaux financent un actif générant des rentrées d'argent selon un calendrier prévisible, privilégiez la dette. S'ils financent le temps nécessaire pour valider un marché ou accélérer l'expansion, optez pour les fonds propres ou les instruments hybrides. S'ils portent sur une infrastructure générant ses propres revenus sous contrat, explorez le financement de projet. S'ils visent le renforcement de capacités opérationnelles ou un impact pour le développement, tournez-vous vers les subventions et les financements mixtes."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "debt-facility-types": {
+      "title": "Types de facilités de crédit : quelle structure demander",
+      "summary": "Prêts à terme, lignes de fonds de roulement, escompte de factures, financement du commerce international, financement d'actifs et découverts, ainsi que leurs modalités de remboursement.",
+      "category": "Levée de capitaux",
+      "sections": [
+        {
+          "heading": "Prêt à terme",
+          "paragraphs": [
+            "Un montant fixe remboursé par versements échelonnés sur une période définie, généralement de trois à sept ans. Idéal pour un investissement ponctuel avec un retour sur investissement à long terme : un bâtiment, un aménagement ou un équipement majeur."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Facilité de fonds de roulement",
+          "paragraphs": [
+            "Une limite de crédit renouvelable dans laquelle vous puisez et que vous remboursez au rythme de vos cycles d'exploitation. Elle finance le décalage de trésorerie entre le paiement des fournisseurs et l'encaissement des clients. Les prêteurs la dimensionnent en fonction de vos créances clients, de vos stocks et de votre saisonnalité plutôt que de vos immobilisations."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financement d'actifs ou d'équipements",
+          "paragraphs": [
+            "L'actif lui-même sert de garantie ; l'approbation dépend donc de la valeur du matériel et de sa durée de vie utile. Un apport initial de dix à trente pour cent est courant, et la durée du prêt s'aligne généralement sur la période d'exploitation rentable de l'actif."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Escompte de factures et affacturage",
+          "paragraphs": [
+            "Vous obtenez une avance de trésorerie sur vos factures non réglées. L'organisme financier évalue en réalité le risque de vos clients ; un portefeuille concentré d'acheteurs régionaux solides peut donc être un atout. Veillez à conserver une balance âgée des créances saine et à jour."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Financement du commerce international (Trade finance)",
+          "paragraphs": [
+            "Lettres de crédit, prêts à l'importation et instruments similaires permettant de couvrir la période entre la commande des marchandises et leur vente. Très répandu chez les importateurs et exportateurs des Caraïbes, où les délais d'expédition allongent le cycle de trésorerie."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Découvert bancaire",
+          "paragraphs": [
+            "Une marge de sécurité à court terme sur votre compte courant professionnel. Peu coûteux lorsqu'il n'est pas utilisé mais très onéreux en utilisation continue : les banques interprètent un découvert utilisé en permanence comme le signe qu'un prêt à terme est en réalité nécessaire."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "capital-readiness": {
+      "title": "Ce que mesure réellement la préparation au capital",
+      "summary": "Les cinq dimensions qui sous-tendent votre score de préparation et les étapes pratiques pour faire progresser chacune d'entre elles.",
+      "category": "Préparation",
+      "sections": [
+        {
+          "heading": "Le principe",
+          "paragraphs": [
+            "La préparation au capital n'est pas une cote de crédit. Elle mesure la capacité d'un bailleur de fonds à prendre une décision concernant votre entreprise sans avoir à vous relancer pour des informations manquantes — la principale cause de retard pour les MPME de la Caraïbe."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Les cinq dimensions",
+          "paragraphs": [
+            "Dossier évalue chacune de ces dimensions et les consolide en une note unique sur cent."
+          ],
+          "bullets": [
+            "Exhaustivité de la documentation — les documents essentiels sont-ils présents, à jour et lisibles ?",
+            "Clarté financière — les revenus, l'EBITDA, la trésorerie et la dette concordent-ils d'un document fourni à l'autre ?",
+            "Gouvernance et conformité — enregistrement, situation fiscale, registres des actionnaires et du conseil d'administration",
+            "Capacité de remboursement ou de rendement — couverture de l'obligation financière envisagée",
+            "Qualité du narratif — une explication claire de l'utilisation des fonds et des changements qu'ils permettront d'accomplir"
+          ]
+        },
+        {
+          "heading": "Faire progresser le score",
+          "paragraphs": [
+            "Les gains les plus rapides proviennent presque toujours de la documentation et de la clarté financière : téléverser les douze mois de relevés bancaires manquants ou harmoniser un chiffre d'affaires qui apparaît sous deux montants distincts dans deux fichiers différents. Le narratif et la gouvernance s'améliorent plus lentement, mais pèsent lourdement lors du comité de crédit."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "documents-providers-expect": {
+      "title": "Les documents attendus par les apporteurs de capitaux",
+      "summary": "La liste de contrôle en dix documents derrière chaque demande de Dossier, la raison d'être de chacun et les critères pour les rendre recevables.",
+      "category": "Documents",
+      "sections": [
+        {
+          "heading": "États financiers clés",
+          "paragraphs": [
+            "Les états financiers des deux à trois dernières années, audités ou examinés si la taille de votre entreprise l'exige. Les situations comptables intermédiaires pour la période écoulée depuis votre dernière clôture d'exercice. Ensemble, ils démontrent votre historique ainsi que la dynamique commerciale actuelle."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Relevés bancaires",
+          "paragraphs": [
+            "De six à douze mois d'historique pour chaque compte d'exploitation. Les bailleurs de fonds les utilisent pour vérifier que le chiffre d'affaires déclaré est bien encaissé, identifier le point bas réel de votre trésorerie et repérer d'éventuels rejets de paiement ou remboursements de prêts non déclarés."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Balances âgées",
+          "paragraphs": [
+            "La balance âgée clients indique qui vous doit de l'argent et l'ampleur des retards de paiement ; la balance âgée fournisseurs détaille la même chose pour vos fournisseurs. Une forte concentration et des soldes très en retard sont perçus comme un risque : commentez toute anomalie plutôt que de laisser place aux suppositions."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Contrats et factures",
+          "paragraphs": [
+            "Les contrats signés avec vos clients et fournisseurs attestent de la pérennité de vos revenus. Quelques factures récentes et représentatives permettent au financeur de faire le lien entre votre tarification, vos volumes et vos comptes."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Conformité et garanties",
+          "paragraphs": [
+            "L'enregistrement de l'entreprise, les déclarations VAT ou BIR et les attestations de régularité fiscale prouvent que vous êtes légalement habilité à emprunter et que vous êtes en règle. Les documents relatifs aux garanties (évaluations, titres de propriété, inventaires d'actifs) soutiennent toute sûreté que vous prévoyez d'engager."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Ce qui rend un document recevable",
+          "paragraphs": [
+            "Des pages complètes, des numérisations parfaitement lisibles, une dénomination sociale concordante et une date comprise dans la période demandée. Un relevé auquel il manque la dernière page ou une expertise datant de trois ans vous seront renvoyés, et chaque aller-retour fait généralement perdre deux semaines."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "ai-extraction": {
+      "title": "Comment Dossier lit vos documents",
+      "summary": "Ce que l'étape d'extraction par IA récupère, d'où provient le niveau de confiance et pourquoi vous confirmez chaque chiffre.",
+      "category": "Utilisation de Dossier",
+      "sections": [
+        {
+          "heading": "Ce qui se passe lors du téléversement",
+          "paragraphs": [
+            "Chaque fichier téléversé est analysé et les chiffres financiers clés sont identifiés : chiffre d'affaires, marge brute, EBITDA, bénéfice net, solde de trésorerie, dette existante, service mensuel de la dette, créances clients, dettes fournisseurs et stocks, ainsi que des éléments de contexte tels que les principaux clients et les engagements récurrents.",
+            "Chaque valeur extraite conserve une référence à la ligne dont elle provient, vous permettant de vérifier la source plutôt que de faire confiance à un chiffre sorti de nulle part."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Niveau de confiance et divergences",
+          "paragraphs": [
+            "En cas de divergence entre deux documents — par exemple, un chiffre d'affaires dans les rapports de gestion comparé aux états financiers audités —, les deux sont signalés et le document le plus récent a la priorité dans l'aperçu jusqu'à ce que vous en décidiez autrement."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Pourquoi vous confirmez",
+          "paragraphs": [
+            "Aucune donnée n'est intégrée à votre score de préparation ou à votre dossier tant que vous ne l'avez pas confirmée. Vous êtes la source de vérité ; l'extraction vous évite simplement la saisie manuelle."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "dscr-explained": {
+      "title": "Couverture du service de la dette et ratios analysés par les prêteurs",
+      "summary": "DSCR, gearing, ratio de liquidité générale et couverture des intérêts — mode de calcul et seuils généralement acceptés.",
+      "category": "Fondamentaux de la finance",
+      "sections": [
+        {
+          "heading": "Ratio de couverture du service de la dette (DSCR)",
+          "paragraphs": [
+            "L'EBITDA divisé par le service total de la dette pour la même période, en incluant le financement que vous sollicitez. Il répond à une question essentielle : l'entreprise génère-t-elle suffisamment de revenus pour honorer ses remboursements ?",
+            "La plupart des prêteurs des Caraïbes exigent un ratio d'au moins 1,25x, et plus élevé encore pour les secteurs cycliques ou saisonniers. En dessous de 1,0x, l'entreprise ne peut pas couvrir ses obligations financières par ses résultats d'exploitation."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Gearing (ratio d'endettement)",
+          "paragraphs": [
+            "La dette totale comparée aux capitaux propres ou au total des actifs. Un gearing élevé signifie une faible marge de sécurité en cas de ralentissement de l'activité commerciale. Les prêts d'actionnaires ou comptes courants d'associés existants sont souvent inclus dans le calcul, veillez donc à les déclarer."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Ratio de liquidité générale (Current ratio)",
+          "paragraphs": [
+            "L'actif circulant divisé par le passif circulant, servant à évaluer la liquidité à court terme. Un ratio inférieur à 1,0x signale que les obligations à court terme dépassent les ressources immédiatement disponibles."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Couverture des intérêts (Interest cover)",
+          "paragraphs": [
+            "L'EBITDA divisé par les charges d'intérêts. Ce ratio permet d'isoler le coût de l'emprunt du remboursement du principal et est fréquemment utilisé en complément du DSCR pour les facilités de crédit renouvelables."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "collateral-and-security": {
+      "title": "Garanties et sûretés dans les Caraïbes",
+      "summary": "Ce que les bailleurs de fonds acceptent comme sûretés, comment elles sont valorisées et les alternatives envisageables lorsque vous disposez de peu d'actifs à gager.",
+      "category": "Levée de capitaux",
+      "sections": [
+        {
+          "heading": "Formes courantes de sûretés",
+          "paragraphs": [
+            "Hypothèques sur des biens immobiliers commerciaux ou résidentiels, débentures et nantissements sur les actifs de l'entreprise, gages mobiliers sur les équipements et véhicules, cession de créances ou de produits contractuels, dépôts d'espèces et garanties personnelles ou d'entreprise."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Modalités d'évaluation",
+          "paragraphs": [
+            "Les prêteurs appliquent une décote sur la valeur de marché — correspondant à la valeur de vente forcée — car ils doivent anticiper une liquidation rapide. L'immobilier est souvent retenu entre soixante-dix et quatre-vingts pour cent de son estimation, et les équipements spécialisés à des taux bien plus bas.",
+            "Les expertises ne sont généralement acceptées que pour une période limitée, couramment de douze à vingt-quatre mois, au terme de laquelle une actualisation est exigée."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Lorsque les garanties sont limitées",
+          "paragraphs": [
+            "Envisagez les mécanismes de garantie partielle proposés par les institutions régionales de développement, les facilités de trésorerie sur factures où la créance sert de garantie, le financement d'équipements où l'actif gagé garantit l'emprunt par lui-même, ou encore les structures de financement mixte (blended finance) où un partenaire de développement absorbe les premières pertes."
+          ],
+          "bullets": []
+        }
+      ]
+    },
+    "dossier-output": {
+      "title": "Ce que contient un dossier de prêt",
+      "summary": "La différence entre le dossier synthétique et le dossier complet, et la façon dont un prêteur analyse chaque section.",
+      "category": "Utilisation de Dossier",
+      "sections": [
+        {
+          "heading": "Deux formats",
+          "paragraphs": [
+            "Le dossier de prêt synthétique est un document d'aide à la décision concis : récapitulatif de la demande, présentation de l'entreprise, instantané financier, couverture, garanties et utilisation des fonds. C'est le premier document que consulte un chargé d'affaires.",
+            "Le dossier complet apporte tous les détails et justificatifs nécessaires au comité de crédit : historique financier complet, balance âgée, gouvernance, contexte de marché, risques et mesures d'atténuation, ainsi que l'index des pièces jointes."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Sections indicatives",
+          "paragraphs": [
+            "Lorsqu'un chiffre est calculé ou dérivé plutôt que tiré directement d'une pièce justificative validée, la section est marquée comme indicative. C'est un choix délibéré : les organismes prêteurs accordent plus de confiance à un dossier transparent sur les chiffres qui relèvent de l'estimation."
+          ],
+          "bullets": []
+        },
+        {
+          "heading": "Partage",
+          "paragraphs": [
+            "Vous pouvez inviter un organisme prêteur par e-mail ou générer un code de partage. Vous serez informé dès l'ouverture du dossier, et son statut, ses commentaires ainsi que les pièces demandées apparaîtront directement sur votre page Documents."
+          ],
+          "bullets": []
+        }
+      ]
+    }
+  },
+  "glossary": {
+    "Revenue": {
+      "term": "Chiffre d'affaires (CA)",
+      "definition": "Montant total des ventes de biens ou de services avant déduction des charges.",
+      "group": "Données financières"
+    },
+    "Gross profit": {
+      "term": "Marge brute",
+      "definition": "Chiffre d'affaires diminué des coûts directs de production des biens ou services vendus.",
+      "group": "Données financières"
+    },
+    "EBITDA": {
+      "term": "EBITDA (BAIDA)",
+      "definition": "Bénéfice avant intérêts, impôts, dépréciations et amortissements — indicateur des flux de trésorerie générés par l'activité opérationnelle.",
+      "group": "Données financières"
+    },
+    "Net profit": {
+      "term": "Résultat net",
+      "definition": "Bénéfice restant après déduction de l'ensemble des charges, y compris les intérêts et les impôts.",
+      "group": "Données financières"
+    },
+    "Working capital": {
+      "term": "Fonds de roulement (FR)",
+      "definition": "Actif circulant moins passif circulant ; capitaux mobilisés par l'exploitation courante.",
+      "group": "Données financières"
+    },
+    "Cash conversion cycle": {
+      "term": "Cycle de conversion de trésorerie (CCC)",
+      "definition": "Nombre de jours s'écoulant entre le paiement des fournisseurs et l'encaissement des créances clients.",
+      "group": "Données financières"
+    },
+    "Receivables ageing": {
+      "term": "Balance âgée clients",
+      "definition": "Ventilation des factures clients impayées en fonction de leur date d'échéance et de leur ancienneté.",
+      "group": "Données financières"
+    },
+    "Payables ageing": {
+      "term": "Balance âgée fournisseurs",
+      "definition": "Même ventilation appliquée aux dettes dues aux fournisseurs.",
+      "group": "Données financières"
+    },
+    "DSCR": {
+      "term": "Ratio de couverture du service de la dette (DSCR)",
+      "definition": "Ratio de couverture du service de la dette : EBITDA divisé par le total des échéances de remboursement. La plupart des prêteurs exigent au moins 1,25x.",
+      "group": "Ratios"
+    },
+    "Gearing": {
+      "term": "Ratio d'endettement net (Gearing)",
+      "definition": "Proportion du financement de l'entreprise assurée par la dette plutôt que par les capitaux propres.",
+      "group": "Ratios"
+    },
+    "Current ratio": {
+      "term": "Ratio de liquidité générale (Current ratio)",
+      "definition": "Actif circulant divisé par le passif circulant ; indicateur de solvabilité à court terme.",
+      "group": "Ratios"
+    },
+    "Interest cover": {
+      "term": "Ratio de couverture des intérêts (ICR)",
+      "definition": "EBITDA divisé par la charge d'intérêts.",
+      "group": "Ratios"
+    },
+    "Loan to value (LTV)": {
+      "term": "Ratio prêt-valeur (LTV)",
+      "definition": "Montant du prêt exprimé en pourcentage de la valeur d'expertise du bien ou de la garantie.",
+      "group": "Ratios"
+    },
+    "Debt financing": {
+      "term": "Financement par emprunt",
+      "definition": "Capitaux empruntés remboursables avec intérêts ; la structure du capital reste inchangée.",
+      "group": "Capitaux"
+    },
+    "Equity financing": {
+      "term": "Financement par capitaux propres",
+      "definition": "Levée de fonds via l'émission ou la cession de parts de l'entreprise ; aucun remboursement exigé, mais dilution du capital.",
+      "group": "Capitaux"
+    },
+    "Mezzanine": {
+      "term": "Dette mezzanine",
+      "definition": "Dette subordonnée de rang inférieur à la dette senior et assortie d'un coût plus élevé, comprenant souvent une participation au capital (equity kicker).",
+      "group": "Capitaux"
+    },
+    "Convertible note": {
+      "term": "Obligation convertible (Convertible note)",
+      "definition": "Prêt pouvant être converti en actions selon des modalités prédéfinies, généralement lors d'un tour de table ultérieur.",
+      "group": "Capitaux"
+    },
+    "Preference shares": {
+      "term": "Actions de préférence",
+      "definition": "Actions conférant un droit prioritaire sur le versement des dividendes ou la liquidation par rapport aux actions ordinaires.",
+      "group": "Capitaux"
+    },
+    "Project finance": {
+      "term": "Financement de projet",
+      "definition": "Financement remboursé exclusivement par les flux de trésorerie générés par un projet dédié, sans recours direct au bilan du promoteur.",
+      "group": "Capitaux"
+    },
+    "Blended finance": {
+      "term": "Financement mixte (Blended finance)",
+      "definition": "Combinaison de fonds concessionnels ou de développement avec des capitaux commerciaux afin de réduire le coût global ou le niveau de risque.",
+      "group": "Capitaux"
+    },
+    "Term sheet": {
+      "term": "Lettre d'intention (Term sheet)",
+      "definition": "Document non contraignant récapitulant les principales modalités financières et juridiques d'un financement ou d'un investissement envisagé.",
+      "group": "Capitaux"
+    },
+    "Tenor": {
+      "term": "Maturité (Tenor)",
+      "definition": "Durée totale courant jusqu'au remboursement intégral d'une facilité de crédit.",
+      "group": "Capitaux"
+    },
+    "Moratorium": {
+      "term": "Différé d'amortissement / Moratoire",
+      "definition": "Période convenue en début de prêt pendant laquelle le remboursement du capital est temporairement suspendu.",
+      "group": "Capitaux"
+    },
+    "Collateral": {
+      "term": "Garantie / Sûreté (Collateral)",
+      "definition": "Actifs nantis au profit d'un prêteur pouvant être réalisés en cas de défaillance de l'emprunteur.",
+      "group": "Sûretés et garanties"
+    },
+    "Debenture": {
+      "term": "Acte de sûreté générale (Debenture)",
+      "definition": "Garantie juridique grevant les actifs d'une société, qu'elle soit fixe sur des biens désignés ou flottante sur l'ensemble du patrimoine.",
+      "group": "Sûretés et garanties"
+    },
+    "Chattel mortgage": {
+      "term": "Gage sans dépossession / Nantissement de biens mobiliers",
+      "definition": "Sûreté constituée sur des biens meubles corporels tels que des véhicules ou des équipements industriels.",
+      "group": "Sûretés et garanties"
+    },
+    "Personal guarantee": {
+      "term": "Cautionnement personnel",
+      "definition": "Engagement souscrit par un dirigeant ou un actionnaire de rembourser la dette sur son patrimoine personnel en cas de défaillance de l'entreprise.",
+      "group": "Sûretés et garanties"
+    },
+    "Forced-sale value": {
+      "term": "Valeur de vente forcée / Valeur de réalisation rapide",
+      "definition": "Montant décoté qu'un prêteur estime pouvoir tirer de la cession d'un actif dans des délais très courts.",
+      "group": "Sûretés et garanties"
+    },
+    "Due diligence": {
+      "term": "Audit préalable (Due diligence)",
+      "definition": "Vérification rigoureuse de la situation financière, juridique et opérationnelle d'une entreprise par le financeur avant tout engagement.",
+      "group": "Processus"
+    },
+    "Credit committee": {
+      "term": "Comité de crédit",
+      "definition": "Instance décisionnaire interne au sein d'un établissement financier chargée d'approuver ou de rejeter une demande de crédit.",
+      "group": "Processus"
+    },
+    "Covenant": {
+      "term": "Clause restrictive (Covenant)",
+      "definition": "Condition contractuelle imposée dans un accord de financement, telle que le maintien d'un niveau plancher de DSCR.",
+      "group": "Processus"
+    },
+    "Drawdown": {
+      "term": "Tirage (Déblocage des fonds)",
+      "definition": "Mise à disposition effective des fonds une fois levées toutes les conditions préalables.",
+      "group": "Processus"
+    },
+    "Capital readiness": {
+      "term": "Préparation à la levée de fonds (Capital readiness)",
+      "definition": "Niveau de maturité et de conformité d'une entreprise lui permettant d'obtenir une décision d'un financeur sans demandes d'informations complémentaires.",
+      "group": "Processus"
+    },
+    "Lender pack": {
+      "term": "Dossier de financement (Lender pack)",
+      "definition": "Ensemble structuré des pièces et analyses financières nécessaires au prêteur pour instruire une demande de crédit.",
+      "group": "Processus"
+    }
+  },
+  "categories": {
+    "Raising capital": "Levée de capitaux",
+    "Readiness": "Préparation",
+    "Documents": "Documents",
+    "Using Dossier": "Utilisation de Dossier",
+    "Finance basics": "Fondamentaux de la finance"
+  },
+  "groups": {
+    "Financials": "Données financières",
+    "Ratios": "Ratios",
+    "Capital": "Capitaux",
+    "Security": "Sûretés et garanties",
+    "Process": "Processus"
+  }
+}

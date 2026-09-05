@@ -79,5 +79,18 @@
   "nf.body": "La página que busca no existe o fue movida.",
   "nf.dashboard": "Ir al panel",
   "nf.portal": "Portal de proveedores de capital",
-  "nav.learn": "Aprender"
+  "nav.learn": "Aprender",
+  "learn.title": "Base de conocimiento",
+  "learn.intro": "Guías breves y prácticas sobre cómo los proveedores de capital del Caribe evalúan una solicitud de financiamiento, y un glosario de los términos que encontrará en el camino.",
+  "learn.search": "Buscar guías y términos",
+  "learn.glossary": "Glosario",
+  "learn.noGuides": "Ninguna guía coincide con",
+  "learn.noTerms": "Ningún término coincide con",
+  "learn.back": "Base de conocimiento",
+  "learn.related": "Guías relacionadas",
+  "learn.readMin": "min de lectura",
+  "learn.notFoundTitle": "Guía no disponible",
+  "learn.notFoundBody": "Este artículo no existe o ha sido renombrado.",
+  "learn.backLink": "Volver a la base de conocimiento",
+  "learn.more": "Más información"
 }

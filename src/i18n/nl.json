@@ -79,5 +79,18 @@
   "nf.body": "De pagina die u zoekt bestaat niet of is verplaatst.",
   "nf.dashboard": "Naar dashboard",
   "nf.portal": "Portaal voor kapitaalverstrekkers",
-  "nav.learn": "Kennisbank"
+  "nav.learn": "Kennisbank",
+  "learn.title": "Kennisbank",
+  "learn.intro": "Korte, praktische gidsen over hoe kapitaalverstrekkers in het Caribisch gebied een financieringsaanvraag beoordelen — plus een woordenlijst van de termen die u tegenkomt.",
+  "learn.search": "Zoek gidsen en termen",
+  "learn.glossary": "Woordenlijst",
+  "learn.noGuides": "Geen gidsen komen overeen met",
+  "learn.noTerms": "Geen termen komen overeen met",
+  "learn.back": "Kennisbank",
+  "learn.related": "Gerelateerde gidsen",
+  "learn.readMin": "min lezen",
+  "learn.notFoundTitle": "Gids niet beschikbaar",
+  "learn.notFoundBody": "Dit artikel bestaat niet of is hernoemd.",
+  "learn.backLink": "Terug naar de kennisbank",
+  "learn.more": "Meer informatie"
 }
