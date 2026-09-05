@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { Badge, Card, Progress, Spinner } from "@/components/ui/primitives";
+import { Badge, Card, EmptyState, Progress, Spinner } from "@/components/ui/primitives";
 import { WIZARD_STEPS } from "@/lib/dossier/constants";
 import { useDocuments, useFields, useRequest } from "@/lib/dossier/queries";
 import { readinessLabel, readinessScore } from "@/lib/dossier/readiness";
