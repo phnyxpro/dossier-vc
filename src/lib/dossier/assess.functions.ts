@@ -86,7 +86,6 @@ Name: ${company?.name ?? "—"}
 Industry: ${company?.industry ?? "—"}
 Country: ${company?.country ?? "—"}
 Years in operation: ${company?.years_in_operation ?? "—"}
-Employees: ${company?.employees ?? "—"}
 
 == FINANCING REQUEST ==
 Type: ${REQUEST_TYPE_LABEL[request.request_type] ?? request.request_type}${request.financing_subtype ? ` / ${request.financing_subtype}` : ""}
