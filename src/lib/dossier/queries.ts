@@ -51,14 +51,15 @@ export function useRequests(userId: string | undefined) {
 export function useRequest(id: string) {
   return useQuery({
     queryKey: ["request", id],
+    retry: false,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("capital_requests")
         .select("*, companies(*)")
         .eq("id", id)
-        .single();
+        .maybeSingle();
       if (error) throw error;
-      return data as RequestWithCompany;
+      return (data ?? null) as RequestWithCompany | null;
     },
   });
 }
