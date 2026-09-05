@@ -53,8 +53,10 @@ function DocumentsStep() {
   const { data: fields } = useFields(id);
   const [busyDoc, setBusyDoc] = useState<string | null>(null);
   const [readingAll, setReadingAll] = useState(false);
+  const [showManual, setShowManual] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputs = useRef<Record<string, HTMLInputElement | null>>({});
+  const extraInput = useRef<HTMLInputElement | null>(null);
   const runExtraction = useServerFn(extractDocument);
 
   const rows = DOC_TYPES.map((type) => ({
@@ -67,6 +69,11 @@ function DocumentsStep() {
   function fieldCount(docId: string) {
     return (fields ?? []).filter((f) => f.document_id === docId).length;
   }
+
+  const reviewItems = (documents ?? [])
+    .map((doc) => ({ doc, reason: reviewReason(doc, fieldCount(doc.id)) }))
+    .filter((r): r is { doc: DocumentRow; reason: NonNullable<typeof r.reason> } => r.reason !== null);
+
 
   async function handleReadAll() {
     setError(null);
