@@ -446,6 +446,8 @@ export type Database = {
       }
       provider_reviews: {
         Row: {
+          closed: boolean
+          closed_at: string | null
           created_at: string
           id: string
           notes: string
@@ -460,6 +462,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          closed?: boolean
+          closed_at?: string | null
           created_at?: string
           id?: string
           notes?: string
@@ -474,6 +478,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          closed?: boolean
+          closed_at?: string | null
           created_at?: string
           id?: string
           notes?: string
