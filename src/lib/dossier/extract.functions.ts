@@ -81,27 +81,48 @@ export const extractDocument = createServerFn({ method: "POST" })
       const buffer = new Uint8Array(await blob.arrayBuffer());
       const mime = doc.mime_type || blob.type || "application/octet-stream";
 
+      const isSpreadsheet =
+        /spreadsheetml|ms-excel|officedocument\.spreadsheet/.test(mime) ||
+        /\.(xlsx|xlsm|xls)$/i.test(doc.name);
+
       let contentBlock: Record<string, unknown>;
       if (mime.startsWith("image/")) {
         const base64 = Buffer.from(buffer).toString("base64");
         contentBlock = { type: "image_url", image_url: { url: `data:${mime};base64,${base64}` } };
-      } else if (mime === "application/pdf") {
+      } else if (mime === "application/pdf" || /\.pdf$/i.test(doc.name)) {
         const base64 = Buffer.from(buffer).toString("base64");
         contentBlock = {
           type: "file",
-          file: { filename: doc.name, file_data: `data:application/pdf;base64,${base64}` },
+          file: { filename: doc.name || "document.pdf", file_data: `data:application/pdf;base64,${base64}` },
+        };
+      } else if (isSpreadsheet) {
+        const XLSX = await import("xlsx");
+        const book = XLSX.read(buffer, { type: "array" });
+        const sheets = book.SheetNames.slice(0, 8)
+          .map((sheetName) => {
+            const sheet = book.Sheets[sheetName];
+            if (!sheet) return "";
+            return `--- Sheet: ${sheetName} ---\n${XLSX.utils.sheet_to_csv(sheet)}`;
+          })
+          .filter(Boolean)
+          .join("\n\n");
+        if (!sheets.trim()) throw new Error("This spreadsheet appears to be empty.");
+        contentBlock = {
+          type: "text",
+          text: `Spreadsheet contents as CSV:\n\n${sheets.slice(0, 120_000)}`,
         };
       } else if (
         mime.startsWith("text/") ||
         mime === "application/json" ||
         mime === "text/csv" ||
-        doc.name.match(/\.(csv|txt|md|json)$/i)
+        /\.(csv|txt|md|json|tsv)$/i.test(doc.name)
       ) {
         const text = new TextDecoder().decode(buffer).slice(0, 120_000);
+        if (!text.trim()) throw new Error("This file appears to be empty.");
         contentBlock = { type: "text", text: `Document contents:\n\n${text}` };
       } else {
         throw new Error(
-          "This file type cannot be read automatically. Upload a PDF, image, CSV or text version.",
+          "This file type cannot be read automatically. Upload a PDF, image, spreadsheet, CSV or text version.",
         );
       }
 

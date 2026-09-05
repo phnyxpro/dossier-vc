@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { extractDocument } from "@/lib/dossier/extract.functions";
 import { useAuth } from "@/lib/auth";
 import { DOC_TYPES } from "@/lib/dossier/constants";
-import { useDocuments, useRequest, invalidateRequest } from "@/lib/dossier/queries";
+import { useDocuments, useFields, useRequest, invalidateRequest } from "@/lib/dossier/queries";
 import { documentReadiness } from "@/lib/dossier/readiness";
 import { formatBytes, formatDate } from "@/lib/dossier/format";
 import type { DocumentRow } from "@/lib/dossier/types";
@@ -47,7 +47,9 @@ function DocumentsStep() {
   const qc = useQueryClient();
   const { data: request } = useRequest(id);
   const { data: documents, isLoading } = useDocuments(id);
+  const { data: fields } = useFields(id);
   const [busyDoc, setBusyDoc] = useState<string | null>(null);
+  const [readingAll, setReadingAll] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputs = useRef<Record<string, HTMLInputElement | null>>({});
   const runExtraction = useServerFn(extractDocument);
@@ -57,6 +59,29 @@ function DocumentsStep() {
     doc: (documents ?? []).find((d) => d.doc_type === type.key) ?? null,
   }));
   const readiness = documentReadiness(documents ?? []);
+  const uploaded = (documents ?? []).filter((d) => d.storage_path);
+
+  function fieldCount(docId: string) {
+    return (fields ?? []).filter((f) => f.document_id === docId).length;
+  }
+
+  async function handleReadAll() {
+    setError(null);
+    setReadingAll(true);
+    const failures: string[] = [];
+    for (const doc of uploaded) {
+      setBusyDoc(doc.doc_type);
+      try {
+        await runExtraction({ data: { documentId: doc.id } });
+      } catch (err) {
+        failures.push(err instanceof Error ? err.message : "A document could not be read.");
+      }
+    }
+    setBusyDoc(null);
+    setReadingAll(false);
+    invalidateRequest(qc, id);
+    if (failures.length) setError(failures[0] ?? null);
+  }
 
   async function ensureRow(docTypeKey: string, existing: DocumentRow | null) {
     if (existing) return existing;
@@ -168,11 +193,21 @@ function DocumentsStep() {
         Documents
       </SectionTitle>
 
-      <p className="mb-6 max-w-3xl text-sm text-muted-foreground">
-        Upload each evidence type below. PDFs, images, CSV and text files are read automatically and
-        the figures are sent to the extraction review for your confirmation. Nothing is used in the
-        dossier until you confirm it.
-      </p>
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+        <p className="max-w-3xl text-sm text-muted-foreground">
+          Upload each evidence type below. PDFs, scans and photos, Excel spreadsheets, CSV and text
+          files are read by AI as soon as they land — revenue, EBITDA, cash, debt, receivables and
+          payables are pulled out with the line they came from. Nothing reaches the dossier until you
+          confirm it in the extraction review.
+        </p>
+        {uploaded.length ? (
+          <Button variant="outline" size="sm" onClick={handleReadAll} disabled={readingAll}>
+            {readingAll ? <Spinner /> : <Sparkles className="size-3.5" />}
+            {readingAll ? "Reading…" : `Read all ${uploaded.length} files`}
+          </Button>
+        ) : null}
+      </div>
+
 
       {error ? (
         <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
@@ -205,7 +240,14 @@ function DocumentsStep() {
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="font-medium">{type.label}</p>
                         <Badge tone={meta.tone}>{meta.label}</Badge>
-                        {doc?.extraction_status === "done" ? <Badge tone="primary">AI read</Badge> : null}
+                        {doc?.extraction_status === "running" ? <Badge tone="muted">Reading…</Badge> : null}
+                        {doc?.extraction_status === "done" ? (
+                          <Badge tone="primary">
+                            {fieldCount(doc.id)
+                              ? `${fieldCount(doc.id)} figures found`
+                              : "AI read — nothing found"}
+                          </Badge>
+                        ) : null}
                         {doc?.extraction_status === "error" ? <Badge tone="danger">Read failed</Badge> : null}
                       </div>
                       <p className="mt-0.5 text-xs text-muted-foreground">{type.hint}</p>
@@ -264,7 +306,7 @@ function DocumentsStep() {
                           }}
                           type="file"
                           className="hidden"
-                          accept=".pdf,.csv,.txt,.md,.json,image/*"
+                          accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) handleUpload(type.key, doc, file);
