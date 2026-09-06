@@ -12,6 +12,7 @@ import {
   Folder,
   FolderOpen,
 } from "@/lib/icons";
+import { AppShell } from "@/components/app-shell";
 import { Badge, Button, Card, EmptyState, Spinner } from "@/components/ui/primitives";
 import { DocumentViewer } from "@/components/document-viewer";
 import { supabase } from "@/integrations/supabase/client";
@@ -84,6 +85,7 @@ function DocumentsPage() {
   });
 
   return (
+    <AppShell>
     <div className="space-y-6">
       <div>
         <p className="label-caps text-primary">{t("docs.eyebrow")}</p>
@@ -212,5 +214,6 @@ function DocumentsPage() {
 
       <DocumentViewer doc={viewDoc} onClose={() => setViewDoc(null)} />
     </div>
+    </AppShell>
   );
 }
