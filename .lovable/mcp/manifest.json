@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "sdk_version": "2.0.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://uxcjwszrhjmadmhmemim.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "dossier-by-ventureble",
+      "version": "0.1.0",
+      "title": "Dossier by Ventureble"
+    },
+    "tools": [
+      {
+        "name": "list_dossiers",
+        "title": "List dossiers",
+        "description": "List the signed-in user's financing dossiers (capital requests) with reference, amount, status and readiness.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "default": 20,
+              "description": "Maximum number of dossiers to return.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_dossier",
+        "title": "Get dossier detail",
+        "description": "Fetch one dossier in full: company profile, financing ask, confirmed extracted figures, readiness notes and written dossier sections. Accepts the dossier id or its reference (e.g. QTM-2026-014).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "dossier": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Dossier id (UUID) or reference code."
+            }
+          },
+          "required": [
+            "dossier"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_documents",
+        "title": "List dossier documents",
+        "description": "List the documents attached to one dossier, with document type, upload status and AI reading status. Optionally include the text read from each file.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Dossier (capital request) id."
+            },
+            "include_text": {
+              "default": false,
+              "description": "Include the transcribed text of each document.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "request_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_dossier",
+        "title": "Create dossier",
+        "description": "Start a new financing dossier for the signed-in user: creates the business profile and the capital request draft.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "company_name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Registered business name."
+            },
+            "industry": {
+              "description": "Industry of the business.",
+              "type": "string"
+            },
+            "country": {
+              "default": "Trinidad and Tobago",
+              "description": "Country of operation.",
+              "type": "string"
+            },
+            "request_type": {
+              "default": "debt",
+              "description": "Type of capital sought.",
+              "type": "string",
+              "enum": [
+                "debt",
+                "equity",
+                "grant",
+                "blended"
+              ]
+            },
+            "amount_sought": {
+              "description": "Amount of capital sought.",
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "currency": {
+              "default": "TTD",
+              "description": "Currency code, e.g. TTD.",
+              "type": "string"
+            },
+            "purpose": {
+              "description": "Short purpose of the financing.",
+              "type": "string"
+            },
+            "business_overview": {
+              "description": "Business overview narrative.",
+              "type": "string"
+            },
+            "use_of_funds": {
+              "description": "How the funds will be used.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "company_name"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_dossier",
+        "title": "Update dossier details",
+        "description": "Update the financing ask or narrative fields of an existing dossier. Only the fields you provide are changed.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Dossier (capital request) id."
+            },
+            "amount_sought": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "purpose": {
+              "type": "string"
+            },
+            "business_overview": {
+              "type": "string"
+            },
+            "use_of_funds": {
+              "type": "string"
+            },
+            "repayment_primary": {
+              "type": "string"
+            },
+            "repayment_secondary": {
+              "type": "string"
+            },
+            "repayment_explanation": {
+              "type": "string"
+            },
+            "security_description": {
+              "type": "string"
+            },
+            "term_value": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            "term_unit": {
+              "type": "string",
+              "enum": [
+                "months",
+                "years"
+              ]
+            }
+          },
+          "required": [
+            "request_id"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
