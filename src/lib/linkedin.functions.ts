@@ -48,7 +48,7 @@ export const getLinkedInPosts = createServerFn({ method: "GET" }).handler(
         const text = commentary.text().replace(/\s+/g, " ").trim();
         if (!text) return;
 
-        const linkEl = scope
+        const linkEl = $(li)
           .find('a[href*="/posts/ventureble"]')
           .first();
         const href = linkEl.attr("href") ?? "";
