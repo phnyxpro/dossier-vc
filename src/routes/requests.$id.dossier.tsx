@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Download, Pencil, Printer, RefreshCw, Share2, Sparkles } from "@/lib/icons";
+import { Download, Pencil, Printer, RefreshCw, Share2, Sparkles, Undo2 } from "@/lib/icons";
 import { Badge, Button, Card, SectionTitle, Spinner } from "@/components/ui/primitives";
 import { SharePanel } from "@/components/share-panel";
 import { InfoLink } from "@/components/info-link";
@@ -14,7 +14,7 @@ import {
   useSaveDossierSection,
   useSaveRequest,
 } from "@/lib/dossier/queries";
-import { exportDossierDocx, generateDossier } from "@/lib/dossier/dossier.functions";
+import { exportDossierDocx, generateDossier, reviseDossierSection } from "@/lib/dossier/dossier.functions";
 import {
   buildSnapshot,
   cashflowIndicators,
@@ -232,6 +232,7 @@ function DossierStep() {
   const save = useSaveRequest(id);
   const saveSection = useSaveDossierSection(id);
   const runGenerate = useServerFn(generateDossier);
+  const runRevise = useServerFn(reviseDossierSection);
   const runExport = useServerFn(exportDossierDocx);
 
   const [format, setFormat] = useState<Format>("pack");
@@ -242,6 +243,10 @@ function DossierStep() {
   const [error, setError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [aiPrevious, setAiPrevious] = useState<string | null>(null);
 
   if (!request || !documents || !fields || !sections) {
     return (
@@ -453,8 +458,45 @@ function DossierStep() {
                 onEdit={() => {
                   setEditingId(s.id);
                   setDraft(s.body);
+                  setAiPrompt("");
+                  setAiError(null);
+                  setAiPrevious(null);
                 }}
                 onDraft={setDraft}
+                ai={{
+                  prompt: aiPrompt,
+                  setPrompt: setAiPrompt,
+                  busy: aiBusy,
+                  error: aiError,
+                  canUndo: aiPrevious !== null,
+                  undo: () => {
+                    if (aiPrevious !== null) setDraft(aiPrevious);
+                    setAiPrevious(null);
+                  },
+                  run: async () => {
+                    const instruction = aiPrompt.trim();
+                    if (!instruction) return;
+                    setAiBusy(true);
+                    setAiError(null);
+                    try {
+                      const result = await runRevise({
+                        data: {
+                          requestId: id,
+                          sectionKey: s.section_key,
+                          body: draft,
+                          instruction,
+                        },
+                      });
+                      setAiPrevious(draft);
+                      setDraft(result.body);
+                      setAiPrompt("");
+                    } catch (e) {
+                      setAiError(e instanceof Error ? e.message : "The AI edit failed. Try again.");
+                    } finally {
+                      setAiBusy(false);
+                    }
+                  },
+                }}
                 onSave={() => {
                   saveSection.mutate({ id: s.id, patch: { body: draft.trim(), status: "edited" } });
                   setEditingId(null);
