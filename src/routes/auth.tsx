@@ -148,6 +148,19 @@ function AuthPage() {
         if (signUpError) throw signUpError;
         setNotice(t("auth.created"));
         setMode("signin");
+      } else if (mode === "magic") {
+        const { error: otpError } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}${destination.startsWith("/") ? destination : "/"}`,
+            shouldCreateUser: false,
+          },
+        });
+        if (otpError) throw new Error(otpError.message);
+        // Same answer either way, so this never reveals whether an account exists.
+        setNotice(
+          "If an account exists for that address, a single-use sign-in link is on its way. It expires shortly.",
+        );
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
         if (signInError) {
@@ -158,6 +171,7 @@ function AuthPage() {
           );
           return;
         }
+        if (await requireSecondStep()) return;
         navigate({ to: destination });
       }
     } catch (err) {
