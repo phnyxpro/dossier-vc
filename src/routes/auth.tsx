@@ -5,6 +5,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { BrandMark } from "@/components/brand";
 import { Button, Card, Field, Input, Spinner } from "@/components/ui/primitives";
 import { PasswordMeter } from "@/components/password-meter";
+import { PasswordInput } from "@/components/password-input";
 import { TrustFooter } from "@/components/trust-footer";
 import { useAuth } from "@/lib/auth";
 import { useLanguage } from "@/lib/i18n";
@@ -156,9 +157,8 @@ function AuthPage() {
             ))}
           </ul>
         </div>
-        <p className="text-sm text-muted-foreground">
-          {t("auth.heroFoot")}
-        </p>
+        <span />
+
       </div>
 
       <div className="flex flex-col">
@@ -251,9 +251,8 @@ function AuthPage() {
             </Field>
             {mode !== "forgot" ? (
               <Field label={t("auth.password")} htmlFor="password">
-                <Input
+                <PasswordInput
                   id="password"
-                  type="password"
                   autoComplete={mode === "signin" ? "current-password" : "new-password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

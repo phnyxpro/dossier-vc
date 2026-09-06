@@ -26,6 +26,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as DocumentsIndexRouteImport } from './routes/documents.index'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
+import { Route as OnboardingKycRouteImport } from './routes/onboarding.kyc'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalShareIdRouteImport } from './routes/portal.$shareId'
 import { Route as ProviderIdRouteImport } from './routes/provider.$id'
@@ -127,6 +128,11 @@ const LearnSlugRoute = LearnSlugRouteImport.update({
   path: '/learn/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingKycRoute = OnboardingKycRouteImport.update({
+  id: '/onboarding/kyc',
+  path: '/onboarding/kyc',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalIndexRoute = PortalIndexRouteImport.update({
   id: '/portal/',
   path: '/portal/',
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/onboarding/kyc': typeof OnboardingKycRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
@@ -247,6 +254,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/onboarding/kyc': typeof OnboardingKycRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/new': typeof RequestsNewRoute
@@ -280,6 +288,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/onboarding/kyc': typeof OnboardingKycRoute
   '/portal/$shareId': typeof PortalShareIdRoute
   '/provider/$id': typeof ProviderIdRoute
   '/requests/$id': typeof RequestsIdRouteWithChildren
@@ -315,6 +324,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.well-known/oauth-protected-resource'
     | '/learn/$slug'
+    | '/onboarding/kyc'
     | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/$id'
@@ -348,6 +358,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.well-known/oauth-protected-resource'
     | '/learn/$slug'
+    | '/onboarding/kyc'
     | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/new'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.well-known/oauth-protected-resource'
     | '/learn/$slug'
+    | '/onboarding/kyc'
     | '/portal/$shareId'
     | '/provider/$id'
     | '/requests/$id'
@@ -414,6 +426,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   LearnSlugRoute: typeof LearnSlugRoute
+  OnboardingKycRoute: typeof OnboardingKycRoute
   PortalShareIdRoute: typeof PortalShareIdRoute
   ProviderIdRoute: typeof ProviderIdRoute
   RequestsIdRoute: typeof RequestsIdRouteWithChildren
@@ -543,6 +556,13 @@ declare module '@tanstack/react-router' {
       path: '/learn/$slug'
       fullPath: '/learn/$slug'
       preLoaderRoute: typeof LearnSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/kyc': {
+      id: '/onboarding/kyc'
+      path: '/onboarding/kyc'
+      fullPath: '/onboarding/kyc'
+      preLoaderRoute: typeof OnboardingKycRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portal/': {
@@ -689,6 +709,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   LearnSlugRoute: LearnSlugRoute,
+  OnboardingKycRoute: OnboardingKycRoute,
   PortalShareIdRoute: PortalShareIdRoute,
   ProviderIdRoute: ProviderIdRoute,
   RequestsIdRoute: RequestsIdRouteWithChildren,

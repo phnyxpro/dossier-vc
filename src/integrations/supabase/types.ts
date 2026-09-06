@@ -376,6 +376,75 @@ export type Database = {
           },
         ]
       }
+      kyc_profiles: {
+        Row: {
+          address_line: string
+          business_role: string
+          city: string
+          company_name: string
+          completed_at: string | null
+          country: string
+          created_at: string
+          date_of_birth: string | null
+          declaration_accepted: boolean
+          id: string
+          id_number: string
+          id_type: string
+          is_pep: boolean
+          legal_name: string
+          nationality: string
+          phone: string
+          source_of_funds: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address_line?: string
+          business_role?: string
+          city?: string
+          company_name?: string
+          completed_at?: string | null
+          country?: string
+          created_at?: string
+          date_of_birth?: string | null
+          declaration_accepted?: boolean
+          id?: string
+          id_number?: string
+          id_type?: string
+          is_pep?: boolean
+          legal_name?: string
+          nationality?: string
+          phone?: string
+          source_of_funds?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address_line?: string
+          business_role?: string
+          city?: string
+          company_name?: string
+          completed_at?: string | null
+          country?: string
+          created_at?: string
+          date_of_birth?: string | null
+          declaration_accepted?: boolean
+          id?: string
+          id_number?: string
+          id_type?: string
+          is_pep?: boolean
+          legal_name?: string
+          nationality?: string
+          phone?: string
+          source_of_funds?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       legal_acceptances: {
         Row: {
           accepted_at: string

@@ -18,6 +18,7 @@ import {
 import { BrandMark } from "@/components/brand";
 import { Button, Spinner } from "@/components/ui/primitives";
 import { useAuth } from "@/lib/auth";
+import { isKycComplete, useKyc } from "@/lib/kyc";
 import { useTheme } from "@/lib/theme";
 import { useLanguage } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -122,17 +123,24 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { data: kyc, isLoading: kycLoading } = useKyc(user?.id);
 
   useEffect(() => {
     if (!loading && !user)
       navigate({ to: "/auth", search: { redirect: window.location.pathname + window.location.search } });
   }, [loading, user, navigate]);
 
+  // New accounts finish identity verification before reaching the workspace.
+  useEffect(() => {
+    if (loading || !user || kycLoading) return;
+    if (!isKycComplete(kyc)) navigate({ to: "/onboarding/kyc" });
+  }, [loading, user, kyc, kycLoading, navigate]);
+
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  if (loading || !user) {
+  if (loading || !user || kycLoading || !isKycComplete(kyc)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background text-muted-foreground">
         <Spinner />

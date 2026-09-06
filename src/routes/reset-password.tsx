@@ -2,8 +2,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { BrandMark } from "@/components/brand";
-import { Button, Card, Field, Input, Spinner } from "@/components/ui/primitives";
+import { Button, Card, Field, Spinner } from "@/components/ui/primitives";
 import { PasswordMeter } from "@/components/password-meter";
+import { PasswordInput } from "@/components/password-input";
 import { TrustFooter } from "@/components/trust-footer";
 import { checkPassword, MIN_PASSWORD_LENGTH } from "@/lib/password";
 
@@ -103,9 +104,8 @@ function ResetPasswordPage() {
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <Field label="New password" htmlFor="new-password">
-                <Input
+                <PasswordInput
                   id="new-password"
-                  type="password"
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -115,9 +115,8 @@ function ResetPasswordPage() {
               </Field>
               <PasswordMeter password={password} />
               <Field label="Confirm new password" htmlFor="confirm-password">
-                <Input
+                <PasswordInput
                   id="confirm-password"
-                  type="password"
                   autoComplete="new-password"
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
