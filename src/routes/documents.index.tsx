@@ -18,7 +18,7 @@ import { DocumentViewer } from "@/components/document-viewer";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useRequests } from "@/lib/dossier/queries";
-import { DOC_TYPE_LABEL } from "@/lib/dossier/constants";
+import { useLabels } from "@/lib/dossier/labels";
 import { formatBytes, formatDate } from "@/lib/dossier/format";
 import type { DocumentRow } from "@/lib/dossier/types";
 import { useLanguage } from "@/lib/i18n";
@@ -57,15 +57,16 @@ function useAllDocuments(userId: string | undefined) {
   });
 }
 
-function statusBadge(doc: DocumentRow) {
-  if (doc.status === "received") return <Badge tone="success">Received</Badge>;
-  if (doc.status === "needs_review") return <Badge tone="warning">Needs review</Badge>;
-  return <Badge tone="muted">Missing</Badge>;
+function StatusBadge({ doc }: { doc: DocumentRow }) {
+  const { docStatus } = useLabels();
+  const tone = doc.status === "received" ? "success" : doc.status === "needs_review" ? "warning" : "muted";
+  return <Badge tone={tone}>{docStatus(doc.status)}</Badge>;
 }
 
 function DocumentsPage() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { docType } = useLabels();
   const { data: requests, isLoading: loadingRequests } = useRequests(user?.id);
   const { data: documents, isLoading: loadingDocs } = useAllDocuments(user?.id);
   const [open, setOpen] = useState<Record<string, boolean>>({});
@@ -173,7 +174,7 @@ function DocumentsPage() {
                               <div className="min-w-0 flex-1">
                                 <p className="truncate text-sm font-medium">{doc.name || t("docs.untitled")}</p>
                                 <p className="text-xs text-muted-foreground">
-                                  {DOC_TYPE_LABEL[doc.doc_type] ?? "Unclassified"} · {formatBytes(doc.size_bytes)} ·{" "}
+                                  {docType(doc.doc_type)} · {formatBytes(doc.size_bytes)} ·{" "}
                                   {formatDate(doc.updated_at)}
                                 </p>
                               </div>
@@ -187,7 +188,7 @@ function DocumentsPage() {
                                         : "text-muted-foreground"
                                   }`}
                                 />
-                                {statusBadge(doc)}
+                                <StatusBadge doc={doc} />
                                 <Button size="sm" variant="outline" onClick={() => setViewDoc(doc)}>
                                   <Eye className="size-3.5" /> {t("docs.view")}
                                 </Button>
