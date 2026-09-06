@@ -8,7 +8,6 @@ import { TrustFooter } from "@/components/trust-footer";
 import { checkPassword, MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 export const Route = createFileRoute("/reset-password")({
-  ssr: false,
   head: () => ({
     meta: [
       { title: "Set a new password — Dossier by Ventureble" },
