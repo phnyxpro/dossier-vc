@@ -1,13 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { ArrowRight, Plus, Sparkles, Trash2 } from "@/lib/icons";
+import { ArrowRight, Plus } from "@/lib/icons";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Button, Card, EmptyState, Progress, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { useAuth } from "@/lib/auth";
 import { useLanguage } from "@/lib/i18n";
 import { useRequests } from "@/lib/dossier/queries";
-import { loadDemoData, removeDemoData } from "@/lib/dossier/demo";
 import { formatDate, formatMoney } from "@/lib/dossier/format";
 import { useLabels } from "@/lib/dossier/labels";
 
@@ -49,34 +46,12 @@ function Dashboard() {
   const { user } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const qc = useQueryClient();
   const labels = useLabels();
   const { data: requests, isLoading } = useRequests(user?.id);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const hasDemo = (requests ?? []).some((r) => r.is_demo);
   const totalSought = (requests ?? []).reduce((sum, r) => sum + Number(r.amount_sought ?? 0), 0);
   const active = (requests ?? []).filter((r) => r.status !== "submitted").length;
   const readyCount = (requests ?? []).filter((r) => r.readiness_status === "ready").length;
-
-  async function handleDemo() {
-    if (!user) return;
-    setBusy(true);
-    setError(null);
-    try {
-      if (hasDemo) {
-        await removeDemoData(user.id);
-      } else {
-        await loadDemoData(user.id);
-      }
-      await qc.invalidateQueries({ queryKey: ["requests"] });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t("dash.sampleError"));
-    } finally {
-      setBusy(false);
-    }
-  }
 
   return (
     <AppShell>
@@ -89,20 +64,12 @@ function Dashboard() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={handleDemo} disabled={busy}>
-            {busy ? <Spinner /> : hasDemo ? <Trash2 className="size-4" /> : <Sparkles className="size-4" />}
-            {hasDemo ? t("dash.removeSample") : t("dash.loadSample")}
-          </Button>
           <Button onClick={() => navigate({ to: "/requests/new" })}>
             <Plus className="size-4" />
             {t("dash.newRequest")}
           </Button>
         </div>
       </div>
-
-      {error ? (
-        <p className="mb-6 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
-      ) : null}
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label={t("dash.openRequests")} value={active} sub={t("dash.openRequestsSub")} />
@@ -127,14 +94,9 @@ function Dashboard() {
           title={t("dash.emptyTitle")}
           description={t("dash.emptyBody")}
           action={
-            <div className="flex flex-wrap justify-center gap-2">
-              <Button onClick={() => navigate({ to: "/requests/new" })}>
-                <Plus className="size-4" /> {t("dash.newRequest")}
-              </Button>
-              <Button variant="outline" onClick={handleDemo} disabled={busy}>
-                <Sparkles className="size-4" /> {t("dash.loadSample")}
-              </Button>
-            </div>
+            <Button onClick={() => navigate({ to: "/requests/new" })}>
+              <Plus className="size-4" /> {t("dash.newRequest")}
+            </Button>
           }
         />
       ) : (
