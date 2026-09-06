@@ -52,7 +52,7 @@ function ProfileMenu() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
-  const name = (user?.user_metadata?.full_name as string) || "";
+  const name = (user?.user_metadata?.["full_name"] as string) || "";
   const initial = (name || user?.email || "?").trim().charAt(0).toUpperCase();
 
   return (
