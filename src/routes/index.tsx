@@ -46,34 +46,12 @@ function Dashboard() {
   const { user } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const qc = useQueryClient();
   const labels = useLabels();
   const { data: requests, isLoading } = useRequests(user?.id);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const hasDemo = (requests ?? []).some((r) => r.is_demo);
   const totalSought = (requests ?? []).reduce((sum, r) => sum + Number(r.amount_sought ?? 0), 0);
   const active = (requests ?? []).filter((r) => r.status !== "submitted").length;
   const readyCount = (requests ?? []).filter((r) => r.readiness_status === "ready").length;
-
-  async function handleDemo() {
-    if (!user) return;
-    setBusy(true);
-    setError(null);
-    try {
-      if (hasDemo) {
-        await removeDemoData(user.id);
-      } else {
-        await loadDemoData(user.id);
-      }
-      await qc.invalidateQueries({ queryKey: ["requests"] });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t("dash.sampleError"));
-    } finally {
-      setBusy(false);
-    }
-  }
 
   return (
     <AppShell>
