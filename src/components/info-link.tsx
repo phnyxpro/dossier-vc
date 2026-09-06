@@ -15,7 +15,7 @@ export function InfoLink({
   returnTo?: string;
 }) {
   const location = useLocation();
-  const backTo = returnTo ?? location.pathname + location.search;
+  const backTo = returnTo ?? location.href ?? location.pathname;
   return (
     <Link
       to="/learn/$slug"
