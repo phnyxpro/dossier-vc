@@ -24,6 +24,7 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — Dossier by Ventureble" },
+      { name: "robots", content: "noindex" },
       {
         name: "description",
         content:

@@ -22,6 +22,7 @@ export const Route = createFileRoute("/notifications")({
   head: () => ({
     meta: [
       { title: "Notifications | DOSSIER by Ventureble" },
+      { name: "robots", content: "noindex" },
       {
         name: "description",
         content:
