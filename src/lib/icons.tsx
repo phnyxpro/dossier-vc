@@ -72,6 +72,7 @@ export {
   Square,
   Sun,
   Trash as Trash2,
+  ArrowCounterClockwise as Undo2,
   UploadSimple as Upload,
   X,
   XCircle,
