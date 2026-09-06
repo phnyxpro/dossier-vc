@@ -1,7 +1,7 @@
 export type DocStatus = "received" | "missing" | "needs_review";
 
 export const DOC_TYPES = [
-  { key: "financial_statements", label: "Financial statements", hint: "Audited or reviewed, last 2-3 years" },
+  { key: "financial_statements", label: "Financial statements", hint: "Audited or reviewed, up to 5 years — add one file per year" },
   { key: "management_accounts", label: "Management accounts", hint: "Most recent interim period" },
   { key: "bank_statements", label: "Bank statements", hint: "Last 6-12 months, all operating accounts" },
   { key: "ar_ageing", label: "Accounts receivable ageing", hint: "Current ageing by customer" },
