@@ -28,6 +28,14 @@ const ALLOWED_KEYS = new Set([
   "inventory",
   "major_customer",
   "recurring_obligation",
+  "legal_business_name",
+  "registration_number",
+  "registration_date",
+  "legal_form",
+  "registered_address",
+  "director_or_owner",
+  "business_activity",
+  "registration_expiry",
 ]);
 
 const SYSTEM_PROMPT = `You are a financial analyst assistant preparing a lender pack for a Caribbean small or medium business.
@@ -35,7 +43,8 @@ Read the supplied business document and extract only figures and facts that are 
 Never estimate, infer or invent a value. If a figure is not clearly stated, omit it.
 Return JSON only, with this exact shape:
 {"fields":[{"field_key":"annual_revenue","value_number":1234567,"value_text":null,"unit":"TTD","period":"FY2024","confidence":0.9,"source_excerpt":"exact line from the document"}]}
-Allowed field_key values: annual_revenue, gross_profit, ebitda, net_profit, cash_balance, existing_debt, debt_service, receivables, payables, inventory, major_customer, recurring_obligation.
+Allowed field_key values: annual_revenue, gross_profit, ebitda, net_profit, cash_balance, existing_debt, debt_service, receivables, payables, inventory, major_customer, recurring_obligation, legal_business_name, registration_number, registration_date, legal_form, registered_address, director_or_owner, business_activity, registration_expiry.
+Registration certificates, incorporation papers, licences and tax documents rarely contain financial figures: from those read the identity details instead — legal_business_name, registration_number (certificate/company/BIR number exactly as printed), registration_date, legal_form (sole trader, partnership, limited company), registered_address, director_or_owner (one entry per named person), business_activity and registration_expiry. Put these in value_text.
 Use value_number for monetary amounts (plain number, no separators or symbols) and value_text for named items such as major_customer and recurring_obligation.
 Amounts in brackets are negative. Respect stated scaling such as "in thousands" or "TT$'000" and convert to full units.
 confidence is 0 to 1 and reflects how clearly the document states the value; lower it when digits were hard to read on a scan.
@@ -140,6 +149,7 @@ export const extractDocument = createServerFn({ method: "POST" })
       const isImage = mime.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp|heic|heif)$/i.test(doc.name);
       const isPdf = mime === "application/pdf" || /\.pdf$/i.test(doc.name);
 
+      let plainText = "";
       let contentBlock: Record<string, unknown>;
       if (isImage) {
         const base64 = Buffer.from(buffer).toString("base64");
@@ -163,6 +173,7 @@ export const extractDocument = createServerFn({ method: "POST" })
           .filter(Boolean)
           .join("\n\n");
         if (!sheets.trim()) throw new Error("This spreadsheet appears to be empty.");
+        plainText = sheets.slice(0, 200_000);
         contentBlock = {
           type: "text",
           text: `Spreadsheet contents as CSV:\n\n${sheets.slice(0, 120_000)}`,
@@ -175,6 +186,7 @@ export const extractDocument = createServerFn({ method: "POST" })
       ) {
         const text = new TextDecoder().decode(buffer).slice(0, 120_000);
         if (!text.trim()) throw new Error("This file appears to be empty.");
+        plainText = text;
         contentBlock = { type: "text", text: `Document contents:\n\n${text}` };
       } else {
         throw new Error(
@@ -279,6 +291,8 @@ export const extractDocument = createServerFn({ method: "POST" })
         .eq("origin", "ai")
         .eq("status", "pending");
 
+      const readText = (transcript || plainText).slice(0, 200_000) || null;
+
       if (rows.length) {
         const { error: insertError } = await supabase.from("extracted_fields").insert(rows);
         if (insertError) throw new Error(insertError.message);
@@ -289,7 +303,8 @@ export const extractDocument = createServerFn({ method: "POST" })
         .update({
           extraction_status: "done",
           extraction_error: null,
-          status: rows.length ? "received" : "needs_review",
+          extracted_text: readText,
+          status: rows.length || readText ? "received" : "needs_review",
         })
         .eq("id", doc.id);
 

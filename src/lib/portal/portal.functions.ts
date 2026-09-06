@@ -196,7 +196,7 @@ export const portalDossier = createServerFn({ method: "POST" })
         db.from("capital_requests").select("*, companies(*)").eq("id", share.request_id).single(),
         db
           .from("documents")
-          .select("id, doc_type, name, status, notes, created_at, updated_at, request_id, user_id, mime_type, size_bytes, extraction_status, extraction_error, storage_path")
+          .select("id, doc_type, name, status, notes, created_at, updated_at, request_id, user_id, mime_type, size_bytes, extraction_status, extraction_error, extracted_text, storage_path")
           .eq("request_id", share.request_id)
           .order("created_at", { ascending: true }),
         db
