@@ -156,9 +156,8 @@ function AuthPage() {
             ))}
           </ul>
         </div>
-        <p className="text-sm text-muted-foreground">
-          {t("auth.heroFoot")}
-        </p>
+        <span />
+
       </div>
 
       <div className="flex flex-col">
