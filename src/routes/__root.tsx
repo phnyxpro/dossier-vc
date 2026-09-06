@@ -15,6 +15,7 @@ import { AuthProvider, useAuth } from "@/lib/auth";
 import { LanguageProvider, useLanguage } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Toaster } from "@/components/ui/sonner";
+import { TrustFooter } from "@/components/trust-footer";
 
 
 function NotFoundComponent() {
@@ -45,6 +46,7 @@ function NotFoundComponent() {
         <div className="mt-6 flex justify-center">
           <LanguageSwitcher />
         </div>
+        <TrustFooter className="mt-10 border-t-0" />
       </div>
     </div>
   );
