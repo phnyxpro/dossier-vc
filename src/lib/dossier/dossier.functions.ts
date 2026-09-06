@@ -263,6 +263,16 @@ export const generateDossier = createServerFn({ method: "POST" })
       .upsert(rows, { onConflict: "request_id,section_key" });
     if (upsertError) throw new Error(upsertError.message);
 
+    const { notifySafe } = await import("@/lib/notify/notify.server");
+    await notifySafe({
+      userId: context.userId,
+      kind: "dossier_ready",
+      title: "Your dossier draft is ready",
+      body: `${rows.length} section${rows.length === 1 ? "" : "s"} were drafted and are ready for your review.`,
+      url: `/requests/${data.requestId}/dossier`,
+      requestId: data.requestId,
+    });
+
     return { generated: rows.length };
   });
 

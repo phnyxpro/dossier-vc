@@ -400,6 +400,74 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_preferences: {
+        Row: {
+          email: boolean
+          in_app: boolean
+          push: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          email?: boolean
+          in_app?: boolean
+          push?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          email?: boolean
+          in_app?: boolean
+          push?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          read_at: string | null
+          request_id: string | null
+          title: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind: string
+          read_at?: string | null
+          request_id?: string | null
+          title: string
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          read_at?: string | null
+          request_id?: string | null
+          title?: string
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "capital_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string

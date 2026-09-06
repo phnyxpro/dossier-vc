@@ -20,6 +20,7 @@ import { useTheme } from "@/lib/theme";
 import { useLanguage } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { PushToggle } from "@/components/push-toggle";
+import { NotificationBell } from "@/components/notification-bell";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -93,6 +94,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               {user.email}
             </span>
             <LanguageSwitcher className="hidden sm:flex" />
+            <NotificationBell />
             <PushToggle />
             <Button variant="ghost" size="sm" onClick={toggle} aria-label={t("nav.toggleTheme")}>
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
