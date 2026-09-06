@@ -75,6 +75,14 @@ export const EXTRACTION_FIELDS = [
   { key: "inventory", label: "Inventory", numeric: true },
   { key: "major_customer", label: "Major customer", numeric: false },
   { key: "recurring_obligation", label: "Recurring obligation", numeric: false },
+  { key: "legal_business_name", label: "Legal business name", numeric: false },
+  { key: "registration_number", label: "Registration number", numeric: false },
+  { key: "registration_date", label: "Registration date", numeric: false },
+  { key: "legal_form", label: "Legal form", numeric: false },
+  { key: "registered_address", label: "Registered address", numeric: false },
+  { key: "director_or_owner", label: "Director / owner", numeric: false },
+  { key: "business_activity", label: "Business activity", numeric: false },
+  { key: "registration_expiry", label: "Registration expiry", numeric: false },
 ] as const;
 
 export const EXTRACTION_FIELD_LABEL: Record<string, string> = Object.fromEntries(
