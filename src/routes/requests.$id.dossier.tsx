@@ -75,6 +75,13 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
   );
 }
 
+const PROMPT_SUGGESTIONS = [
+  "Make this shorter and sharper",
+  "Use plainer language",
+  "Add more detail on the numbers",
+  "Make the tone more conservative",
+];
+
 function SectionCard({
   section,
   number,
@@ -86,6 +93,7 @@ function SectionCard({
   onSave,
   onCancel,
   onRegenerate,
+  ai,
 }: {
   section: DossierSectionRow;
   number: number;
@@ -97,6 +105,15 @@ function SectionCard({
   onSave: () => void;
   onCancel: () => void;
   onRegenerate: () => void;
+  ai: {
+    prompt: string;
+    setPrompt: (v: string) => void;
+    busy: boolean;
+    error: string | null;
+    canUndo: boolean;
+    run: () => void;
+    undo: () => void;
+  };
 }) {
   const def = DOSSIER_SECTION_MAP.get(section.section_key);
   return (
@@ -142,6 +159,56 @@ function SectionCard({
             rows={Math.min(18, Math.max(8, draft.split("\n").length + 2))}
             className="w-full rounded-md border border-paper-border bg-paper px-3 py-2 text-sm leading-relaxed text-paper-foreground focus:outline-none"
           />
+
+          <div className="rounded-md border border-paper-border bg-paper-foreground/[0.03] p-3">
+            <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-paper-foreground/60">
+              <Sparkles className="size-3.5" /> Ask AI to edit this section
+            </p>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <textarea
+                value={ai.prompt}
+                onChange={(e) => ai.setPrompt(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                    e.preventDefault();
+                    ai.run();
+                  }
+                }}
+                rows={2}
+                placeholder="Tell the AI what to change — e.g. “shorten this to one paragraph and lead with the repayment source”."
+                className="w-full flex-1 resize-y rounded-md border border-paper-border bg-paper px-3 py-2 text-sm text-paper-foreground placeholder:text-paper-foreground/40 focus:outline-none"
+              />
+              <div className="flex shrink-0 gap-2 sm:flex-col">
+                <Button size="sm" variant="accent" onClick={ai.run} disabled={ai.busy || !ai.prompt.trim()}>
+                  <Sparkles className={`size-4 ${ai.busy ? "animate-pulse" : ""}`} />
+                  {ai.busy ? "Rewriting…" : "Apply"}
+                </Button>
+                {ai.canUndo ? (
+                  <Button size="sm" variant="outline" onClick={ai.undo} disabled={ai.busy}>
+                    <Undo2 className="size-4" /> Undo
+                  </Button>
+                ) : null}
+              </div>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {PROMPT_SUGGESTIONS.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => ai.setPrompt(s)}
+                  disabled={ai.busy}
+                  className="rounded-full border border-paper-border px-2.5 py-1 text-xs text-paper-foreground/70 hover:bg-paper-foreground/5 disabled:opacity-50"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+            {ai.error ? <p className="mt-2 text-xs text-destructive">{ai.error}</p> : null}
+            <p className="mt-2 text-xs text-paper-foreground/50">
+              The AI only uses figures you have confirmed. Review the result before saving.
+            </p>
+          </div>
+
           <div className="flex gap-2">
             <Button size="sm" variant="accent" onClick={onSave}>Save changes</Button>
             <Button size="sm" variant="outline" onClick={onCancel}>Cancel</Button>
@@ -153,6 +220,7 @@ function SectionCard({
     </section>
   );
 }
+
 
 function DossierStep() {
   const { id } = Route.useParams();
