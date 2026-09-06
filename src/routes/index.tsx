@@ -71,10 +71,6 @@ function Dashboard() {
         </div>
       </div>
 
-      {error ? (
-        <p className="mb-6 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
-      ) : null}
-
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label={t("dash.openRequests")} value={active} sub={t("dash.openRequestsSub")} />
         <Stat
