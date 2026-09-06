@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { z } from "zod";
 import { ArrowLeft, Clock } from "@/lib/icons";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Card, EmptyState, SectionTitle } from "@/components/ui/primitives";
@@ -7,7 +8,11 @@ import { useLearnContent } from "@/lib/learn/localized";
 import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/learn/$slug")({
+  validateSearch: z.object({
+    returnTo: z.string().optional(),
+  }),
   head: ({ params }) => {
+
     const article = ARTICLE_BY_SLUG[params.slug];
     if (!article) {
       return {
@@ -36,7 +41,23 @@ function ArticlePage() {
   const { slug } = Route.useParams();
   const { t } = useLanguage();
   const { articleBySlug } = useLearnContent();
+  const { returnTo } = Route.useSearch();
+  const router = useRouter();
   const article = articleBySlug[slug];
+
+  const backHref = returnTo || "/learn";
+  const BackLink = (
+    <a
+      href={backHref}
+      onClick={(e) => {
+        e.preventDefault();
+        router.history.push(backHref);
+      }}
+      className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+    >
+      <ArrowLeft className="size-4" /> {t("learn.back")}
+    </a>
+  );
 
   if (!article) {
     return (
@@ -59,12 +80,8 @@ function ArticlePage() {
   return (
     <AppShell>
       <div className="mx-auto max-w-3xl">
-        <Link
-          to="/learn"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="size-4" /> {t("learn.back")}
-        </Link>
+        {BackLink}
+
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <Badge tone="default">{article.category}</Badge>
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
