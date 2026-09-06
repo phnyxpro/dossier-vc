@@ -65,6 +65,7 @@ export const getLinkedInPosts = createServerFn({ method: "GET" }).handler(
             image = src.replace(/&amp;/g, "&");
           }
         });
+        image = image as string | null;
 
         posts.push({ text, url, timeAgo, image });
       });
