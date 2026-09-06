@@ -1,13 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { ArrowRight, Plus, Sparkles, Trash2 } from "@/lib/icons";
+import { ArrowRight, Plus } from "@/lib/icons";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Button, Card, EmptyState, Progress, SectionTitle, Spinner, Stat } from "@/components/ui/primitives";
 import { useAuth } from "@/lib/auth";
 import { useLanguage } from "@/lib/i18n";
 import { useRequests } from "@/lib/dossier/queries";
-import { loadDemoData, removeDemoData } from "@/lib/dossier/demo";
 import { formatDate, formatMoney } from "@/lib/dossier/format";
 import { useLabels } from "@/lib/dossier/labels";
 
