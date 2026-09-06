@@ -61,10 +61,16 @@ function DocumentsStep() {
   const extraInput = useRef<HTMLInputElement | null>(null);
   const runExtraction = useServerFn(extractDocument);
 
-  const rows = DOC_TYPES.map((type) => ({
-    type,
-    doc: (documents ?? []).find((d) => d.doc_type === type.key) ?? null,
-  }));
+  const rows = DOC_TYPES.map((type) => {
+    const all = (documents ?? []).filter((d) => d.doc_type === type.key);
+    const files = all.filter((d) => d.storage_path);
+    return {
+      type,
+      files,
+      placeholder: all.find((d) => !d.storage_path) ?? null,
+      doc: files[0] ?? all[0] ?? null,
+    };
+  });
   const readiness = documentReadiness(documents ?? []);
   const uploaded = (documents ?? []).filter((d) => d.storage_path);
 
@@ -106,11 +112,9 @@ function DocumentsStep() {
     return data as DocumentRow;
   }
 
-  async function handleUpload(docTypeKey: string, existing: DocumentRow | null, file: File) {
+  async function uploadOne(docTypeKey: string, existing: DocumentRow | null, file: File) {
     if (!user) return;
-    setError(null);
-    setBusyDoc(docTypeKey);
-    try {
+    {
       const row = await ensureRow(docTypeKey, existing);
       const path = `${user.id}/${id}/${row.id}-${file.name.replace(/[^\w.\-]/g, "_")}`;
       const { error: uploadError } = await supabase.storage
@@ -137,12 +141,29 @@ function DocumentsStep() {
       // Read the document with AI straight away.
       await runExtraction({ data: { documentId: row.id } });
       invalidateRequest(qc, id);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed.");
-      invalidateRequest(qc, id);
-    } finally {
-      setBusyDoc(null);
     }
+  }
+
+  /** Uploads one or many files against the same checklist item. */
+  async function handleUpload(
+    docTypeKey: string,
+    placeholder: DocumentRow | null,
+    files: File[],
+  ) {
+    if (!user || !files.length) return;
+    setError(null);
+    setBusyDoc(docTypeKey);
+    let slot = placeholder;
+    for (const file of files) {
+      try {
+        await uploadOne(docTypeKey, slot, file);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Upload failed.");
+      }
+      slot = null;
+    }
+    invalidateRequest(qc, id);
+    setBusyDoc(null);
   }
 
   async function handleExtract(doc: DocumentRow) {
@@ -158,11 +179,15 @@ function DocumentsStep() {
     }
   }
 
-  async function handleRemove(doc: DocumentRow) {
+  async function handleRemove(doc: DocumentRow, isOnlyFile = true) {
     setBusyDoc(doc.doc_type);
     try {
       if (doc.storage_path) await supabase.storage.from("documents").remove([doc.storage_path]);
       await supabase.from("extracted_fields").delete().eq("document_id", doc.id);
+      if (!isOnlyFile) {
+        await supabase.from("documents").delete().eq("id", doc.id);
+        return;
+      }
       await supabase
         .from("documents")
         .update({
@@ -240,14 +265,15 @@ function DocumentsStep() {
             type="file"
             className="hidden"
             accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
+            multiple
             onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleUpload("unclassified", null, file);
+              const chosen = Array.from(e.target.files ?? []);
+              if (chosen.length) handleUpload("unclassified", null, chosen);
               e.target.value = "";
             }}
           />
           <Button variant="outline" size="sm" onClick={() => extraInput.current?.click()}>
-            <Upload className="size-3.5" /> Upload another file
+            <Upload className="size-3.5" /> Upload files
           </Button>
           <Button variant="outline" size="sm" onClick={() => navigate({ to: "/requests/$id/pack", params: { id } })}>
             <Package className="size-3.5" /> Lender pack
