@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { z } from "zod";
 import { ArrowLeft, Clock } from "@/lib/icons";
-import { AppShell } from "@/components/app-shell";
+import { ContentShell } from "@/components/content-shell";
 import { Badge, Card, EmptyState, SectionTitle } from "@/components/ui/primitives";
 import { ARTICLE_BY_SLUG } from "@/lib/learn/content";
 import { useLearnContent } from "@/lib/learn/localized";
 import { useLanguage } from "@/lib/i18n";
+import { absoluteUrl, breadcrumbLd, canonicalTags, jsonLd, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/learn/$slug")({
   validateSearch: z.object({
@@ -23,8 +24,33 @@ export const Route = createFileRoute("/learn/$slug")({
       };
     }
     const title = `${article.title} — Dossier by Ventureble`;
+    const path = `/learn/${article.slug}`;
     return {
+      links: [canonicalTags(path).link],
+      scripts: [
+        jsonLd({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: article.title,
+          description: article.summary,
+          url: absoluteUrl(path),
+          inLanguage: "en",
+          articleSection: article.category,
+          isAccessibleForFree: true,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+          publisher: { "@id": `${SITE_URL}/#organization` },
+          author: { "@type": "Organization", name: "Ventureble Ltd" },
+        }),
+        jsonLd(
+          breadcrumbLd([
+            { name: "Dossier by Ventureble", path: "/" },
+            { name: "Knowledge base", path: "/learn" },
+            { name: article.title, path },
+          ]),
+        ),
+      ],
       meta: [
+        canonicalTags(path).meta,
         { title },
         { name: "description", content: article.summary },
         { property: "og:title", content: title },
@@ -61,7 +87,7 @@ function ArticlePage() {
 
   if (!article) {
     return (
-      <AppShell>
+      <ContentShell>
         <div className="mx-auto max-w-3xl">
           <EmptyState
             title={t("learn.notFoundTitle")}
@@ -73,12 +99,12 @@ function ArticlePage() {
             }
           />
         </div>
-      </AppShell>
+      </ContentShell>
     );
   }
 
   return (
-    <AppShell>
+    <ContentShell>
       <div className="mx-auto max-w-3xl">
         {BackLink}
 
@@ -136,6 +162,6 @@ function ArticlePage() {
           </div>
         ) : null}
       </div>
-    </AppShell>
+    </ContentShell>
   );
 }

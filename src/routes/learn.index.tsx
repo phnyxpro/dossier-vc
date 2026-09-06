@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { BookOpen, Clock, Search } from "@/lib/icons";
-import { AppShell } from "@/components/app-shell";
+import { ContentShell } from "@/components/content-shell";
 import { Badge, Card, Input, SectionTitle } from "@/components/ui/primitives";
 import { useLearnContent } from "@/lib/learn/localized";
 import { useLanguage } from "@/lib/i18n";
+import { ARTICLES } from "@/lib/learn/content";
+import { absoluteUrl, breadcrumbLd, canonicalTags, jsonLd, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/learn/")({
   head: () => ({
@@ -22,6 +24,31 @@ export const Route = createFileRoute("/learn/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      canonicalTags("/learn").meta,
+    ],
+    links: [canonicalTags("/learn").link],
+    scripts: [
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Knowledge Base & Glossary — Dossier by Ventureble",
+        url: absoluteUrl("/learn"),
+        inLanguage: "en",
+        about: "Business financing for Caribbean micro, small and medium enterprises",
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        hasPart: ARTICLES.map((article) => ({
+          "@type": "Article",
+          headline: article.title,
+          description: article.summary,
+          url: absoluteUrl(`/learn/${article.slug}`),
+        })),
+      }),
+      jsonLd(
+        breadcrumbLd([
+          { name: "Dossier by Ventureble", path: "/" },
+          { name: "Knowledge base", path: "/learn" },
+        ]),
+      ),
     ],
   }),
   component: LearnIndex,
@@ -57,7 +84,7 @@ function LearnIndex() {
   );
 
   return (
-    <AppShell>
+    <ContentShell>
       <div className="mx-auto max-w-5xl">
         <SectionTitle>{t("learn.title")}</SectionTitle>
         <Card className="p-6">
@@ -137,6 +164,6 @@ function LearnIndex() {
           </div>
         </div>
       </div>
-    </AppShell>
+    </ContentShell>
   );
 }
