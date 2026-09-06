@@ -276,7 +276,83 @@ export const generateDossier = createServerFn({ method: "POST" })
     return { generated: rows.length };
   });
 
+// ---------- AI-assisted section editing ----------
+
+const reviseInput = z.object({
+  requestId: z.string().uuid(),
+  sectionKey: z.string(),
+  /** The text currently in the editor (may include unsaved edits). */
+  body: z.string().max(20000),
+  /** Plain-language instruction from the user. */
+  instruction: z.string().min(3).max(2000),
+});
+
+const REVISE_SYSTEM = `You are a senior Caribbean corporate finance advisor helping a business owner edit one section of a financing dossier that will be read by banks, credit unions and development finance institutions.
+
+You are given the fact pack for the business, the current text of one section, and the owner's instruction for how to change it.
+
+Hard rules:
+- Apply the instruction faithfully. Change only what the instruction asks for; keep everything else as close to the original wording as possible.
+- Use ONLY facts and figures present in the fact pack or already in the current text. Never invent, estimate or extrapolate a number, date, customer name or obligation. If the instruction asks for something the facts do not support, write what is known and state plainly what the business has not yet provided.
+- Amounts stay in the currency used in the fact pack (write e.g. "TTD 4,250,000").
+- Professional, measured investment-memo tone. No marketing language, no superlatives.
+- Never state or imply that financing is approved, recommended or likely to be approved.
+- Plain text only: paragraphs separated by a blank line; bullet items as lines starting with "- ". No markdown headings, no bold, no tables.
+- Keep the section roughly 120 to 300 words unless the instruction clearly asks for shorter or longer.
+
+Return the revised section text only. No preamble, no explanation, no quotes, no JSON.`;
+
+export const reviseDossierSection = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => reviseInput.parse(data))
+  .handler(async ({ data, context }) => {
+    const apiKey = process.env["LOVABLE_API_KEY"];
+    if (!apiKey) throw new Error("AI is not configured for this project.");
+
+    const def = DOSSIER_SECTION_MAP.get(data.sectionKey);
+    if (!def) throw new Error("Unknown dossier section.");
+
+    const facts = await loadFacts(context.supabase, data.requestId);
+
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Lovable-API-Key": apiKey,
+        "X-Lovable-AIG-SDK": "fetch",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-3.7-flash",
+        messages: [
+          { role: "system", content: REVISE_SYSTEM },
+          {
+            role: "user",
+            content: `SECTION: ${def.title} (${def.key})\n\nOWNER'S INSTRUCTION:\n${data.instruction}\n\nCURRENT SECTION TEXT:\n${data.body || "(empty — write this section from the fact pack)"}\n\nFACT PACK:\n\n${factPackText(facts)}`,
+          },
+        ],
+      }),
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      if (response.status === 429) throw new Error("The AI service is busy. Try again shortly.");
+      if (response.status === 402) throw new Error("AI credits are exhausted for this workspace.");
+      if (response.status === 403) throw new Error("AI is disabled for this workspace by policy.");
+      throw new Error(`AI request failed (${response.status}): ${body.slice(0, 300)}`);
+    }
+
+    const payload = (await response.json()) as { choices?: { message?: { content?: string } }[] };
+    const raw = (payload.choices?.[0]?.message?.content ?? "").trim();
+    const revised = stripIndicativeNote(
+      raw.replace(/^```[a-z]*\n?/i, "").replace(/```$/, "").trim(),
+    );
+    if (!revised) throw new Error("The AI returned nothing usable. Try rephrasing your instruction.");
+
+    return { body: revised };
+  });
+
 // ---------- DOCX export ----------
+
 
 function docxParagraphs(body: string, make: { p: (text: string) => any; bullet: (text: string) => any }) {
   return body.split(/\n+/).map((line) => {
