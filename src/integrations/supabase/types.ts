@@ -149,6 +149,7 @@ export type Database = {
         Row: {
           created_at: string
           doc_type: string
+          extracted_text: string | null
           extraction_error: string | null
           extraction_status: string
           id: string
@@ -165,6 +166,7 @@ export type Database = {
         Insert: {
           created_at?: string
           doc_type: string
+          extracted_text?: string | null
           extraction_error?: string | null
           extraction_status?: string
           id?: string
@@ -181,6 +183,7 @@ export type Database = {
         Update: {
           created_at?: string
           doc_type?: string
+          extracted_text?: string | null
           extraction_error?: string | null
           extraction_status?: string
           id?: string
