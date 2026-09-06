@@ -173,5 +173,7 @@
   "notif.loadError": "Impossible de charger vos notifications",
   "notif.saveError": "Impossible d'enregistrer vos réglages",
   "nav.notifications": "Notifications",
-  "nav.settings": "Paramètres"
+  "nav.settings": "Paramètres",
+  "nav.profile": "Profil",
+  "nav.profileSettings": "Profil et paramètres"
 }

@@ -173,5 +173,7 @@
   "notif.loadError": "Uw meldingen konden niet worden geladen",
   "notif.saveError": "Uw instellingen konden niet worden opgeslagen",
   "nav.notifications": "Meldingen",
-  "nav.settings": "Instellingen"
+  "nav.settings": "Instellingen",
+  "nav.profile": "Profiel",
+  "nav.profileSettings": "Profiel en instellingen"
 }

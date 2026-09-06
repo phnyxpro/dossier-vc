@@ -1,17 +1,19 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
+  BookOpen,
   FileText,
   FolderOpen,
   LayoutDashboard,
   LogOut,
+  Mail,
   Menu,
   Moon,
   Plus,
-  BookOpen,
   Settings,
   ShieldCheck,
   Sun,
+  UserCircle,
   X,
 } from "@/lib/icons";
 import { BrandMark } from "@/components/brand";
@@ -28,12 +30,94 @@ const NAV = [
   { to: "/", labelKey: "nav.dashboard", icon: LayoutDashboard, exact: true },
   { to: "/requests/new", labelKey: "nav.newRequest", icon: Plus, exact: false },
   { to: "/documents", labelKey: "nav.documents", icon: FolderOpen, exact: false },
-  { to: "/learn", labelKey: "nav.learn", icon: BookOpen, exact: false },
-  { to: "/settings", labelKey: "nav.settings", icon: Settings, exact: false },
 ];
 
+const ICON_LINKS = [
+  { to: "/learn", labelKey: "nav.learn", icon: BookOpen },
+  { to: "/settings", labelKey: "nav.settings", icon: Settings },
+];
+
+function ProfileMenu() {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, []);
+
+  const name = (user?.user_metadata?.full_name as string) || "";
+  const initial = (name || user?.email || "?").trim().charAt(0).toUpperCase();
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-label={t("nav.profile")}
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "flex size-8 items-center justify-center rounded-full border border-border text-sm font-semibold transition-colors",
+          open ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground",
+        )}
+      >
+        {initial}
+      </button>
+      {open ? (
+        <div className="absolute right-0 top-full z-50 w-64 rounded-md border border-border bg-surface p-1 shadow-lg">
+          <div className="flex items-center gap-3 border-b border-border px-3 py-3">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/15 text-base font-semibold text-primary">
+              {initial}
+            </span>
+            <div className="min-w-0">
+              {name ? <p className="truncate text-sm font-medium text-foreground">{name}</p> : null}
+              <p className="flex items-center gap-1 truncate text-xs text-muted-foreground">
+                <Mail className="size-3 shrink-0" />
+                {user?.email}
+              </p>
+            </div>
+          </div>
+          <div className="py-1">
+            <Link
+              to="/settings"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground"
+            >
+              <UserCircle className="size-4" />
+              {t("nav.profileSettings")}
+            </Link>
+            <button
+              type="button"
+              onClick={async () => {
+                setOpen(false);
+                await signOut();
+                navigate({ to: "/auth" });
+              }}
+              className="flex w-full items-center gap-2 rounded px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground"
+            >
+              <LogOut className="size-4" />
+              {t("nav.signOut")}
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { theme, toggle } = useTheme();
   const { t } = useLanguage();
@@ -56,6 +140,12 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
     );
   }
+
+  const iconBtn = (active: boolean) =>
+    cn(
+      "flex size-9 items-center justify-center rounded-md transition-colors",
+      active ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+    );
 
   return (
     <div className="min-h-screen bg-background">
@@ -91,32 +181,30 @@ export function AppShell({ children }: { children: ReactNode }) {
               );
             })}
           </nav>
-          <div className="flex items-center gap-2">
-            <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground sm:block">
-              {user.email}
-            </span>
-            <LanguageSwitcher className="hidden sm:flex" />
+          <div className="flex items-center gap-1">
+            <LanguageSwitcher />
+            {ICON_LINKS.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                title={t(item.labelKey)}
+                aria-label={t(item.labelKey)}
+                className={cn(iconBtn(pathname.startsWith(item.to)), "hidden sm:flex")}
+              >
+                <item.icon className="size-[18px]" />
+              </Link>
+            ))}
             <NotificationBell />
             <PushToggle />
-            <Button variant="ghost" size="sm" onClick={toggle} aria-label={t("nav.toggleTheme")}>
+            <Button variant="ghost" size="sm" onClick={toggle} aria-label={t("nav.toggleTheme")} title={t("nav.toggleTheme")}>
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={async () => {
-                await signOut();
-                navigate({ to: "/auth" });
-              }}
-            >
-              <LogOut className="size-3.5" />
-              <span className="hidden sm:inline">{t("nav.signOut")}</span>
-            </Button>
+            <ProfileMenu />
           </div>
         </div>
         {open ? (
           <nav className="flex flex-col gap-1 border-t border-border px-4 py-3 lg:hidden">
-            {NAV.map((item) => (
+            {[...NAV, ...ICON_LINKS].map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
@@ -126,7 +214,6 @@ export function AppShell({ children }: { children: ReactNode }) {
                 {t(item.labelKey)}
               </Link>
             ))}
-            <LanguageSwitcher className="mt-2 self-start sm:hidden" />
           </nav>
         ) : null}
       </header>
