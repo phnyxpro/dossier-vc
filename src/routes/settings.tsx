@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/primitives";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { PasswordMeter } from "@/components/password-meter";
+import { TwoFactorCard } from "@/components/two-factor-card";
 import { Check, DeviceMobile, Moon, ShieldCheck, Sun, Trash2, UserCircle } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
