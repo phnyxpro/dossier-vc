@@ -3,7 +3,7 @@ import type {} from "@tanstack/react-start";
 
 import { ARTICLES } from "@/lib/learn/content";
 
-const BASE_URL = "https://dossier-vc.lovable.app";
+const BASE_URL = "https://dossier.ventureble.com";
 
 interface SitemapEntry {
   path: string;
