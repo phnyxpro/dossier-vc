@@ -43,6 +43,7 @@ export const Route = createFileRoute("/portal/$shareId")({
   head: () => ({
     meta: [
       { title: "Review a dossier — Capital Provider Portal" },
+      { name: "robots", content: "noindex" },
       {
         name: "description",
         content:

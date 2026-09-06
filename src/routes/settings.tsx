@@ -40,6 +40,7 @@ export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
       { title: "Profile & settings | DOSSIER by Ventureble" },
+      { name: "robots", content: "noindex" },
       {
         name: "description",
         content:

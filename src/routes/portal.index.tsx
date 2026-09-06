@@ -18,6 +18,7 @@ import { claimShareCode, providerQueue } from "@/lib/portal/portal.functions";
 import { REVIEW_STATUS_LABEL, REVIEW_STATUS_TONE, SCORE_CRITERIA } from "@/lib/portal/constants";
 import { REQUEST_TYPE_LABEL } from "@/lib/dossier/constants";
 import { formatDate, formatMoney } from "@/lib/dossier/format";
+import { canonicalTags } from "@/lib/seo";
 
 export const Route = createFileRoute("/portal/")({
   head: () => ({
@@ -35,7 +36,9 @@ export const Route = createFileRoute("/portal/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      canonicalTags("/portal").meta,
     ],
+    links: [canonicalTags("/portal").link],
   }),
   component: () => (
     <PortalShell>

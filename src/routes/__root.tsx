@@ -16,6 +16,7 @@ import { LanguageProvider, useLanguage } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Toaster } from "@/components/ui/sonner";
 import { TrustFooter } from "@/components/trust-footer";
+import { ORGANIZATION_LD, SOFTWARE_LD, WEBSITE_LD, jsonLd } from "@/lib/seo";
 
 
 function NotFoundComponent() {
@@ -115,7 +116,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-title", content: "Dossier" },
       { name: "twitter:site", content: "@Lovable" },
+      { property: "og:site_name", content: "Dossier by Ventureble" },
+      { property: "og:locale", content: "en" },
     ],
+    scripts: [jsonLd(ORGANIZATION_LD), jsonLd(WEBSITE_LD), jsonLd(SOFTWARE_LD)],
     links: [
       {
         rel: "stylesheet",

@@ -19,6 +19,7 @@ export const Route = createFileRoute("/provider/$id")({
   head: () => ({
     meta: [
       { title: "Capital Provider Review — Dossier by Ventureble" },
+      { name: "robots", content: "noindex" },
       {
         name: "description",
         content:

@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { BrandMark } from "@/components/brand";
 import { TrustFooter } from "@/components/trust-footer";
 import type { LegalDoc } from "@/lib/legal/content";
+import { absoluteUrl, breadcrumbLd, canonicalTags, jsonLd, SITE_URL } from "@/lib/seo";
 
 export function LegalPage({ doc }: { doc: LegalDoc }) {
   return (
@@ -45,8 +46,30 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
 
 export function legalHead(doc: LegalDoc) {
   const title = `${doc.title} — Dossier by Ventureble`;
+  const path = `/${doc.key}`;
   return {
+    links: [canonicalTags(path).link],
+    scripts: [
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description: doc.summary,
+        url: absoluteUrl(path),
+        inLanguage: "en",
+        dateModified: doc.updated,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      }),
+      jsonLd(
+        breadcrumbLd([
+          { name: "Dossier by Ventureble", path: "/" },
+          { name: doc.title, path },
+        ]),
+      ),
+    ],
     meta: [
+      canonicalTags(path).meta,
       { title },
       { name: "description", content: doc.summary },
       { property: "og:title", content: title },
