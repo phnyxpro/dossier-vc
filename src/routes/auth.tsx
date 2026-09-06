@@ -395,6 +395,8 @@ function AuthPage() {
                 t("auth.signIn")
               ) : mode === "signup" ? (
                 t("auth.createAccount")
+              ) : mode === "magic" ? (
+                "Send sign-in link"
               ) : (
                 "Send reset link"
               )}
