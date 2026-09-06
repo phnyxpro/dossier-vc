@@ -16,7 +16,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
-  const active = LOCALES.find((l) => l.code === locale) ?? LOCALES[0];
+  const active = LOCALES.find((l) => l.code === locale) ?? { code: locale, label: locale.toUpperCase(), name: locale };
 
   return (
     <div
