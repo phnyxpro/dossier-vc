@@ -308,9 +308,30 @@ export const extractDocument = createServerFn({ method: "POST" })
         })
         .eq("id", doc.id);
 
+      const { notifySafe } = await import("@/lib/notify/notify.server");
+      await notifySafe({
+        userId: context.userId,
+        kind: "extraction_done",
+        title: "A document has been read",
+        body: rows.length
+          ? `${doc.name}: ${rows.length} figure${rows.length === 1 ? "" : "s"} ready for your review.`
+          : `${doc.name} was read, but no figures were found. Check it yourself.`,
+        url: `/requests/${doc.request_id}/extraction`,
+        requestId: doc.request_id,
+      });
+
       return { extracted: rows.length };
     } catch (error) {
       const message = error instanceof Error ? error.message : "Extraction failed.";
+      const { notifySafe } = await import("@/lib/notify/notify.server");
+      await notifySafe({
+        userId: context.userId,
+        kind: "extraction_failed",
+        title: "A document could not be read",
+        body: `${doc.name}: ${message}`,
+        url: `/requests/${doc.request_id}/documents`,
+        requestId: doc.request_id,
+      });
       await supabase
         .from("documents")
         .update({ extraction_status: "error", extraction_error: message, status: "needs_review" })
