@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { BrandMark } from "@/components/brand";
-import { Button, Card, Field, Input, Spinner } from "@/components/ui/primitives";
+import { Button, Card, Field, Spinner } from "@/components/ui/primitives";
 import { PasswordMeter } from "@/components/password-meter";
 import { PasswordInput } from "@/components/password-input";
 import { TrustFooter } from "@/components/trust-footer";
