@@ -16,6 +16,8 @@ import { queueAcceptance } from "@/lib/legal/acceptance";
 
 type Search = { redirect?: string };
 
+type Mode = "signin" | "signup" | "forgot" | "magic";
+
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): Search => {
     const value = typeof search["redirect"] === "string" ? (search["redirect"] as string) : undefined;
