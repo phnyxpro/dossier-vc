@@ -469,6 +469,36 @@ export type Database = {
         }
         Relationships: []
       }
+      linkedin_posts: {
+        Row: {
+          fetched_at: string
+          id: string
+          image: string | null
+          position: number
+          text: string
+          time_ago: string
+          url: string | null
+        }
+        Insert: {
+          fetched_at?: string
+          id?: string
+          image?: string | null
+          position: number
+          text: string
+          time_ago?: string
+          url?: string | null
+        }
+        Update: {
+          fetched_at?: string
+          id?: string
+          image?: string | null
+          position?: number
+          text?: string
+          time_ago?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
       notification_preferences: {
         Row: {
           email: boolean
