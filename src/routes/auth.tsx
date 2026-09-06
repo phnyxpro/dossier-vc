@@ -341,13 +341,22 @@ function AuthPage() {
             {mode === "signup" ? <PasswordMeter password={password} /> : null}
 
             {mode === "signin" ? (
-              <button
-                type="button"
-                className="text-sm font-medium text-primary hover:underline"
-                onClick={() => switchMode("forgot")}
-              >
-                Forgot password?
-              </button>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <button
+                  type="button"
+                  className="text-sm font-medium text-primary hover:underline"
+                  onClick={() => switchMode("forgot")}
+                >
+                  Forgot password?
+                </button>
+                <button
+                  type="button"
+                  className="text-sm font-medium text-primary hover:underline"
+                  onClick={() => switchMode("magic")}
+                >
+                  Email me a sign-in link
+                </button>
+              </div>
             ) : null}
 
             {mode === "signup" ? (
