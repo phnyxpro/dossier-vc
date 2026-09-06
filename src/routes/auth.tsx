@@ -410,7 +410,7 @@ function AuthPage() {
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            {mode === "forgot" ? (
+            {mode === "forgot" || mode === "magic" ? (
               <button
                 type="button"
                 className="font-medium text-primary hover:underline"
