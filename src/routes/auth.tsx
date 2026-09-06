@@ -431,6 +431,8 @@ function AuthPage() {
               </>
             )}
           </p>
+          </>
+          )}
         </Card>
         </div>
         <TrustFooter />
