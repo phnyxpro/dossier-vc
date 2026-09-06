@@ -52,7 +52,7 @@ export const getLinkedInPosts = createServerFn({ method: "GET" }).handler(
           .find('a[href*="/posts/ventureble"]')
           .first();
         const href = linkEl.attr("href") ?? "";
-        const url = href.startsWith("http") ? href.split("?")[0] : "";
+        const url = href.startsWith("http") ? (href.split("?")[0] ?? "") : "";
 
         const timeAgo = scope.find("time").first().text().replace(/Edited\s*$/i, "").trim();
 
