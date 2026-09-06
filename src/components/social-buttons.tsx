@@ -48,7 +48,7 @@ type Provider = "google" | "apple" | "microsoft";
 const PROVIDERS: {
   id: Provider;
   label: string;
-  Logo: (props: { className?: string }) => JSX.Element;
+  Logo: (props: { className?: string }) => React.ReactNode;
 }[] = [
   { id: "google", label: "Google", Logo: GoogleLogo },
   { id: "apple", label: "Apple", Logo: AppleLogo },
