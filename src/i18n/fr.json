@@ -172,5 +172,6 @@
   "notif.testError": "Impossible d'envoyer le test",
   "notif.loadError": "Impossible de charger vos notifications",
   "notif.saveError": "Impossible d'enregistrer vos réglages",
-  "nav.notifications": "Notifications"
+  "nav.notifications": "Notifications",
+  "nav.settings": "Paramètres"
 }

@@ -9,6 +9,7 @@ import {
   Moon,
   Plus,
   BookOpen,
+  Settings,
   ShieldCheck,
   Sun,
   X,
@@ -28,6 +29,7 @@ const NAV = [
   { to: "/requests/new", labelKey: "nav.newRequest", icon: Plus, exact: false },
   { to: "/documents", labelKey: "nav.documents", icon: FolderOpen, exact: false },
   { to: "/learn", labelKey: "nav.learn", icon: BookOpen, exact: false },
+  { to: "/settings", labelKey: "nav.settings", icon: Settings, exact: false },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
