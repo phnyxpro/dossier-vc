@@ -47,16 +47,55 @@ async function currentEmail(userId: string) {
   return (data.user?.email ?? "").toLowerCase();
 }
 
-/** Marks the signed-in account as a capital provider and picks up email invitations. */
+/** Grants the provider role only when the account has a real invitation or claimed share. */
+async function grantProviderRole(userId: string) {
+  const db = await admin();
+  const { data: existing } = await db
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "provider")
+    .maybeSingle();
+  if (existing) return true;
+
+  const email = await currentEmail(userId);
+  let invited = false;
+
+  const { data: assigned } = await db
+    .from("dossier_shares")
+    .select("id")
+    .eq("provider_id", userId)
+    .is("revoked_at", null)
+    .limit(1);
+  invited = Boolean(assigned?.length);
+
+  if (!invited && email) {
+    const { data: byEmail } = await db
+      .from("dossier_shares")
+      .select("id")
+      .is("revoked_at", null)
+      .ilike("invited_email", email)
+      .limit(1);
+    invited = Boolean(byEmail?.length);
+  }
+
+  if (!invited) return false;
+
+  const { error } = await db
+    .from("user_roles")
+    .upsert({ user_id: userId, role: "provider" }, { onConflict: "user_id,role" });
+  if (error && !error.message.includes("duplicate")) throw new Error(error.message);
+  return true;
+}
+
+/** Marks the signed-in account as a capital provider when they hold a valid invitation. */
 export const registerProvider = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { error } = await context.supabase
-      .from("user_roles")
-      .upsert({ user_id: context.userId, role: "provider" }, { onConflict: "user_id,role" });
-    if (error && !error.message.includes("duplicate")) throw new Error(error.message);
-    return { ok: true };
+    const granted = await grantProviderRole(context.userId);
+    return { ok: granted, needsInvite: !granted };
   });
+
 
 export const isProvider = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -198,7 +237,9 @@ export const claimShareCode = createServerFn({ method: "POST" })
         });
       }
     }
+    await grantProviderRole(context.userId);
     return { shareId: share.id };
+
   });
 
 async function authorizeShare(userId: string, shareId: string) {

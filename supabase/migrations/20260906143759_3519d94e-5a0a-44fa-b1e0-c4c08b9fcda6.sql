@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.has_provider_invitation(uuid) FROM anon, authenticated;
