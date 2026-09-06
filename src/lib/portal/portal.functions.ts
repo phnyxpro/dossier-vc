@@ -21,6 +21,21 @@ const reviewInput = z.object({
   submit: z.boolean().default(false),
 });
 
+async function notify() {
+  const { notifySafe } = await import("@/lib/notify/notify.server");
+  return notifySafe;
+}
+
+async function providerLabel(userId: string) {
+  const db = await admin();
+  const { data } = await db.auth.admin.getUserById(userId);
+  return (
+    (data.user?.user_metadata?.["full_name"] as string | undefined) ??
+    data.user?.email ??
+    "A capital provider"
+  );
+}
+
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   return supabaseAdmin;
@@ -166,6 +181,22 @@ export const claimShareCode = createServerFn({ method: "POST" })
         .update({ provider_id: context.userId, status: "claimed", claimed_at: new Date().toISOString() })
         .eq("id", share.id);
       if (error) throw new Error(error.message);
+      const { data: full } = await db
+        .from("dossier_shares")
+        .select("owner_id, request_id")
+        .eq("id", share.id)
+        .maybeSingle();
+      if (full) {
+        const notifySafe = await notify();
+        await notifySafe({
+          userId: full.owner_id,
+          kind: "share_created",
+          title: "A capital provider accepted your share code",
+          body: `${await providerLabel(context.userId)} now has access to your dossier.`,
+          url: `/requests/${full.request_id}/dossier`,
+          requestId: full.request_id,
+        });
+      }
     }
     return { shareId: share.id };
   });
@@ -190,6 +221,24 @@ export const portalDossier = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const share = await authorizeShare(context.userId, data.shareId);
     const db = await admin();
+
+    const { data: shareRow } = await db
+      .from("dossier_shares")
+      .select("status")
+      .eq("id", share.id)
+      .maybeSingle();
+    if (shareRow && shareRow.status !== "opened") {
+      await db.from("dossier_shares").update({ status: "opened" }).eq("id", share.id);
+      const notifySafe = await notify();
+      await notifySafe({
+        userId: share.owner_id,
+        kind: "dossier_opened",
+        title: "Your dossier was opened",
+        body: `${await providerLabel(context.userId)} opened your financing dossier.`,
+        url: `/requests/${share.request_id}/dossier`,
+        requestId: share.request_id,
+      });
+    }
 
     const [{ data: request }, { data: documents }, { data: fields }, { data: sections }, { data: review }, { data: scores }] =
       await Promise.all([
@@ -276,6 +325,24 @@ export const saveProviderReview = createServerFn({ method: "POST" })
       if (scoreError) throw new Error(scoreError.message);
     }
 
+    if (data.submit) {
+      const notifySafe = await notify();
+      const outcome: Record<string, string> = {
+        reviewing: "is reviewing your request",
+        info_needed: "has asked for more information",
+        interested: "is interested in your request",
+        declined: "has declined your request",
+      };
+      await notifySafe({
+        userId: share.owner_id,
+        kind: "review_submitted",
+        title: "A capital provider responded",
+        body: `${providerOrg ?? "A capital provider"} ${outcome[data.status] ?? "responded"}.`,
+        url: `/requests/${share.request_id}/dossier`,
+        requestId: share.request_id,
+      });
+    }
+
     return { ok: true, submitted: data.submit };
   });
 
@@ -317,6 +384,18 @@ export const providerFlagDocument = createServerFn({ method: "POST" })
       })
       .eq("id", doc.id);
     if (error) throw new Error(error.message);
+
+    if (data.flag) {
+      const notifySafe = await notify();
+      await notifySafe({
+        userId: share.owner_id,
+        kind: "document_flagged",
+        title: "A document needs another look",
+        body: `${org} flagged a document in your dossier.`,
+        url: `/requests/${share.request_id}/documents`,
+        requestId: share.request_id,
+      });
+    }
     return { ok: true };
   });
 
@@ -357,6 +436,16 @@ export const providerAddFigure = createServerFn({ method: "POST" })
       source_excerpt: data.note.trim() || `Keyed in by ${org}`,
     });
     if (error) throw new Error(error.message);
+
+    const notifySafe = await notify();
+    await notifySafe({
+      userId: share.owner_id,
+      kind: "figure_added",
+      title: "A capital provider added a figure",
+      body: `${org} added "${data.fieldLabel}" to your dossier.`,
+      url: `/requests/${share.request_id}/extraction`,
+      requestId: share.request_id,
+    });
     return { ok: true };
   });
 
