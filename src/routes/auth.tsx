@@ -65,13 +65,52 @@ function AuthPage() {
   const strength = checkPassword(password);
 
   useEffect(() => {
-    if (!loading && user) navigate({ to: destination });
-  }, [loading, user, navigate, destination]);
+    if (!loading && user && !mfaFactorId) navigate({ to: destination });
+  }, [loading, user, navigate, destination, mfaFactorId]);
 
-  function switchMode(next: "signin" | "signup" | "forgot") {
+  function switchMode(next: Mode) {
     setMode(next);
     setError(null);
     setNotice(null);
+    setMfaFactorId(null);
+    setMfaCode("");
+  }
+
+  /** Returns true when a second step is required (and shows the code form). */
+  async function requireSecondStep(): Promise<boolean> {
+    const { data } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (data?.nextLevel !== "aal2" || data.currentLevel === "aal2") return false;
+    const { data: factorData } = await supabase.auth.mfa.listFactors();
+    const factor = (factorData?.totp ?? []).find((f) => f.status === "verified");
+    if (!factor) return false;
+    setMfaFactorId(factor.id);
+    setMfaCode("");
+    return true;
+  }
+
+  async function submitMfaCode(e: React.FormEvent) {
+    e.preventDefault();
+    if (!mfaFactorId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const { data: challenge, error: challengeError } = await supabase.auth.mfa.challenge({
+        factorId: mfaFactorId,
+      });
+      if (challengeError) throw new Error(challengeError.message);
+      const { error: verifyError } = await supabase.auth.mfa.verify({
+        factorId: mfaFactorId,
+        challengeId: challenge.id,
+        code: mfaCode.replace(/\s/g, ""),
+      });
+      if (verifyError) throw new Error("That code was not accepted. Try the next one from your app.");
+      setMfaFactorId(null);
+      navigate({ to: destination });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("auth.generalError"));
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
