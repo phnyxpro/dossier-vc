@@ -172,5 +172,6 @@
   "notif.testError": "Test kon niet worden verstuurd",
   "notif.loadError": "Uw meldingen konden niet worden geladen",
   "notif.saveError": "Uw instellingen konden niet worden opgeslagen",
-  "nav.notifications": "Meldingen"
+  "nav.notifications": "Meldingen",
+  "nav.settings": "Instellingen"
 }

@@ -172,5 +172,6 @@
   "notif.testError": "No se pudo enviar la prueba",
   "notif.loadError": "No se pudieron cargar tus notificaciones",
   "notif.saveError": "No se pudieron guardar tus ajustes",
-  "nav.notifications": "Notificaciones"
+  "nav.notifications": "Notificaciones",
+  "nav.settings": "Ajustes"
 }

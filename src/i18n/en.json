@@ -172,5 +172,6 @@
   "notif.testError": "Could not send the test",
   "notif.loadError": "Could not load your notifications",
   "notif.saveError": "Could not save your settings",
-  "nav.notifications": "Notifications"
+  "nav.notifications": "Notifications",
+  "nav.settings": "Settings"
 }
