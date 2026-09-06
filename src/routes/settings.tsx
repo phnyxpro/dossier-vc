@@ -383,6 +383,9 @@ function SettingsPage() {
                 ) : null}
               </Card>
 
+              {/* Two-factor */}
+              <TwoFactorCard />
+
               {/* Danger zone */}
               <Card className="border-danger/40 p-5">
                 <SectionTitle>Delete account</SectionTitle>
