@@ -188,35 +188,7 @@ function AuthPage() {
 
           {mode !== "forgot" ? (
             <>
-              <div className="mt-6 space-y-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => handleOAuth("google")}
-                  disabled={busy}
-                >
-                  {t("auth.google")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => handleOAuth("apple")}
-                  disabled={busy}
-                >
-                  {t("auth.apple")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => handleOAuth("microsoft")}
-                  disabled={busy}
-                >
-                  {t("auth.microsoft")}
-                </Button>
-              </div>
+              <SocialButtons onSelect={handleOAuth} disabled={busy} />
 
               <div className="my-6 flex items-center gap-3 text-sm text-muted-foreground">
                 <span className="h-px flex-1 bg-border" />
