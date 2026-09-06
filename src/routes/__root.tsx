@@ -102,6 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Organise financing information, close readiness gaps and generate a lender-ready financing dossier for banks, credit unions and DFIs.",
       },
       { name: "author", content: "Ventureble" },
+      { name: "google-site-verification", content: "Ya3dU_lA059TYeIngJuFjc9kqrgJs-yTHjXLLEYGTac" },
       { property: "og:title", content: "Dossier by Ventureble" },
       {
         property: "og:description",
