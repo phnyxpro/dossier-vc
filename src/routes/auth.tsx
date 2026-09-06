@@ -230,21 +230,66 @@ function AuthPage() {
             <LanguageSwitcher className="ml-auto" />
           </div>
           <h2 className="mt-6 font-display text-xl font-semibold lg:mt-0">
-            {mode === "signin"
-              ? t("auth.signIn")
-              : mode === "signup"
-                ? t("auth.createAccountTitle")
-                : "Reset your password"}
+            {mfaFactorId
+              ? "Two-step verification"
+              : mode === "signin"
+                ? t("auth.signIn")
+                : mode === "signup"
+                  ? t("auth.createAccountTitle")
+                  : mode === "magic"
+                    ? "Email me a sign-in link"
+                    : "Reset your password"}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            {mode === "signin"
-              ? t("auth.signInSub")
-              : mode === "signup"
-                ? t("auth.signUpSub")
-                : "Enter the email address on your account and we will send a single-use link to set a new password."}
+            {mfaFactorId
+              ? "Enter the six-digit code from your authenticator app."
+              : mode === "signin"
+                ? t("auth.signInSub")
+                : mode === "signup"
+                  ? t("auth.signUpSub")
+                  : mode === "magic"
+                    ? "No password needed. We will send a single-use link that signs you in on this device."
+                    : "Enter the email address on your account and we will send a single-use link to set a new password."}
           </p>
 
-          {mode !== "forgot" ? (
+          {mfaFactorId ? (
+            <form onSubmit={submitMfaCode} className="mt-6 space-y-4">
+              <Field label="Six-digit code" htmlFor="mfaCode">
+                <Input
+                  id="mfaCode"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={6}
+                  placeholder="123456"
+                  value={mfaCode}
+                  onChange={(e) => setMfaCode(e.target.value)}
+                  className="tracking-[0.3em]"
+                  required
+                />
+              </Field>
+              {error ? (
+                <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                  {error}
+                </p>
+              ) : null}
+              <Button type="submit" className="w-full" disabled={busy || mfaCode.replace(/\s/g, "").length < 6}>
+                {busy ? <Spinner /> : "Verify and continue"}
+              </Button>
+              <button
+                type="button"
+                className="w-full text-sm font-medium text-primary hover:underline"
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  switchMode("signin");
+                }}
+              >
+                Cancel and sign in again
+              </button>
+            </form>
+          ) : (
+          <>
+
+          {mode === "signin" || mode === "signup" ? (
             <>
               <SocialButtons onSelect={handleOAuth} disabled={busy} />
 
