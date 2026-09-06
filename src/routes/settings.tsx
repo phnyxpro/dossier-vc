@@ -154,7 +154,7 @@ function SettingsPage() {
           <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
             <div className="space-y-6">
               {/* Profile */}
-              <Card>
+              <Card className="p-5">
                 <SectionTitle>Your profile</SectionTitle>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   <Field label="Full name" htmlFor="fullName">
@@ -201,7 +201,7 @@ function SettingsPage() {
               </Card>
 
               {/* Business profile */}
-              <Card>
+              <Card className="p-5">
                 <SectionTitle>Business profile</SectionTitle>
                 <p className="mt-1 text-xs text-muted-foreground">
                   These details pre-fill every new financing request.
@@ -302,7 +302,7 @@ function SettingsPage() {
               </Card>
 
               {/* Security */}
-              <Card>
+              <Card className="p-5">
                 <SectionTitle>Security</SectionTitle>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   <Field
@@ -383,7 +383,7 @@ function SettingsPage() {
               </Card>
 
               {/* Danger zone */}
-              <Card className="border-danger/40">
+              <Card className="border-danger/40 p-5">
                 <SectionTitle>Delete account</SectionTitle>
                 <p className="mt-1 text-sm text-muted-foreground">
                   This permanently removes your requests, documents, figures and dossiers. It cannot be
@@ -423,7 +423,7 @@ function SettingsPage() {
 
             {/* Right column */}
             <div className="space-y-6">
-              <Card>
+              <Card className="p-5">
                 <SectionTitle>Appearance &amp; language</SectionTitle>
                 <div className="mt-4 space-y-3">
                   <div className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-3">
@@ -440,7 +440,7 @@ function SettingsPage() {
                 </div>
               </Card>
 
-              <Card>
+              <Card className="p-5">
                 <SectionTitle
                   action={
                     <Link to="/notifications" className="text-xs text-primary hover:underline">
@@ -480,7 +480,7 @@ function SettingsPage() {
                 </div>
               </Card>
 
-              <Card>
+              <Card className="p-5">
                 <SectionTitle>Devices receiving alerts</SectionTitle>
                 {devices.length === 0 ? (
                   <p className="mt-3 text-sm text-muted-foreground">
@@ -514,7 +514,7 @@ function SettingsPage() {
                 )}
               </Card>
 
-              <Card>
+              <Card className="p-5">
                 <SectionTitle>Account</SectionTitle>
                 <div className="mt-3 flex items-center gap-3">
                   <UserCircle className="size-8 text-muted-foreground" />
