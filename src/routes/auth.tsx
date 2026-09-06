@@ -125,7 +125,7 @@ function AuthPage() {
     setBusy(true);
     setError(null);
     const result = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: window.location.origin,
+      redirect_uri: `${window.location.origin}${destination.startsWith("/") ? destination : "/"}`,
     });
     if (result.error) {
       setError(result.error.message ?? t("auth.googleUnavailable"));

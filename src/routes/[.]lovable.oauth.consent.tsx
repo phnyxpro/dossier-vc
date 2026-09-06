@@ -40,7 +40,7 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
   },
   component: Consent,
   errorComponent: ({ error }) => (
-    <main className="mx-auto max-w-md p-10 text-sm text-muted">
+    <main className="mx-auto max-w-md p-10 text-sm text-muted-foreground">
       Could not load this authorization request: {String((error as Error)?.message ?? error)}
     </main>
   ),
@@ -76,15 +76,15 @@ function Consent() {
 
   return (
     <main className="grid min-h-screen place-items-center bg-background p-6">
-      <div className="w-full max-w-md rounded-xl border border-border bg-surface p-8">
+      <div className="w-full max-w-md rounded-xl border border-border bg-card p-8">
         <BrandMark />
         <h1 className="mt-6 font-display text-2xl font-semibold">Connect {clientName}</h1>
-        <p className="mt-3 text-sm text-muted">
+        <p className="mt-3 text-sm text-muted-foreground">
           {clientName} is asking to use Dossier as you. It will be able to read and update your dossiers,
           documents and figures — the same information you see when signed in.
         </p>
         {error ? (
-          <p role="alert" className="mt-4 text-sm text-danger">
+          <p role="alert" className="mt-4 text-sm text-destructive">
             {error}
           </p>
         ) : null}
