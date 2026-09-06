@@ -1,0 +1,25 @@
+# Dossier by Ventureble
+
+> AI-assisted capital-readiness and lender-pack preparation for micro, small and medium enterprises (MSMEs) in the Caribbean.
+
+Dossier is a web application from Ventureble Ltd (Port of Spain, Trinidad and Tobago). Business owners describe the financing they are seeking, upload supporting documents, and Dossier extracts the key figures, scores capital readiness, flags gaps and assembles a lender-ready financing dossier for banks, credit unions and development finance institutions. Capital providers review shared dossiers through a separate portal.
+
+Amounts are handled in Trinidad and Tobago dollars (TTD) by default. The interface is available in English, Spanish, French and Dutch. Dossier organises information the business supplies; it does not provide credit approvals, loan recommendations or investment decisions.
+
+## Pages
+
+- [Knowledge base and glossary](/learn): Plain-language guides on types of capital, facility structures, collateral, coverage ratios and lender documentation, plus a glossary of financing terms.
+- [Capital provider portal](/portal): Where banks, credit unions and DFIs open the financing dossiers a business has shared with them.
+- [Help](/help): How the product works and how to get support.
+
+## Trust and policies
+
+- [Security](/security): How documents and business data are stored and protected.
+- [AI notice](/ai-notice): Where AI is used, what it does and does not decide, and human review expectations.
+- [Privacy](/privacy): What personal and business data is collected and how it is handled.
+- [Terms](/terms): Terms of service.
+- [Accessibility](/accessibility): Accessibility commitments and known limitations.
+
+## Optional
+
+- [Sitemap](/sitemap.xml): Full list of public URLs.
