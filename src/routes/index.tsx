@@ -94,14 +94,9 @@ function Dashboard() {
           title={t("dash.emptyTitle")}
           description={t("dash.emptyBody")}
           action={
-            <div className="flex flex-wrap justify-center gap-2">
-              <Button onClick={() => navigate({ to: "/requests/new" })}>
-                <Plus className="size-4" /> {t("dash.newRequest")}
-              </Button>
-              <Button variant="outline" onClick={handleDemo} disabled={busy}>
-                <Sparkles className="size-4" /> {t("dash.loadSample")}
-              </Button>
-            </div>
+            <Button onClick={() => navigate({ to: "/requests/new" })}>
+              <Plus className="size-4" /> {t("dash.newRequest")}
+            </Button>
           }
         />
       ) : (
