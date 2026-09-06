@@ -9,7 +9,7 @@ import { useLanguage } from "@/lib/i18n";
 import { useRequests } from "@/lib/dossier/queries";
 import { loadDemoData, removeDemoData } from "@/lib/dossier/demo";
 import { formatDate, formatMoney } from "@/lib/dossier/format";
-import { REQUEST_TYPE_LABEL } from "@/lib/dossier/constants";
+import { useLabels } from "@/lib/dossier/labels";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,6 +50,7 @@ function Dashboard() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const labels = useLabels();
   const { data: requests, isLoading } = useRequests(user?.id);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -157,7 +158,7 @@ function Dashboard() {
                       <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
                         <span className="font-mono">{r.reference ?? "—"}</span>
                         <span>·</span>
-                        <span>{REQUEST_TYPE_LABEL[r.request_type] ?? r.request_type}</span>
+                        <span>{labels.requestType(r.request_type)}</span>
                         {r.is_demo ? <Badge tone="accent">{t("dash.sample")}</Badge> : null}
                       </div>
                     </td>
@@ -168,11 +169,11 @@ function Dashboard() {
                       {formatMoney(Number(r.amount_sought ?? 0), r.currency)}
                     </td>
                     <td className="px-4 py-4">
-                      <Badge tone={STATUS_TONE[r.status] ?? "muted"}>{r.status.replace("_", " ")}</Badge>
+                      <Badge tone={STATUS_TONE[r.status] ?? "muted"}>{labels.status(r.status)}</Badge>
                     </td>
                     <td className="w-40 px-4 py-4">
                       <Badge tone={READINESS_TONE[r.readiness_status] ?? "muted"}>
-                        {r.readiness_status.replace("_", " ")}
+                        {labels.readiness(r.readiness_status)}
                       </Badge>
                       <div className="mt-2">
                         <Progress
