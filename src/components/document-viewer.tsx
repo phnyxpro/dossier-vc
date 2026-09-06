@@ -125,6 +125,17 @@ export function DocumentViewer({ doc, onClose }: { doc: DocumentRow | null; onCl
           )}
         </div>
 
+        {doc.extracted_text ? (
+          <details className="max-h-64 overflow-auto border-t border-border px-4 py-2">
+            <summary className="cursor-pointer text-xs font-medium text-muted-foreground">
+              Text read from this file
+            </summary>
+            <pre className="mt-2 whitespace-pre-wrap break-words text-xs leading-relaxed">
+              {doc.extracted_text}
+            </pre>
+          </details>
+        ) : null}
+
         {doc.notes ? (
           <div className="border-t border-border px-4 py-2 text-xs text-warning">{doc.notes}</div>
         ) : null}
