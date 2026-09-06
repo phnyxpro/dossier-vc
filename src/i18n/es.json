@@ -1,6 +1,6 @@
 {
   "nav.dashboard": "Panel",
-  "nav.newRequest": "Nueva solicitud de financiamiento",
+  "nav.newRequest": "Nuevo dossier",
   "nav.toggle": "Mostrar navegación",
   "nav.toggleTheme": "Cambiar tema",
   "nav.signOut": "Cerrar sesión",
@@ -173,5 +173,7 @@
   "notif.loadError": "No se pudieron cargar tus notificaciones",
   "notif.saveError": "No se pudieron guardar tus ajustes",
   "nav.notifications": "Notificaciones",
-  "nav.settings": "Ajustes"
+  "nav.settings": "Ajustes",
+  "nav.profile": "Perfil",
+  "nav.profileSettings": "Perfil y configuración"
 }

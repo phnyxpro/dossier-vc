@@ -1,6 +1,6 @@
 {
   "nav.dashboard": "Dashboard",
-  "nav.newRequest": "New Financing Request",
+  "nav.newRequest": "New Dossier",
   "nav.toggle": "Toggle navigation",
   "nav.toggleTheme": "Toggle theme",
   "nav.signOut": "Sign out",
@@ -173,5 +173,7 @@
   "notif.loadError": "Could not load your notifications",
   "notif.saveError": "Could not save your settings",
   "nav.notifications": "Notifications",
-  "nav.settings": "Settings"
+  "nav.settings": "Settings",
+  "nav.profile": "Profile",
+  "nav.profileSettings": "Profile & settings"
 }

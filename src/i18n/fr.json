@@ -1,6 +1,6 @@
 {
   "nav.dashboard": "Tableau de bord",
-  "nav.newRequest": "Nouvelle demande de financement",
+  "nav.newRequest": "Nouveau dossier",
   "nav.toggle": "Afficher la navigation",
   "nav.toggleTheme": "Changer de thème",
   "nav.signOut": "Se déconnecter",
@@ -173,5 +173,7 @@
   "notif.loadError": "Impossible de charger vos notifications",
   "notif.saveError": "Impossible d'enregistrer vos réglages",
   "nav.notifications": "Notifications",
-  "nav.settings": "Paramètres"
+  "nav.settings": "Paramètres",
+  "nav.profile": "Profil",
+  "nav.profileSettings": "Profil et paramètres"
 }
