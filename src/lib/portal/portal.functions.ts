@@ -237,7 +237,9 @@ export const claimShareCode = createServerFn({ method: "POST" })
         });
       }
     }
+    await grantProviderRole(context.userId);
     return { shareId: share.id };
+
   });
 
 async function authorizeShare(userId: string, shareId: string) {
