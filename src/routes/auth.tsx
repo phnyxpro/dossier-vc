@@ -250,9 +250,8 @@ function AuthPage() {
             </Field>
             {mode !== "forgot" ? (
               <Field label={t("auth.password")} htmlFor="password">
-                <Input
+                <PasswordInput
                   id="password"
-                  type="password"
                   autoComplete={mode === "signin" ? "current-password" : "new-password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
