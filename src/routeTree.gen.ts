@@ -14,6 +14,7 @@ import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AiNoticeRouteImport } from './routes/ai-notice'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as HelpRouteImport } from './routes/help'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SecurityRouteImport } from './routes/security'
@@ -59,6 +60,11 @@ const AuthRoute = AuthRouteImport.update({
 const HelpRoute = HelpRouteImport.update({
   id: '/help',
   path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/ai-notice': typeof AiNoticeRoute
   '/auth': typeof AuthRoute
   '/help': typeof HelpRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/security': typeof SecurityRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByTo {
   '/ai-notice': typeof AiNoticeRoute
   '/auth': typeof AuthRoute
   '/help': typeof HelpRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/security': typeof SecurityRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/ai-notice': typeof AiNoticeRoute
   '/auth': typeof AuthRoute
   '/help': typeof HelpRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/security': typeof SecurityRoute
@@ -259,6 +268,7 @@ export interface FileRouteTypes {
     | '/ai-notice'
     | '/auth'
     | '/help'
+    | '/notifications'
     | '/privacy'
     | '/reset-password'
     | '/security'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/ai-notice'
     | '/auth'
     | '/help'
+    | '/notifications'
     | '/privacy'
     | '/reset-password'
     | '/security'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/ai-notice'
     | '/auth'
     | '/help'
+    | '/notifications'
     | '/privacy'
     | '/reset-password'
     | '/security'
@@ -343,6 +355,7 @@ export interface RootRouteChildren {
   AiNoticeRoute: typeof AiNoticeRoute
   AuthRoute: typeof AuthRoute
   HelpRoute: typeof HelpRoute
+  NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SecurityRoute: typeof SecurityRoute
@@ -393,6 +406,13 @@ declare module '@tanstack/react-router' {
       path: '/help'
       fullPath: '/help'
       preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -577,6 +597,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiNoticeRoute: AiNoticeRoute,
   AuthRoute: AuthRoute,
   HelpRoute: HelpRoute,
+  NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SecurityRoute: SecurityRoute,
