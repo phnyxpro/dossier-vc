@@ -7,6 +7,7 @@ import { useLanguage } from "@/lib/i18n";
 import { useRequests } from "@/lib/dossier/queries";
 import { formatDate, formatMoney } from "@/lib/dossier/format";
 import { useLabels } from "@/lib/dossier/labels";
+import { LinkedInFeed } from "@/components/linkedin-feed";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -163,6 +164,8 @@ function Dashboard() {
           </div>
         </Card>
       )}
+
+      <LinkedInFeed />
     </AppShell>
   );
 }

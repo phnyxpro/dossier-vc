@@ -44,6 +44,7 @@ export {
   Key as KeyRound,
   SquaresFour as LayoutDashboard,
   Link as Link2,
+  LinkedinLogo as Linkedin,
   ListChecks,
   CircleNotch as Loader2,
   LockSimple as Lock,
