@@ -29,6 +29,7 @@ import { Route as PortalShareIdRouteImport } from './routes/portal.$shareId'
 import { Route as ProviderIdRouteImport } from './routes/provider.$id'
 import { Route as RequestsIdRouteImport } from './routes/requests.$id'
 import { Route as RequestsNewRouteImport } from './routes/requests.new'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as RequestsIdIndexRouteImport } from './routes/requests.$id.index'
 import { Route as RequestsIdDetailsRouteImport } from './routes/requests.$id.details'
 import { Route as RequestsIdDocumentsRouteImport } from './routes/requests.$id.documents'
@@ -138,6 +139,11 @@ const RequestsNewRoute = RequestsNewRouteImport.update({
   path: '/requests/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RequestsIdIndexRoute = RequestsIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -200,6 +206,7 @@ export interface FileRoutesByFullPath {
   '/documents/': typeof DocumentsIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/portal/': typeof PortalIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -229,6 +236,7 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsIndexRoute
   '/learn': typeof LearnIndexRoute
   '/portal': typeof PortalIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -260,6 +268,7 @@ export interface FileRoutesById {
   '/documents/': typeof DocumentsIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/portal/': typeof PortalIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/requests/$id/details': typeof RequestsIdDetailsRoute
   '/requests/$id/documents': typeof RequestsIdDocumentsRoute
   '/requests/$id/dossier': typeof RequestsIdDossierRoute
@@ -292,6 +301,7 @@ export interface FileRouteTypes {
     | '/documents/'
     | '/learn/'
     | '/portal/'
+    | '/.lovable/oauth/consent'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -321,6 +331,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/learn'
     | '/portal'
+    | '/.lovable/oauth/consent'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -351,6 +362,7 @@ export interface FileRouteTypes {
     | '/documents/'
     | '/learn/'
     | '/portal/'
+    | '/.lovable/oauth/consent'
     | '/requests/$id/details'
     | '/requests/$id/documents'
     | '/requests/$id/dossier'
@@ -382,6 +394,7 @@ export interface RootRouteChildren {
   DocumentsIndexRoute: typeof DocumentsIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
   PortalIndexRoute: typeof PortalIndexRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -526,6 +539,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/requests/$id/': {
       id: '/requests/$id/'
       path: '/'
@@ -632,6 +652,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsIndexRoute: DocumentsIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
   PortalIndexRoute: PortalIndexRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
