@@ -2,7 +2,6 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BookOpen,
-  FileText,
   FolderOpen,
   LayoutDashboard,
   LogOut,
@@ -223,9 +222,6 @@ export function AppShell({ children }: { children: ReactNode }) {
           <ShieldCheck className="size-4 text-primary" />
           <span>
 {t("footer.disclaimer")}
-          </span>
-          <span className="ml-auto inline-flex items-center gap-1">
-            <FileText className="size-3.5" /> {t("footer.prototype")}
           </span>
         </div>
       </footer>
