@@ -306,8 +306,12 @@ function DocumentsStep() {
         </div>
       ) : (
         <div className="grid gap-3">
-          {rows.map(({ type, doc }) => {
-            const status = doc?.status ?? "missing";
+          {rows.map(({ type, doc, files, placeholder }) => {
+            const status = files.length
+              ? files.some((f) => f.status === "needs_review")
+                ? "needs_review"
+                : "received"
+              : (doc?.status ?? "missing");
             const meta = statusMeta(status);
             const busy = busyDoc === type.key;
             return (
@@ -323,92 +327,103 @@ function DocumentsStep() {
                             : "mt-0.5 size-5 shrink-0 text-muted-foreground"
                       }
                     />
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="font-medium">{type.label}</p>
                         <Badge tone={meta.tone}>{meta.label}</Badge>
-                        {doc?.extraction_status === "running" ? <Badge tone="muted">Reading…</Badge> : null}
-                        {doc?.extraction_status === "done" ? (
-                          <Badge tone="primary">
-                            {fieldCount(doc.id)
-                              ? `${fieldCount(doc.id)} figures found`
-                              : "AI read — nothing found"}
-                          </Badge>
-                        ) : null}
-                        {doc?.extraction_status === "error" ? <Badge tone="danger">Read failed</Badge> : null}
+                        {files.length > 1 ? <Badge tone="muted">{files.length} files</Badge> : null}
                       </div>
                       <p className="mt-0.5 text-xs text-muted-foreground">{type.hint}</p>
-                      {doc?.name ? (
-                        <p className="mt-2 truncate text-sm">
-                          {doc.name}
-                          <span className="ml-2 text-xs text-muted-foreground">
-                            {formatBytes(doc.size_bytes)} · {formatDate(doc.updated_at)}
-                          </span>
-                        </p>
-                      ) : null}
-                      {doc?.notes ? (
-                        <p className="mt-1 text-xs text-warning">{doc.notes}</p>
-                      ) : null}
-                      {doc?.extraction_error ? (
-                        <p className="mt-1 text-xs text-destructive">{doc.extraction_error}</p>
+
+                      {files.length ? (
+                        <ul className="mt-3 grid gap-2">
+                          {files.map((file) => (
+                            <li
+                              key={file.id}
+                              className="rounded-md border border-border bg-muted/20 px-3 py-2"
+                            >
+                              <div className="flex flex-wrap items-center justify-between gap-2">
+                                <div className="min-w-0">
+                                  <p className="truncate text-sm">{file.name || "Untitled file"}</p>
+                                  <p className="text-xs text-muted-foreground">
+                                    {formatBytes(file.size_bytes)} · {formatDate(file.updated_at)}
+                                  </p>
+                                </div>
+                                <div className="flex flex-wrap items-center gap-2">
+                                  {file.extraction_status === "running" ? (
+                                    <Badge tone="muted">Reading…</Badge>
+                                  ) : file.extraction_status === "error" ? (
+                                    <Badge tone="danger">Read failed</Badge>
+                                  ) : file.extraction_status === "done" ? (
+                                    <Badge tone="primary">
+                                      {fieldCount(file.id)
+                                        ? `${fieldCount(file.id)} figures found`
+                                        : "AI read — nothing found"}
+                                    </Badge>
+                                  ) : null}
+                                  <Select
+                                    className="h-8 w-32 text-xs"
+                                    value={file.status}
+                                    onChange={(e) => handleStatus(file, e.target.value)}
+                                  >
+                                    <option value="received">Received</option>
+                                    <option value="needs_review">Needs review</option>
+                                    <option value="missing">Missing</option>
+                                  </Select>
+                                  <Button size="sm" variant="outline" onClick={() => setViewDoc(file)}>
+                                    <Eye className="size-3.5" /> View
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleExtract(file)}
+                                    disabled={busy}
+                                  >
+                                    <Sparkles className="size-3.5" /> Re-read
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => handleRemove(file, files.length === 1)}
+                                    disabled={busy}
+                                    aria-label={`Remove ${file.name}`}
+                                  >
+                                    <Trash2 className="size-3.5" />
+                                  </Button>
+                                </div>
+                              </div>
+                              {file.notes ? (
+                                <p className="mt-1 text-xs text-warning">{file.notes}</p>
+                              ) : null}
+                              {file.extraction_error ? (
+                                <p className="mt-1 text-xs text-destructive">{file.extraction_error}</p>
+                              ) : null}
+                            </li>
+                          ))}
+                        </ul>
                       ) : null}
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
-                    {doc?.storage_path ? (
-                      <>
-                        <Select
-                          className="h-8 w-36 text-xs"
-                          value={status}
-                          onChange={(e) => handleStatus(doc, e.target.value)}
-                        >
-                          <option value="received">Received</option>
-                          <option value="needs_review">Needs review</option>
-                          <option value="missing">Missing</option>
-                        </Select>
-                        <Button size="sm" variant="outline" onClick={() => setViewDoc(doc)}>
-                          <Eye className="size-3.5" /> View
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleExtract(doc)} disabled={busy}>
-                          {busy ? <Spinner /> : <Sparkles className="size-3.5" />} Re-read
-                        </Button>
-                        <Button size="sm" variant="ghost" onClick={() => handleRemove(doc)} disabled={busy}>
-                          <Trash2 className="size-3.5" />
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        {doc && doc.status !== "missing" ? (
-                          <Select
-                            className="h-8 w-36 text-xs"
-                            value={status}
-                            onChange={(e) => handleStatus(doc, e.target.value)}
-                          >
-                            <option value="received">Received</option>
-                            <option value="needs_review">Needs review</option>
-                            <option value="missing">Missing</option>
-                          </Select>
-                        ) : null}
-                        <input
-                          ref={(el) => {
-                            inputs.current[type.key] = el;
-                          }}
-                          type="file"
-                          className="hidden"
-                          accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) handleUpload(type.key, doc, file);
-                            e.target.value = "";
-                          }}
-                        />
-                        <Button size="sm" onClick={() => inputs.current[type.key]?.click()} disabled={busy}>
-                          {busy ? <Spinner /> : <Upload className="size-3.5" />}
-                          {busy ? "Reading…" : "Upload"}
-                        </Button>
-                      </>
-                    )}
+                    <input
+                      ref={(el) => {
+                        inputs.current[type.key] = el;
+                      }}
+                      type="file"
+                      className="hidden"
+                      multiple
+                      accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
+                      onChange={(e) => {
+                        const chosen = Array.from(e.target.files ?? []);
+                        if (chosen.length) handleUpload(type.key, placeholder, chosen);
+                        e.target.value = "";
+                      }}
+                    />
+                    <Button size="sm" onClick={() => inputs.current[type.key]?.click()} disabled={busy}>
+                      {busy ? <Spinner /> : <Upload className="size-3.5" />}
+                      {busy ? "Reading…" : files.length ? "Add more files" : "Upload"}
+                    </Button>
                   </div>
                 </div>
               </Card>
