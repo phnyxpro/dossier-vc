@@ -325,7 +325,7 @@ function AuthPage() {
                 required
               />
             </Field>
-            {mode !== "forgot" ? (
+            {mode === "signin" || mode === "signup" ? (
               <Field label={t("auth.password")} htmlFor="password">
                 <PasswordInput
                   id="password"
