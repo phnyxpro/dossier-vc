@@ -48,7 +48,9 @@ function AuthPage() {
   const search = Route.useSearch();
   const { user, loading } = useAuth();
   const { t } = useLanguage();
-  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
+  const [mode, setMode] = useState<Mode>("signin");
+  const [mfaFactorId, setMfaFactorId] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
