@@ -5,6 +5,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { BrandMark } from "@/components/brand";
 import { Button, Card, Field, Input, Spinner } from "@/components/ui/primitives";
 import { PasswordMeter } from "@/components/password-meter";
+import { PasswordInput } from "@/components/password-input";
 import { TrustFooter } from "@/components/trust-footer";
 import { useAuth } from "@/lib/auth";
 import { useLanguage } from "@/lib/i18n";
