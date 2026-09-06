@@ -6,6 +6,7 @@ import { BrandMark } from "@/components/brand";
 import { Button, Card, Field, Input, Spinner } from "@/components/ui/primitives";
 import { PasswordMeter } from "@/components/password-meter";
 import { PasswordInput } from "@/components/password-input";
+import { SocialButtons } from "@/components/social-buttons";
 import { TrustFooter } from "@/components/trust-footer";
 import { useAuth } from "@/lib/auth";
 import { useLanguage } from "@/lib/i18n";
@@ -188,35 +189,7 @@ function AuthPage() {
 
           {mode !== "forgot" ? (
             <>
-              <div className="mt-6 space-y-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => handleOAuth("google")}
-                  disabled={busy}
-                >
-                  {t("auth.google")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => handleOAuth("apple")}
-                  disabled={busy}
-                >
-                  {t("auth.apple")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => handleOAuth("microsoft")}
-                  disabled={busy}
-                >
-                  {t("auth.microsoft")}
-                </Button>
-              </div>
+              <SocialButtons onSelect={handleOAuth} disabled={busy} />
 
               <div className="my-6 flex items-center gap-3 text-sm text-muted-foreground">
                 <span className="h-px flex-1 bg-border" />
