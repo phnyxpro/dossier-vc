@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { z } from "zod";
 import { ArrowLeft, Clock } from "@/lib/icons";
 import { AppShell } from "@/components/app-shell";
 import { Badge, Card, EmptyState, SectionTitle } from "@/components/ui/primitives";
@@ -7,7 +8,11 @@ import { useLearnContent } from "@/lib/learn/localized";
 import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/learn/$slug")({
+  validateSearch: z.object({
+    returnTo: z.string().optional(),
+  }),
   head: ({ params }) => {
+
     const article = ARTICLE_BY_SLUG[params.slug];
     if (!article) {
       return {
