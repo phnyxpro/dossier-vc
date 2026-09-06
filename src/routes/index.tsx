@@ -64,10 +64,6 @@ function Dashboard() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={handleDemo} disabled={busy}>
-            {busy ? <Spinner /> : hasDemo ? <Trash2 className="size-4" /> : <Sparkles className="size-4" />}
-            {hasDemo ? t("dash.removeSample") : t("dash.loadSample")}
-          </Button>
           <Button onClick={() => navigate({ to: "/requests/new" })}>
             <Plus className="size-4" />
             {t("dash.newRequest")}
