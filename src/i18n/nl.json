@@ -47,6 +47,8 @@
   "auth.signInSub": "Ga verder naar uw werkruimte voor kapitaalgereedheid.",
   "auth.signUpSub": "Begin met het voorbereiden van uw eerste financieringsdossier.",
   "auth.google": "Doorgaan met Google",
+  "auth.apple": "Doorgaan met Apple",
+  "auth.microsoft": "Doorgaan met Microsoft",
   "auth.orEmail": "of gebruik e-mail",
   "auth.fullName": "Volledige naam",
   "auth.email": "E-mail",

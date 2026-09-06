@@ -47,6 +47,8 @@
   "auth.signInSub": "Continue to your capital-readiness workspace.",
   "auth.signUpSub": "Start preparing your first financing dossier.",
   "auth.google": "Continue with Google",
+  "auth.apple": "Continue with Apple",
+  "auth.microsoft": "Continue with Microsoft",
   "auth.orEmail": "or use email",
   "auth.fullName": "Full name",
   "auth.email": "Email",

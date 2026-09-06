@@ -47,6 +47,8 @@
   "auth.signInSub": "Accédez à votre espace de préparation au financement.",
   "auth.signUpSub": "Commencez à préparer votre premier dossier de financement.",
   "auth.google": "Continuer avec Google",
+  "auth.apple": "Continuer avec Apple",
+  "auth.microsoft": "Continuer avec Microsoft",
   "auth.orEmail": "ou par e-mail",
   "auth.fullName": "Nom complet",
   "auth.email": "E-mail",
