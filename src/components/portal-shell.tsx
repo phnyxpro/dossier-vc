@@ -78,10 +78,10 @@ function PortalSignIn() {
     }
   }
 
-  async function handleGoogle() {
+  async function handleOAuth(provider: "google" | "apple" | "microsoft") {
     setBusy(true);
     setError(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
+    const result = await lovable.auth.signInWithOAuth(provider, {
       redirect_uri: `${window.location.origin}/portal`,
     });
     if (result.error) {
@@ -142,15 +142,35 @@ function PortalSignIn() {
 
           {mode !== "forgot" ? (
             <>
-              <Button
-                type="button"
-                variant="outline"
-                className="mt-6 w-full"
-                onClick={handleGoogle}
-                disabled={busy}
-              >
-                {t("auth.google")}
-              </Button>
+              <div className="mt-6 space-y-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleOAuth("google")}
+                  disabled={busy}
+                >
+                  {t("auth.google")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleOAuth("apple")}
+                  disabled={busy}
+                >
+                  {t("auth.apple")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleOAuth("microsoft")}
+                  disabled={busy}
+                >
+                  {t("auth.microsoft")}
+                </Button>
+              </div>
 
               <div className="my-6 flex items-center gap-3 text-sm text-muted-foreground">
                 <span className="h-px flex-1 bg-border" />
