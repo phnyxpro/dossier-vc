@@ -61,10 +61,16 @@ function DocumentsStep() {
   const extraInput = useRef<HTMLInputElement | null>(null);
   const runExtraction = useServerFn(extractDocument);
 
-  const rows = DOC_TYPES.map((type) => ({
-    type,
-    doc: (documents ?? []).find((d) => d.doc_type === type.key) ?? null,
-  }));
+  const rows = DOC_TYPES.map((type) => {
+    const all = (documents ?? []).filter((d) => d.doc_type === type.key);
+    const files = all.filter((d) => d.storage_path);
+    return {
+      type,
+      files,
+      placeholder: all.find((d) => !d.storage_path) ?? null,
+      doc: files[0] ?? all[0] ?? null,
+    };
+  });
   const readiness = documentReadiness(documents ?? []);
   const uploaded = (documents ?? []).filter((d) => d.storage_path);
 
@@ -106,11 +112,9 @@ function DocumentsStep() {
     return data as DocumentRow;
   }
 
-  async function handleUpload(docTypeKey: string, existing: DocumentRow | null, file: File) {
+  async function uploadOne(docTypeKey: string, existing: DocumentRow | null, file: File) {
     if (!user) return;
-    setError(null);
-    setBusyDoc(docTypeKey);
-    try {
+    {
       const row = await ensureRow(docTypeKey, existing);
       const path = `${user.id}/${id}/${row.id}-${file.name.replace(/[^\w.\-]/g, "_")}`;
       const { error: uploadError } = await supabase.storage
@@ -137,12 +141,29 @@ function DocumentsStep() {
       // Read the document with AI straight away.
       await runExtraction({ data: { documentId: row.id } });
       invalidateRequest(qc, id);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed.");
-      invalidateRequest(qc, id);
-    } finally {
-      setBusyDoc(null);
     }
+  }
+
+  /** Uploads one or many files against the same checklist item. */
+  async function handleUpload(
+    docTypeKey: string,
+    placeholder: DocumentRow | null,
+    files: File[],
+  ) {
+    if (!user || !files.length) return;
+    setError(null);
+    setBusyDoc(docTypeKey);
+    let slot = placeholder;
+    for (const file of files) {
+      try {
+        await uploadOne(docTypeKey, slot, file);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Upload failed.");
+      }
+      slot = null;
+    }
+    invalidateRequest(qc, id);
+    setBusyDoc(null);
   }
 
   async function handleExtract(doc: DocumentRow) {
@@ -158,11 +179,15 @@ function DocumentsStep() {
     }
   }
 
-  async function handleRemove(doc: DocumentRow) {
+  async function handleRemove(doc: DocumentRow, isOnlyFile = true) {
     setBusyDoc(doc.doc_type);
     try {
       if (doc.storage_path) await supabase.storage.from("documents").remove([doc.storage_path]);
       await supabase.from("extracted_fields").delete().eq("document_id", doc.id);
+      if (!isOnlyFile) {
+        await supabase.from("documents").delete().eq("id", doc.id);
+        return;
+      }
       await supabase
         .from("documents")
         .update({
@@ -240,14 +265,15 @@ function DocumentsStep() {
             type="file"
             className="hidden"
             accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
+            multiple
             onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleUpload("unclassified", null, file);
+              const chosen = Array.from(e.target.files ?? []);
+              if (chosen.length) handleUpload("unclassified", null, chosen);
               e.target.value = "";
             }}
           />
           <Button variant="outline" size="sm" onClick={() => extraInput.current?.click()}>
-            <Upload className="size-3.5" /> Upload another file
+            <Upload className="size-3.5" /> Upload files
           </Button>
           <Button variant="outline" size="sm" onClick={() => navigate({ to: "/requests/$id/pack", params: { id } })}>
             <Package className="size-3.5" /> Lender pack
@@ -280,8 +306,12 @@ function DocumentsStep() {
         </div>
       ) : (
         <div className="grid gap-3">
-          {rows.map(({ type, doc }) => {
-            const status = doc?.status ?? "missing";
+          {rows.map(({ type, doc, files, placeholder }) => {
+            const status = files.length
+              ? files.some((f) => f.status === "needs_review")
+                ? "needs_review"
+                : "received"
+              : (doc?.status ?? "missing");
             const meta = statusMeta(status);
             const busy = busyDoc === type.key;
             return (
@@ -297,92 +327,103 @@ function DocumentsStep() {
                             : "mt-0.5 size-5 shrink-0 text-muted-foreground"
                       }
                     />
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="font-medium">{type.label}</p>
                         <Badge tone={meta.tone}>{meta.label}</Badge>
-                        {doc?.extraction_status === "running" ? <Badge tone="muted">Reading…</Badge> : null}
-                        {doc?.extraction_status === "done" ? (
-                          <Badge tone="primary">
-                            {fieldCount(doc.id)
-                              ? `${fieldCount(doc.id)} figures found`
-                              : "AI read — nothing found"}
-                          </Badge>
-                        ) : null}
-                        {doc?.extraction_status === "error" ? <Badge tone="danger">Read failed</Badge> : null}
+                        {files.length > 1 ? <Badge tone="muted">{files.length} files</Badge> : null}
                       </div>
                       <p className="mt-0.5 text-xs text-muted-foreground">{type.hint}</p>
-                      {doc?.name ? (
-                        <p className="mt-2 truncate text-sm">
-                          {doc.name}
-                          <span className="ml-2 text-xs text-muted-foreground">
-                            {formatBytes(doc.size_bytes)} · {formatDate(doc.updated_at)}
-                          </span>
-                        </p>
-                      ) : null}
-                      {doc?.notes ? (
-                        <p className="mt-1 text-xs text-warning">{doc.notes}</p>
-                      ) : null}
-                      {doc?.extraction_error ? (
-                        <p className="mt-1 text-xs text-destructive">{doc.extraction_error}</p>
+
+                      {files.length ? (
+                        <ul className="mt-3 grid gap-2">
+                          {files.map((file) => (
+                            <li
+                              key={file.id}
+                              className="rounded-md border border-border bg-muted/20 px-3 py-2"
+                            >
+                              <div className="flex flex-wrap items-center justify-between gap-2">
+                                <div className="min-w-0">
+                                  <p className="truncate text-sm">{file.name || "Untitled file"}</p>
+                                  <p className="text-xs text-muted-foreground">
+                                    {formatBytes(file.size_bytes)} · {formatDate(file.updated_at)}
+                                  </p>
+                                </div>
+                                <div className="flex flex-wrap items-center gap-2">
+                                  {file.extraction_status === "running" ? (
+                                    <Badge tone="muted">Reading…</Badge>
+                                  ) : file.extraction_status === "error" ? (
+                                    <Badge tone="danger">Read failed</Badge>
+                                  ) : file.extraction_status === "done" ? (
+                                    <Badge tone="primary">
+                                      {fieldCount(file.id)
+                                        ? `${fieldCount(file.id)} figures found`
+                                        : "AI read — nothing found"}
+                                    </Badge>
+                                  ) : null}
+                                  <Select
+                                    className="h-8 w-32 text-xs"
+                                    value={file.status}
+                                    onChange={(e) => handleStatus(file, e.target.value)}
+                                  >
+                                    <option value="received">Received</option>
+                                    <option value="needs_review">Needs review</option>
+                                    <option value="missing">Missing</option>
+                                  </Select>
+                                  <Button size="sm" variant="outline" onClick={() => setViewDoc(file)}>
+                                    <Eye className="size-3.5" /> View
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleExtract(file)}
+                                    disabled={busy}
+                                  >
+                                    <Sparkles className="size-3.5" /> Re-read
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => handleRemove(file, files.length === 1)}
+                                    disabled={busy}
+                                    aria-label={`Remove ${file.name}`}
+                                  >
+                                    <Trash2 className="size-3.5" />
+                                  </Button>
+                                </div>
+                              </div>
+                              {file.notes ? (
+                                <p className="mt-1 text-xs text-warning">{file.notes}</p>
+                              ) : null}
+                              {file.extraction_error ? (
+                                <p className="mt-1 text-xs text-destructive">{file.extraction_error}</p>
+                              ) : null}
+                            </li>
+                          ))}
+                        </ul>
                       ) : null}
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
-                    {doc?.storage_path ? (
-                      <>
-                        <Select
-                          className="h-8 w-36 text-xs"
-                          value={status}
-                          onChange={(e) => handleStatus(doc, e.target.value)}
-                        >
-                          <option value="received">Received</option>
-                          <option value="needs_review">Needs review</option>
-                          <option value="missing">Missing</option>
-                        </Select>
-                        <Button size="sm" variant="outline" onClick={() => setViewDoc(doc)}>
-                          <Eye className="size-3.5" /> View
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleExtract(doc)} disabled={busy}>
-                          {busy ? <Spinner /> : <Sparkles className="size-3.5" />} Re-read
-                        </Button>
-                        <Button size="sm" variant="ghost" onClick={() => handleRemove(doc)} disabled={busy}>
-                          <Trash2 className="size-3.5" />
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        {doc && doc.status !== "missing" ? (
-                          <Select
-                            className="h-8 w-36 text-xs"
-                            value={status}
-                            onChange={(e) => handleStatus(doc, e.target.value)}
-                          >
-                            <option value="received">Received</option>
-                            <option value="needs_review">Needs review</option>
-                            <option value="missing">Missing</option>
-                          </Select>
-                        ) : null}
-                        <input
-                          ref={(el) => {
-                            inputs.current[type.key] = el;
-                          }}
-                          type="file"
-                          className="hidden"
-                          accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) handleUpload(type.key, doc, file);
-                            e.target.value = "";
-                          }}
-                        />
-                        <Button size="sm" onClick={() => inputs.current[type.key]?.click()} disabled={busy}>
-                          {busy ? <Spinner /> : <Upload className="size-3.5" />}
-                          {busy ? "Reading…" : "Upload"}
-                        </Button>
-                      </>
-                    )}
+                    <input
+                      ref={(el) => {
+                        inputs.current[type.key] = el;
+                      }}
+                      type="file"
+                      className="hidden"
+                      multiple
+                      accept=".pdf,.csv,.tsv,.txt,.md,.json,.xlsx,.xlsm,.xls,image/*"
+                      onChange={(e) => {
+                        const chosen = Array.from(e.target.files ?? []);
+                        if (chosen.length) handleUpload(type.key, placeholder, chosen);
+                        e.target.value = "";
+                      }}
+                    />
+                    <Button size="sm" onClick={() => inputs.current[type.key]?.click()} disabled={busy}>
+                      {busy ? <Spinner /> : <Upload className="size-3.5" />}
+                      {busy ? "Reading…" : files.length ? "Add more files" : "Upload"}
+                    </Button>
                   </div>
                 </div>
               </Card>
